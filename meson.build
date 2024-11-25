@@ -1,7 +1,7 @@
 project('y3c-stl', 'cpp',
   meson_version: '>=1.1',
   default_options: [
-    'cpp_std=c++11',
+    'cpp_std=c++14,c++11',
   ],
 )
 
