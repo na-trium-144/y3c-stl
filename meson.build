@@ -1,7 +1,7 @@
 project('y3c-stl', 'cpp',
   meson_version: '>=1.1',
   default_options: [
-    'cpp_std=c++14,c++11',
+    'cpp_std=c++11',
   ],
 )
 
@@ -23,7 +23,7 @@ if not cpptrace_dep.found()
   endforeach
 endif
 
-gtest_dep = dependency('gtest', main: true, fallback: ['gtest', 'gtest_main'])
+doctest_dep = dependency('doctest')
 
 y3c_inc = include_directories('include')
 y3c_lib = library('y3c',
