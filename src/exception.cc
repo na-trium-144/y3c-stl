@@ -12,11 +12,22 @@ void enable_throw_terminate() { throw_terminate = true; }
 static void print_trace(std::ostream &stream) {
     auto trace = cpptrace::generate_trace();
     while (!trace.frames.empty() &&
-           (trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
+           (trace.frames.front().symbol.empty() ||
+            trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
             trace.frames.front().symbol.find(" y3c::") != std::string::npos)) {
         trace.frames.erase(trace.frames.begin());
     }
+    while (!trace.frames.empty() &&
+           (trace.frames.back().symbol.empty() ||
+            trace.frames.back().symbol.substr(0, 5) == "y3c::" ||
+            trace.frames.back().symbol.find(" y3c::") != std::string::npos)) {
+        trace.frames.erase(trace.frames.end() - 1);
+    }
     trace.print_with_snippets(stream);
+    if (trace.frames.empty()) {
+        stream << "  (You may need to re-compile with debug symbols enabled.)"
+               << std::endl;
+    }
 }
 
 [[noreturn]] void terminate(const char *func, const char *reason) {

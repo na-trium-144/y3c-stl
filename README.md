@@ -23,7 +23,6 @@ Stack trace (most recent call first):
        4:     y3c::array<int, 5> a;
        5:     a.at(100) = 42;
        6: }
-#1 0x000000019290b153 at /usr/lib/dyld
 
 Abort trap: 6
 ```
@@ -45,7 +44,6 @@ Stack trace (most recent call first):
        4:     y3c::array<int, 5> a;
        5:     a[100] = 42;
        6: }
-#1 0x000000019290b153 at /usr/lib/dyld
 libc++abi: terminating
 Abort trap: 6
 ```
