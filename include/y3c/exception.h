@@ -1,11 +1,29 @@
 #pragma once
 #include <stdexcept>
+#include <sstream>
 
 namespace y3c {
 namespace internal {
-class exception_base {};
+class exception_base {
+    std::string message_;
+
+  protected:
+    explicit exception_base(std::ostringstream &&ss);
+    const char *what() const noexcept;
+};
 
 class exception_terminate {};
+class exception_undefined_behavior {};
+
+[[noreturn]] void terminate(const char *func, const char *reason);
+[[noreturn]] void undefined_behavior(const char *func, const char *reason);
+
+/*!
+ * 通常はterminate()はstd::terminate()を呼んで強制終了するが、
+ * これを呼んでおくと代わりにthrowするようになる (主にテスト用)
+ *
+ */
+void enable_throw_terminate();
 
 } // namespace internal
 
@@ -19,21 +37,22 @@ namespace exception_std {
  */
 class exception final : public std::exception, internal::exception_base {
   public:
-    exception();
-    ~exception() = default;
-    const char *what() const noexcept override;
+    const char *what() const noexcept override {
+        return this->internal::exception_base::what();
+    }
 };
 class logic_error final : public std::logic_error, internal::exception_base {
   public:
-    logic_error();
-    ~logic_error() = default;
-    const char *what() const noexcept override;
+    const char *what() const noexcept override {
+        return this->internal::exception_base::what();
+    }
 };
 class out_of_range final : public std::out_of_range, internal::exception_base {
   public:
-    out_of_range() = default;
-    ~out_of_range() = default;
-    const char *what() const noexcept override;
+    out_of_range(const char *func, std::size_t size, std::size_t index);
+    const char *what() const noexcept override {
+        return this->internal::exception_base::what();
+    }
 };
 } // namespace exception_std
 } // namespace y3c

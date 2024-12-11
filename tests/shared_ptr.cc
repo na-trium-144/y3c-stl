@@ -20,8 +20,8 @@ TEST_CASE("shared_ptr") {
         CHECK(static_cast<bool>(y3c::unwrap(a)));
 
         a.reset();
-        CHECK_THROWS_AS((*a).val, y3c::internal::exception_terminate);
-        CHECK_THROWS_AS(a->val, y3c::internal::exception_terminate);
+        CHECK_THROWS_AS((*a).val, y3c::internal::exception_undefined_behavior);
+        CHECK_THROWS_AS(a->val, y3c::internal::exception_undefined_behavior);
         CHECK_EQ(a.get(), nullptr);
         CHECK_EQ(a.use_count(), 0L);
         CHECK_FALSE(static_cast<bool>(a));

@@ -26,10 +26,11 @@ endif
 doctest_dep = dependency('doctest')
 
 y3c_inc = include_directories('include')
+y3c_src = [
+  'src/exception.cc',
+]
 y3c_lib = library('y3c',
-  [
-    'src/terminate.cc',
-  ],
+  y3c_src,
   include_directories: y3c_inc,
   dependencies: [
     cpptrace_dep,
@@ -41,3 +42,5 @@ y3c_dep = declare_dependency(
 )
 
 subdir('tests')
+subdir('examples')
+
