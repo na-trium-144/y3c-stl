@@ -1,5 +1,6 @@
 examples = [
   'array-at',
+  'array-operator',
   'shared_ptr-ref',
 ]
 foreach case : examples

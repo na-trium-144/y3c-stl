@@ -43,9 +43,27 @@ class array {
 
     reference at(size_type n) {
         if (n >= N) {
-            throw exception_std::out_of_range("y3c::array::at()", N, n);
+            throw y3c::exception_std::out_of_range("y3c::array::at()", N, n);
         }
         return base_.at(n);
+    }
+    const_reference at(size_type n) const {
+        if (n >= N) {
+            throw y3c::exception_std::out_of_range("y3c::array::at()", N, n);
+        }
+        return base_.at(n);
+    }
+    reference operator[](size_type n) {
+        if (n >= N) {
+            y3c::internal::undefined_behavior("y3c::array::operator[]()", N, n);
+        }
+        return base_[n];
+    }
+    const_reference operator[](size_type n) const {
+        if (n >= N) {
+            y3c::internal::undefined_behavior("y3c::array::operator[]()", N, n);
+        }
+        return base_[n];
     }
 };
 

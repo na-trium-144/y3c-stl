@@ -37,6 +37,13 @@ static void print_trace(std::ostream &stream) {
     }
     std::terminate();
 }
+[[noreturn]] void undefined_behavior(const char *func, std::size_t size,
+                                     std::size_t index) {
+    std::ostringstream ss;
+    ss << "got number " << index << ", that is larger than size " << size
+       << ".";
+    undefined_behavior(func, ss.str().c_str());
+}
 
 exception_base::exception_base(std::ostringstream &&ss) {
     ss << "\n";
@@ -52,7 +59,7 @@ out_of_range::out_of_range(const char *func, std::size_t size,
                            std::size_t index)
     : std::out_of_range(""),
       internal::exception_base(std::ostringstream()
-                               << "throwed at " << func << ": got number "
+                               << "throwed at " << func << ": " << "got number "
                                << index << ", that is larger than size " << size
                                << ".") {}
 

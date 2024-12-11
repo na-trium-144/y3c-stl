@@ -17,6 +17,7 @@ class exception_undefined_behavior {};
 
 [[noreturn]] void terminate(const char *func, const char *reason);
 [[noreturn]] void undefined_behavior(const char *func, const char *reason);
+[[noreturn]] void undefined_behavior(const char *func, std::size_t size, std::size_t index);
 
 /*!
  * 通常はterminate()はstd::terminate()を呼んで強制終了するが、
