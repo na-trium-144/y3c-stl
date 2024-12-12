@@ -15,7 +15,7 @@ class exception_base {
     std::string message_;
 
   protected:
-    explicit exception_base(const char *func, std::ostringstream &&ss);
+    explicit exception_base(const char *func, const std::string &message);
     const char *what() const noexcept;
 };
 
