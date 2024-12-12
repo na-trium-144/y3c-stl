@@ -8,18 +8,22 @@ namespace y3c {
 namespace msg {
 std::string out_of_range(std::size_t size, long long index) {
     std::ostringstream ss;
-    ss << "tried to access index " << index << ", that is larger than size "
-       << size << ".";
+    ss << "attempted to access index " << index
+       << ", that is outside the bounds of size " << size << ".";
     return ss.str();
 }
 std::string out_of_range(std::size_t size, std::size_t index) {
     std::ostringstream ss;
-    ss << "tried to access index " << index << ", that is larger than size "
-       << size << ".";
+    ss << "attempted to access index " << index
+       << ", that is outside the bounds of size " << size << ".";
     return ss.str();
 }
-std::string access_deleted() { return "tried to access the deleted value."; }
-std::string access_nullptr() { return "tried to access the value of nullptr."; }
+std::string access_deleted() {
+    return "attempted to access the deleted value.";
+}
+std::string access_nullptr() {
+    return "attempted to access the value of nullptr.";
+}
 } // namespace msg
 
 namespace internal {

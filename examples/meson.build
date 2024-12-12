@@ -3,6 +3,7 @@ examples = [
   'array-operator',
   'shared_ptr-null',
   'ptr-local',
+  'ptr-inc',
   'ptr-null',
 ]
 foreach case : examples

@@ -8,6 +8,9 @@ namespace y3c {
 /*!
  * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
  *
+ * `get()` は ptr<T> を返し、
+ * 使用時にnullptrと参照先が生きているかのチェックができる。
+ *
  */
 template <typename T>
 class shared_ptr : public wrap<std::shared_ptr<T>> {

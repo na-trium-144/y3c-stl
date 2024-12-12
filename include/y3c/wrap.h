@@ -12,6 +12,9 @@ template <typename T>
 class ptr;
 template <typename T>
 class shared_ptr;
+template <class T, std::size_t N>
+class array;
+
 template <typename T>
 T &unwrap(wrap<T> &wrapper) noexcept;
 template <typename T>
@@ -39,6 +42,7 @@ class wrap {
     base_type base_;
     mutable std::shared_ptr<bool> alive_;
 
+  protected:
     const std::shared_ptr<bool> &alive() const {
         if (!alive_) {
             alive_ = std::make_shared<bool>(true);
@@ -46,7 +50,6 @@ class wrap {
         return alive_;
     }
 
-  protected:
     base_type &unwrap() noexcept { return base_; }
     const base_type &unwrap() const noexcept { return base_; }
 
@@ -71,7 +74,7 @@ class wrap {
     template <typename... Args>
     wrap(Args &&...args) : base_(std::forward<Args>(args)...), alive_() {}
     template <typename Args>
-    wrap operator=(Args &&args) {
+    wrap &operator=(Args &&args) {
         base_ = std::forward<Args>(args);
         return *this;
     }
@@ -166,8 +169,16 @@ class wrap_ref {
         : begin_(ref.begin_), size_(ref.size_), ptr_(ref.ptr_),
           range_alive_(ref.range_alive_) {}
 
+    template <typename Args>
+    wrap_ref &operator=(Args &&args) {
+        *ptr_unwrap("y3c::wrap_ref::operator=()") = std::forward<Args>(args);
+        return *this;
+    }
+
     friend class ptr<element_type>;
     friend class shared_ptr<element_type>;
+    template <typename, std::size_t>
+    friend class array;
     friend element_type &
     y3c::unwrap<element_type>(const wrap_ref<element_type> &);
 
@@ -197,6 +208,10 @@ T &unwrap(const wrap_ref<T> &wrapper) {
  * ptr<T> から const_ptr<T> にキャストできる
  *
  * const_ptr<T> = ptr<const T> = const T *
+ *
+ * ptr_const<T> = const ptr<T> = T *const
+ *
+ * const_ptr_const<T> = const ptr<const T> = const T *const
  *
  */
 template <typename T>
@@ -254,6 +269,8 @@ class ptr : public wrap<T *> {
     friend class wrap<element_type>;
     friend class wrap_ref<element_type>;
     friend class shared_ptr<element_type>;
+    template <typename, std::size_t>
+    friend class array;
 
     wrap_ref<element_type> operator*() const {
         return wrap_ref<element_type>(
