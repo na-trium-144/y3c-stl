@@ -48,18 +48,24 @@ static void print_trace(std::ostream &stream) {
     }
     std::terminate();
 }
-[[noreturn]] void undefined_behavior(const char *func, std::size_t size,
-                                     std::size_t index) {
+[[noreturn]] void ub_out_of_range(const char *func, std::size_t size,
+                                  std::size_t index) {
     std::ostringstream ss;
-    ss << "got number " << index << ", that is larger than size " << size
-       << ".";
+    ss << "tried to access index " << index << ", that is larger than size "
+       << size << ".";
     undefined_behavior(func, ss.str().c_str());
 }
+[[noreturn]] void ub_deleted(const char *func) {
+    undefined_behavior(func, "tried to access the deleted value.");
+}
+[[noreturn]] void ub_nullptr(const char *func) {
+    undefined_behavior(func, "tried to access the value of nullptr.");
+}
 
-exception_base::exception_base(std::ostringstream &&ss) {
+exception_base::exception_base(const char *func, std::ostringstream &&ss) {
     ss << "\n";
     print_trace(ss);
-    message_ = ss.str();
+    message_ = std::string("throwed at ") + func + ", " + ss.str();
 }
 const char *exception_base::what() const noexcept { return message_.c_str(); }
 
@@ -69,10 +75,10 @@ namespace exception_std {
 out_of_range::out_of_range(const char *func, std::size_t size,
                            std::size_t index)
     : std::out_of_range(""),
-      internal::exception_base(std::ostringstream()
-                               << "throwed at " << func << ": " << "got number "
-                               << index << ", that is larger than size " << size
-                               << ".") {}
+      internal::exception_base(func, std::ostringstream()
+                                         << "tried to access index " << index
+                                         << ", that is larger than size "
+                                         << size << ".") {}
 
 } // namespace exception_std
 } // namespace y3c

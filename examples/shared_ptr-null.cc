@@ -2,6 +2,6 @@
 
 void some_func() {
     y3c::shared_ptr<int> a = nullptr;
-    [[maybe_unused]] int v = *a;
+    int v = *a;
 }
 int main() { some_func(); }

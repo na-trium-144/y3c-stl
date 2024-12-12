@@ -1,5 +1,6 @@
 test_cases = [
   'shared_ptr',
+  'wrap',
 ]
 foreach case : test_cases
   test(case,

@@ -8,7 +8,7 @@ class exception_base {
     std::string message_;
 
   protected:
-    explicit exception_base(std::ostringstream &&ss);
+    explicit exception_base(const char *func, std::ostringstream &&ss);
     const char *what() const noexcept;
 };
 
@@ -17,7 +17,9 @@ class exception_undefined_behavior {};
 
 [[noreturn]] void terminate(const char *func, const char *reason);
 [[noreturn]] void undefined_behavior(const char *func, const char *reason);
-[[noreturn]] void undefined_behavior(const char *func, std::size_t size, std::size_t index);
+[[noreturn]] void ub_out_of_range(const char *func, std::size_t size, std::size_t index);
+[[noreturn]] void ub_nullptr(const char *func);
+[[noreturn]] void ub_deleted(const char *func);
 
 /*!
  * 通常はterminate()はstd::terminate()を呼んで強制終了するが、
