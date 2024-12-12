@@ -15,6 +15,8 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     mutable std::shared_ptr<bool> ptr_alive_;
 
     void check_dead() const noexcept {
+        // 複数スレッドから同時アクセスしたらばぐるかな?
+
         if (use_count() == 1 && ptr_alive_) {
             *ptr_alive_ = false;
         }
@@ -128,14 +130,16 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     template <typename U = T>
     y3c::wrap_ref<U> operator*() const {
         if (!this->unwrap()) {
-            y3c::internal::ub_nullptr("y3c::shared_ptr::operator*()");
+            y3c::internal::undefined_behavior("y3c::shared_ptr::operator*()",
+                                              y3c::msg::access_nullptr());
         }
         assert(ptr_alive_);
         return y3c::wrap_ref<T>(this->unwrap().get(), ptr_alive_);
     }
     element_type *operator->() const {
         if (!this->unwrap()) {
-            y3c::internal::ub_nullptr("y3c::shared_ptr::operator->()");
+            y3c::internal::undefined_behavior("y3c::shared_ptr::operator->()",
+                                              y3c::msg::access_nullptr());
         }
         assert(ptr_alive_);
         return this->unwrap().get();

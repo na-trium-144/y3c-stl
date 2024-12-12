@@ -37,4 +37,20 @@ TEST_CASE("wrap") {
     }
 
     CHECK_THROWS_AS(p->val, y3c::internal::exception_undefined_behavior);
+
+    y3c::wrap<int> i = 1;
+    y3c::ptr<int> p2 = &i;
+    y3c::wrap_ref<int> r2 = i;
+    bool e1 = *p2 == 1;
+    CHECK(e1);
+    CHECK_EQ(p2, p2);
+    CHECK_EQ(p2, &r2);
+    CHECK(p2);
+    bool e2 = p2 == &unwrap(i);
+    CHECK(e2);
+    y3c::ptr<int> p3 = p2 + 1;
+    CHECK_LT(p2, p3);
+    p2++;
+    CHECK_EQ(p2, p3);
+    CHECK_THROWS_AS(*p2, y3c::internal::exception_undefined_behavior);
 }

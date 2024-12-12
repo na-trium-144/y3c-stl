@@ -125,33 +125,46 @@ class wrap_ref {
         !std::is_reference<typename std::remove_const<T>::type>::value,
         "y3c::wrap cannot have reference to reference");
 
+    element_type *begin_;
+    std::size_t size_;
     element_type *ptr_;
-    std::shared_ptr<bool> ptr_alive_;
+    std::shared_ptr<bool> range_alive_;
 
     element_type *ptr_unwrap(const char *func) const {
         if (!ptr_) {
-            y3c::internal::ub_nullptr(func);
+            y3c::internal::undefined_behavior(func, y3c::msg::access_nullptr());
         }
-        assert(ptr_alive_);
-        if (!*ptr_alive_) {
-            y3c::internal::ub_deleted(func);
+        assert(range_alive_);
+        if (!*range_alive_) {
+            y3c::internal::undefined_behavior(func, y3c::msg::access_deleted());
+        }
+        if (ptr_ - begin_ < 0 || ptr_ - begin_ >= size_) {
+            y3c::internal::undefined_behavior(
+                func, y3c::msg::out_of_range(
+                          size_, static_cast<long long>(ptr_ - begin_)));
         }
         return ptr_;
     }
 
+    wrap_ref(element_type *begin, std::size_t size, element_type *ptr,
+             std::shared_ptr<bool> range_alive) noexcept
+        : begin_(begin), size_(size), ptr_(ptr), range_alive_(range_alive) {}
     wrap_ref(element_type *ptr, std::shared_ptr<bool> ptr_alive) noexcept
-        : ptr_(ptr), ptr_alive_(ptr_alive) {}
+        : wrap_ref(ptr, 1, ptr, ptr_alive) {}
 
-    wrap_ref(std::nullptr_t = nullptr) noexcept : ptr_(nullptr), ptr_alive_() {}
+    wrap_ref(std::nullptr_t = nullptr) noexcept
+        : begin_(nullptr), size_(0), ptr_(nullptr), range_alive_() {}
 
   public:
     template <typename U>
     wrap_ref(wrap<U> &wrapper)
-        : ptr_(&wrapper.base_), ptr_alive_(wrapper.alive()) {}
+        : begin_(&wrapper.base_), size_(1), ptr_(&wrapper.base_),
+          range_alive_(wrapper.alive()) {}
 
     template <typename U>
     wrap_ref(const wrap_ref<U> &ref)
-        : ptr_(ref.ptr_), ptr_alive_(ref.ptr_alive_) {}
+        : begin_(ref.begin_), size_(ref.size_), ptr_(ref.ptr_),
+          range_alive_(ref.range_alive_) {}
 
     friend class ptr<element_type>;
     friend class shared_ptr<element_type>;
@@ -161,6 +174,8 @@ class wrap_ref {
     operator element_type &() {
         return *ptr_unwrap("cast from y3c::wrap_ref to reference");
     }
+
+    ptr<element_type> operator&() const noexcept;
 };
 
 template <typename T>
@@ -191,44 +206,100 @@ class ptr : public wrap<T *> {
         !std::is_reference<typename std::remove_const<T>::type>::value,
         "y3c::wrap cannot have pointer to reference");
 
-    element_type *ptr_;
-    std::shared_ptr<bool> ptr_alive_;
+    element_type *begin_;
+    std::size_t size_;
+    std::shared_ptr<bool> range_alive_;
 
     element_type *ptr_unwrap(const char *func) const {
-        if (!ptr_) {
-            y3c::internal::ub_nullptr(func);
+        if (!this->unwrap()) {
+            y3c::internal::undefined_behavior(func, y3c::msg::access_nullptr());
         }
-        assert(ptr_alive_);
-        if (!*ptr_alive_) {
-            y3c::internal::ub_deleted(func);
+        assert(range_alive_);
+        if (!*range_alive_) {
+            y3c::internal::undefined_behavior(func, y3c::msg::access_deleted());
         }
-        return ptr_;
+        if (this->unwrap() - begin_ < 0 || this->unwrap() - begin_ >= size_) {
+            y3c::internal::undefined_behavior(
+                func,
+                y3c::msg::out_of_range(
+                    size_, static_cast<long long>(this->unwrap() - begin_)));
+        }
+        return this->unwrap();
     }
 
-    ptr(element_type *ptr, std::shared_ptr<bool> ptr_alive) noexcept
-        : ptr_(ptr), ptr_alive_(ptr_alive) {}
+    ptr(element_type *begin, std::size_t size, element_type *ptr_,
+        std::shared_ptr<bool> range_alive) noexcept
+        : wrap<T *>(ptr_), begin_(begin), size_(size),
+          range_alive_(range_alive) {}
+    ptr(element_type *ptr_, std::shared_ptr<bool> ptr_alive) noexcept
+        : ptr(ptr_, 1, ptr_, ptr_alive) {}
 
   public:
-    ptr(std::nullptr_t = nullptr) noexcept : ptr_(nullptr), ptr_alive_() {}
+    ptr(std::nullptr_t = nullptr) noexcept
+        : wrap<T *>(nullptr), begin_(nullptr), size_(0), range_alive_() {}
 
     template <typename U>
-    ptr(const ptr<U> &ref) : ptr_(ref.ptr_), ptr_alive_(ref.ptr_alive_) {}
+    ptr(const ptr<U> &ref)
+        : wrap<T *>(unwrap(ref)), begin_(ref.begin_), size_(ref.size_),
+          range_alive_(ref.range_alive_) {}
     template <typename U>
     ptr &operator=(const ptr<U> &ref) {
-        ptr_ = ref.ptr_;
-        ptr_alive_ = ref.ptr_alive_;
+        this->wrap<T *>::operator=(unwrap(ref));
+        begin_ = ref.begin_;
+        size_ = ref.size_;
+        range_alive_ = ref.range_alive_;
         return *this;
     }
 
     friend class wrap<element_type>;
+    friend class wrap_ref<element_type>;
     friend class shared_ptr<element_type>;
 
     wrap_ref<element_type> operator*() const {
-        return wrap_ref<element_type>(ptr_unwrap("y3c::ptr::operator*()"),
-                                      ptr_alive_);
+        return wrap_ref<element_type>(
+            begin_, size_, ptr_unwrap("y3c::ptr::operator*()"), range_alive_);
     }
     element_type *operator->() const {
         return ptr_unwrap("y3c::ptr::operator->()");
+    }
+
+    ptr &operator++() {
+        ++this->unwrap();
+        return *this;
+    }
+    ptr operator++(int) {
+        ptr copy = *this;
+        ++this->unwrap();
+        return copy;
+    }
+    ptr &operator--() {
+        --this->unwrap();
+        return *this;
+    }
+    ptr operator--(int) {
+        ptr copy = *this;
+        --this->unwrap();
+        return copy;
+    }
+    ptr &operator+=(std::ptrdiff_t n) {
+        this->unwrap() += n;
+        return *this;
+    }
+    ptr &operator-=(std::ptrdiff_t n) {
+        this->unwrap() -= n;
+        return *this;
+    }
+    ptr operator+(std::ptrdiff_t n) const {
+        return ptr(begin_, size_, this->unwrap() + n, range_alive_);
+    }
+    ptr operator-(std::ptrdiff_t n) const {
+        return ptr(begin_, size_, this->unwrap() - n, range_alive_);
+    }
+    std::ptrdiff_t operator-(const ptr &other) const {
+        return this->unwrap() - other.ptr_;
+    }
+    element_type &operator[](std::ptrdiff_t n) const {
+        return *(*this + n).ptr_unwrap("y3c::ptr::operator[]()");
     }
 };
 template <typename T>
@@ -245,6 +316,10 @@ inline ptr<T> wrap<T>::operator&() {
 template <typename T>
 inline ptr<const T> wrap<T>::operator&() const {
     return ptr<const T>(&base_, alive());
+}
+template <typename T>
+inline ptr<T> wrap_ref<T>::operator&() const noexcept {
+    return ptr<T>(begin_, size_, ptr_, range_alive_);
 }
 
 } // namespace y3c

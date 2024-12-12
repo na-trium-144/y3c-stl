@@ -5,6 +5,23 @@
 #include <sstream>
 
 namespace y3c {
+namespace msg {
+std::string out_of_range(std::size_t size, long long index) {
+    std::ostringstream ss;
+    ss << "tried to access index " << index << ", that is larger than size "
+       << size << ".";
+    return ss.str();
+}
+std::string out_of_range(std::size_t size, std::size_t index) {
+    std::ostringstream ss;
+    ss << "tried to access index " << index << ", that is larger than size "
+       << size << ".";
+    return ss.str();
+}
+std::string access_deleted() { return "tried to access the deleted value."; }
+std::string access_nullptr() { return "tried to access the value of nullptr."; }
+} // namespace msg
+
 namespace internal {
 static bool throw_terminate = false;
 void enable_throw_terminate() { throw_terminate = true; }
@@ -30,7 +47,7 @@ static void print_trace(std::ostream &stream) {
     }
 }
 
-[[noreturn]] void terminate(const char *func, const char *reason) {
+[[noreturn]] void terminate(const char *func, const std::string &reason) {
     std::cerr << "y3c-stl: terminate() called!!" << std::endl;
     std::cerr << "  at " << func << ", " << reason << std::endl;
     print_trace(std::cerr);
@@ -39,7 +56,8 @@ static void print_trace(std::ostream &stream) {
     }
     std::terminate();
 }
-[[noreturn]] void undefined_behavior(const char *func, const char *reason) {
+[[noreturn]] void undefined_behavior(const char *func,
+                                     const std::string &reason) {
     std::cerr << "y3c-stl: undefined behavior occurred!!" << std::endl;
     std::cerr << "  at " << func << ", " << reason << std::endl;
     print_trace(std::cerr);
@@ -47,19 +65,6 @@ static void print_trace(std::ostream &stream) {
         throw y3c::internal::exception_undefined_behavior();
     }
     std::terminate();
-}
-[[noreturn]] void ub_out_of_range(const char *func, std::size_t size,
-                                  std::size_t index) {
-    std::ostringstream ss;
-    ss << "tried to access index " << index << ", that is larger than size "
-       << size << ".";
-    undefined_behavior(func, ss.str().c_str());
-}
-[[noreturn]] void ub_deleted(const char *func) {
-    undefined_behavior(func, "tried to access the deleted value.");
-}
-[[noreturn]] void ub_nullptr(const char *func) {
-    undefined_behavior(func, "tried to access the value of nullptr.");
 }
 
 exception_base::exception_base(const char *func, std::ostringstream &&ss) {
@@ -76,9 +81,11 @@ out_of_range::out_of_range(const char *func, std::size_t size,
                            std::size_t index)
     : std::out_of_range(""),
       internal::exception_base(func, std::ostringstream()
-                                         << "tried to access index " << index
-                                         << ", that is larger than size "
-                                         << size << ".") {}
+                                         << msg::out_of_range(size, index)) {}
+out_of_range::out_of_range(const char *func, std::size_t size, long long index)
+    : std::out_of_range(""),
+      internal::exception_base(func, std::ostringstream()
+                                         << msg::out_of_range(size, index)) {}
 
 } // namespace exception_std
 } // namespace y3c
