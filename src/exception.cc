@@ -1,6 +1,7 @@
 #include "y3c/exception.h"
 
-namespace y3c {
+Y3C_NS_BEGIN
+
 namespace exception_std {
 
 out_of_range::out_of_range(const char *func, std::size_t size,
@@ -12,4 +13,4 @@ out_of_range::out_of_range(const char *func, std::size_t size, long long index)
       internal::exception_base(func, msg::out_of_range(size, index)) {}
 
 } // namespace exception_std
-} // namespace y3c
+Y3C_NS_END

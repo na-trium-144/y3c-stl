@@ -1,0 +1,40 @@
+name: Linux GCC Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: []
+
+jobs:
+  test-linux-gcc:
+    strategy:
+      matrix:
+        dep: ["apt", "source"]
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ninja-build
+        if [[ ${{matrix.dep}} = apt ]]; then sudo apt-get install -y libdwarf-dev; fi
+    - name: Install meson
+      run: pip install meson || pip install --break-system-packages meson
+    - name: Setup Meson
+      run: >
+        meson setup build
+        --buildtype=debug
+        -Dprefix=${{github.workspace}}/install
+    - name: Compile
+      run: meson compile -C build
+    - name: Test
+      run: meson test -C build --suite y3c-stl --print-errorlog
+
+    - name: Check Exported Symbol
+      if: matrix.dep == 'source'
+      run: |
+        bash -c "! nm -g --defined-only build/liby3c.so | grep -v y3c | grep -v St | grep -v gnu_cxx"
+
+    - name: install
+      run: meson install -C build

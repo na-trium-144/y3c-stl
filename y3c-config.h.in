@@ -1,0 +1,63 @@
+#pragma once
+
+#mesondefine Y3C_ABI_MAJOR
+#mesondefine Y3C_SHARED
+#mesondefine Y3C_SYSTEM_DLLEXPORT
+#mesondefine Y3C_SYSTEM_VISIBILITY
+#mesondefine Y3C_SYSTEM_ADD_DEBUG
+
+#if Y3C_SHARED
+#if Y3C_SYSTEM_DLLEXPORT
+#ifdef Y3C_BUILDING
+#define Y3C_DLL __declspec(dllexport)
+#else  // !Y3C_BUILDING
+#define Y3C_DLL __declspec(dllimport)
+#endif // Y3C_BUILDING
+#elif Y3C_SYSTEM_VISIBILITY
+#ifdef Y3C_BUILDING
+#define Y3C_DLL __attribute__((visibility("default")))
+#else // !Y3C_BUILDING
+#define Y3C_DLL
+#endif // Y3C_BUILDING
+#else  // DLLEXPORT, VISIBILITY
+// clang-format off
+#error "neither Y3C_SYSTEM_DLLEXPORT nor Y3C_SYSTEM_VISIBILITY is defined"
+// clang-format on
+#endif
+#else // !Y3C_SHARED
+#define Y3C_DLL
+#endif // Y3C_SHARED
+
+#if Y3C_SYSTEM_DLLEXPORT
+#define Y3C_CALL __cdecl
+#else // !DLLEXPORT
+#define Y3C_CALL
+#endif
+
+// doxygenを生成するときは namespace webcface だけにする
+#ifdef Y3C_DOXYGEN
+#define Y3C_NS_BEGIN namespace y3c {
+#define Y3C_NS_END }
+
+#else
+// コンパイル時にnamespaceにabiバージョンを埋め込む
+
+#if Y3C_SYSTEM_ADD_DEBUG
+#ifdef _DEBUG
+#define Y3C_NS_ABI_2(ver) v##ver##_debug
+#endif
+#endif
+
+#ifndef Y3C_NS_ABI_2
+#define Y3C_NS_ABI_2(ver) v##ver##_
+#endif
+
+#define Y3C_NS_ABI(ver) Y3C_NS_ABI_2(ver)
+#define Y3C_NS_BEGIN                                                      \
+    namespace y3c {                                                       \
+    inline namespace Y3C_NS_ABI(Y3C_ABI_MAJOR) {
+#define Y3C_NS_END                                                        \
+    }                                                                     \
+    }
+
+#endif

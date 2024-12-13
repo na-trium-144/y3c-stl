@@ -5,7 +5,7 @@
 #include <ostream>
 #include <string>
 
-namespace y3c {
+Y3C_NS_BEGIN
 namespace internal {
 static bool throw_terminate = false;
 void enable_throw_terminate() { throw_terminate = true; }
@@ -81,4 +81,4 @@ const char *exception_base::what() const noexcept { return message_.c_str(); }
 
 } // namespace internal
 
-} // namespace y3c
+Y3C_NS_END

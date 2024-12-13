@@ -1,0 +1,40 @@
+name: MacOS Clang Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: []
+
+jobs:
+  test-macos-clang:
+    strategy:
+      matrix:
+        dep: ["brew", "source"]
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Homebrew dependencies
+      env:
+        HOMEBREW_NO_AUTO_UPDATE: 1
+      run: |
+        brew update --preinstall
+        brew install meson
+        if [[ ${{matrix.dep}} = brew ]]; then brew install dwarfutils || true; fi
+    - name: Setup Meson
+      run: >
+        meson setup build
+        --buildtype=debug
+        -Dprefix=${{github.workspace}}/install
+    - name: Compile
+      run: meson compile -C build
+    - name: Test
+      run: meson test -C build --suite y3c-stl --print-errorlog
+
+    - name: Check Exported Symbol
+      if: matrix.dep == 'source'
+      run: |
+        bash -c "! nm -g --defined-only build/liby3c.dylib | grep -v y3c | grep -v St"
+
+    - name: install
+      run: meson install -C build

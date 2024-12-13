@@ -2,7 +2,7 @@
 url = https://github.com/jeremy-rifkin/cpptrace
 revision = v0.7.3
 depth = 1
-method = cmake
+patch_directory = cpptrace
 
 [provide]
-cpptrace = cpptrace_lib_dep
+cpptrace = cpptrace_dep

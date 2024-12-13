@@ -1,0 +1,43 @@
+name: Windows MSVC Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: []
+
+jobs:
+  test-windows-msvc:
+    strategy:
+      matrix:
+        dep: ["source"]
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Meson
+      uses: crazy-max/ghaction-chocolatey@v3
+      with:
+        args: install -y meson
+    - name: Add meson to path
+      run: echo "c:\Program Files\Meson" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: amd64_x86
+
+    - name: Setup Meson
+      run: >
+        meson setup build
+        --buildtype=debug
+        -Dprefix=${{github.workspace}}/install
+    - name: Compile
+      run: |
+        meson compile -C build
+    - name: Test
+      run: meson test -C build --suite y3c-stl --print-errorlog
+
+    - name: Check Exported Symbol
+      run: |
+        C:\msys64\usr\bin\bash.exe -c "export PATH=\"/usr/bin:$PATH\" &&      dumpbin //exports build/*y3c*.dll | grep -A 10000 RVA | grep -B 10000 Summary | grep -v y3c"
+
+    - name: install
+      run: meson install -C build
