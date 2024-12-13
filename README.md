@@ -41,6 +41,8 @@ Abort trap: 6
     継承関係もそのままです。
     (例えば `std::out_of_range` は `std::runtime_error`, `std::exception` としてもcatchできます。)
 * 未定義動作を起こすパターンの場合、エラーメッセージとスタックトレースを表示した後 terminate() します。
+* スタックトレースの表示処理は `std::set_terminate()` に登録したハンドラーの中で行っているため、
+y3c:: のラッパークラス以外が投げた標準のexceptionや、直接 `std::terminate()` を呼び出した場合もスタックトレースが表示できる場合があります。
 
 ### チェック対象の処理
 
