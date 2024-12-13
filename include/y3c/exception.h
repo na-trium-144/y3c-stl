@@ -6,8 +6,8 @@ namespace y3c {
 namespace msg {
 std::string out_of_range(std::size_t size, std::size_t index);
 std::string out_of_range(std::size_t size, long long index);
-std::string access_nullptr();
-std::string access_deleted();
+const char *access_nullptr();
+const char *access_deleted();
 } // namespace msg
 
 namespace internal {
@@ -23,7 +23,8 @@ class exception_terminate {};
 class exception_undefined_behavior {};
 
 [[noreturn]] void terminate(const char *func, const std::string &reason);
-[[noreturn]] void undefined_behavior(const char *func, const std::string &reason);
+[[noreturn]] void undefined_behavior(const char *func,
+                                     const std::string &reason);
 
 /*!
  * 通常はterminate()はstd::terminate()を呼んで強制終了するが、
