@@ -2,6 +2,8 @@ examples = [
   'array-at',
   'array-iter',
   'array-operator',
+  'array-ptr-local',
+  'array-ptr',
   'ptr-inc',
   'ptr-local',
   'ptr-null',
