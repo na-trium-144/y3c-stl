@@ -103,7 +103,7 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
     auto &stream = std::cerr;
     rang::setControlMode(rang::control::Force);
     get_global_storage().foreach_exception(
-        [](const std::shared_ptr<exception_detail> &e) { // foreach
+        [&](const std::shared_ptr<exception_detail> &e) { // foreach
             // foreachにしているが、ふつうは多くても1つである
             print_header(stream);
             assert(e);
@@ -111,7 +111,7 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
             auto trace = e->raw_trace.resolve();
             strip_and_print_trace(stream, trace);
         },
-        []() { // empty
+        [&]() { // empty
             print_header(stream);
             auto current = std::current_exception();
             if (current) {
@@ -124,7 +124,7 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
             auto trace = cpptrace::generate_trace();
             strip_and_print_trace(stream, trace);
         },
-        []() { // dead
+        [&]() { // dead
             print_header(stream);
             stream << rang::style::italic << rang::style::dim
                    << "cannot provide detailed information "
