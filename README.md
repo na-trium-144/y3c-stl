@@ -15,16 +15,16 @@ int main() {
 }
 ```
 
-Example output (on MacOS):
+Example output:
 ```
-libc++abi: terminating due to uncaught exception of type y3c::exception_std::out_of_range: throwed at y3c::array::at(): got number 100, that is larger than size 5.
+y3c-stl terminated: exception thrown
+  y3c::out_of_range at y3c::array::at(): attempted to access index 100, that is outside the bounds of size 5.
 Stack trace (most recent call first):
-#0 0x0000000102687c13 in main at /Users/kou/projects/y3c-stl/build/../examples/array-at.cc:5:7
+#0 0x0000000100931cbf in main at /Users/kou/projects/y3c-stl/build/../examples/array-at.cc:5:7
        3: int main() {
        4:     y3c::array<int, 5> a;
        5:     a.at(100) = 42;
        6: }
-
 Abort trap: 6
 ```
 

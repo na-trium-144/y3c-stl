@@ -1,5 +1,5 @@
 #include <y3c/wrap.h>
-#include <y3c/exception.h>
+#include <y3c/internal.h>
 #ifdef Y3C_DOCTEST_NESTED_HEADER
 #include <doctest/doctest.h>
 #else
@@ -15,7 +15,7 @@ struct B : A {
 };
 
 TEST_CASE("wrap") {
-    y3c::internal::enable_throw_terminate();
+    y3c::internal::throw_on_terminate = true;
 
     y3c::ptr<A> p;
     {

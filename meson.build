@@ -103,9 +103,9 @@ endif
 
 y3c_inc = include_directories('include')
 y3c_src = [
-  'src/exception.cc',
-  'src/msg.cc',
-  'src/trace.cc',
+  'src/detail.cc',
+  'src/final_message.cc',
+  'src/what.cc',
 ]
 if y3c_system_version_rc
   y3c_src += import('windows').compile_resources(

@@ -1,10 +1,5 @@
 #pragma once
-#ifdef Y3C_MESON
-#include "y3c-config.h"
-#else
-#include "y3c/y3c-config.h"
-#endif
-#include "y3c/exception.h"
+#include "y3c/internal.h"
 #include "y3c/wrap.h"
 #include <array>
 
@@ -56,14 +51,14 @@ class array : wrap<std::array<T, N>> {
 
     reference at(size_type n) {
         if (n >= N) {
-            throw y3c::exception_std::out_of_range("y3c::array::at()", N, n);
+            throw y3c::out_of_range("y3c::array::at()", N, n);
         }
         return reference(&this->unwrap().front(), N, &this->unwrap()[n],
                          this->alive());
     }
     const_reference at(size_type n) const {
         if (n >= N) {
-            throw y3c::exception_std::out_of_range("y3c::array::at()", N, n);
+            throw y3c::out_of_range("y3c::array::at()", N, n);
         }
         return const_reference(&this->unwrap().front(), N, &this->unwrap()[n],
                                this->alive());
