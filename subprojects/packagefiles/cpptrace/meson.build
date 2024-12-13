@@ -152,7 +152,7 @@ if cpptrace_get_symbols_with_libdwarf
     libdwarf_dep = dependency('libdwarf', required: true)
   endif
   cpptrace_deps += libdwarf_dep
-  if dl_dep
+  if dl_dep.found()
     cpptrace_deps += dl_dep
   endif
 endif
