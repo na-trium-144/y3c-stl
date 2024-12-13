@@ -1,0 +1,37 @@
+@PACKAGE_INIT@
+
+message(STATUS "y3c-stl @y3c_version_str@: ${PACKAGE_PREFIX_DIR}")
+
+find_library(Y3C_DEBUG_LIB @y3c_lib_debug@ PATHS "${PACKAGE_PREFIX_DIR}/@libdir@")
+find_library(Y3C_RELEASE_LIB @y3c_lib_release@ PATHS "${PACKAGE_PREFIX_DIR}/@libdir@")
+
+add_library(y3c::y3c SHARED IMPORTED)
+set_target_properties(y3c::y3c PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "${PACKAGE_PREFIX_DIR}/@includedir@"
+)
+if(WIN32 OR CYGWIN OR MSYS)
+  set_target_properties(y3c::y3c PROPERTIES
+    IMPORTED_IMPLIB_DEBUG "${Y3C_DEBUG_LIB}"
+    IMPORTED_IMPLIB_RELEASE "${Y3C_RELEASE_LIB}"
+    IMPORTED_CONFIGURATIONS "DEBUG;RELEASE"
+    # WindowsでCMAKE_BUILD_TYPEがMinSizeRel,RelWithDebInfoの場合Releaseにリンクするようにする
+    MAP_IMPORTED_CONFIG_MINSIZEREL Release
+    MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+  )
+elseif(APPLE)
+  set_target_properties(y3c::y3c PROPERTIES
+    IMPORTED_LOCATION "${Y3C_RELEASE_LIB}"
+    # MacではMesonがinstall_nameにprefixを絶対パスで入れるらしい (meson.build内で変更するオプション無い)
+    IMPORTED_SONAME "@prefix@/@libdir@/lib@y3c_lib_release@.@y3c_abi_major@.dylib"
+  )
+elseif(UNIX)
+  set_target_properties(y3c::y3c PROPERTIES
+    IMPORTED_LOCATION "${Y3C_RELEASE_LIB}"
+    IMPORTED_SONAME "lib@y3c_lib_release@.so.@y3c_abi_major@"
+  )
+else()
+  message(FATAL_ERROR "Unsupported system?")
+endif()
+set_target_properties(y3c::y3c PROPERTIES
+  INTERFACE_COMPILE_FEATURES "cxx_std_11"
+)
