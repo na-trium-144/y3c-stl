@@ -121,6 +121,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
                           "current_exception information is empty."
                        << std::endl;
             }
+            stream << rang::style::italic << rang::style::dim
+                   << "The following stack trace may be inaccurate.";
+            stream << rang::style::reset << std::endl;
             auto trace = cpptrace::generate_trace();
             strip_and_print_trace(stream, trace);
         },
@@ -138,6 +141,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
                           "current_exception information is empty."
                        << std::endl;
             }
+            stream << rang::style::italic << rang::style::dim
+                   << "The following stack trace may be inaccurate.";
+            stream << rang::style::reset << std::endl;
             auto trace = cpptrace::generate_trace();
             strip_and_print_trace(stream, trace);
         });
