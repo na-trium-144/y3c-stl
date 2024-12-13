@@ -11,8 +11,8 @@ Y3C_NS_BEGIN
 namespace msg {
 Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size, std::size_t index);
 Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size, long long index);
-Y3C_DLL std::string Y3C_CALL access_nullptr();
-Y3C_DLL std::string Y3C_CALL access_deleted();
+Y3C_DLL const char * Y3C_CALL access_nullptr();
+Y3C_DLL const char * Y3C_CALL access_deleted();
 } // namespace msg
 
 namespace internal {

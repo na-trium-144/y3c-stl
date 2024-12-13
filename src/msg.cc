@@ -14,10 +14,10 @@ std::string out_of_range(std::size_t size, std::size_t index) {
        << ", that is outside the bounds of size " << size << ".";
     return ss.str();
 }
-std::string access_deleted() {
+const char *access_deleted() {
     return "attempted to access the deleted value.";
 }
-std::string access_nullptr() {
+const char *access_nullptr() {
     return "attempted to access the value of nullptr.";
 }
 } // namespace msg

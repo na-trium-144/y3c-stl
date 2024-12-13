@@ -9,12 +9,19 @@
 #include <cassert>
 
 Y3C_NS_BEGIN
+namespace internal {
+enum class ptr_type_enum {
+    ptr,
+    array_iterator,
+};
+}
 
 template <typename T>
 class wrap;
 template <typename T>
 class wrap_ref;
-template <typename T>
+template <typename T,
+          internal::ptr_type_enum ptr_type = internal::ptr_type_enum::ptr>
 class ptr;
 template <typename T>
 class shared_ptr;
@@ -132,7 +139,7 @@ class wrap_ref {
                   "y3c::wrap_ref cannot have reference to void");
     static_assert(
         !std::is_reference<typename std::remove_const<T>::type>::value,
-        "y3c::wrap cannot have reference to reference");
+        "y3c::wrap_ref cannot have reference to reference");
 
     element_type *begin_;
     std::size_t size_;
@@ -181,7 +188,8 @@ class wrap_ref {
         return *this;
     }
 
-    friend class ptr<element_type>;
+    template <typename, internal::ptr_type_enum>
+    friend class ptr;
     friend class shared_ptr<element_type>;
     template <typename, std::size_t>
     friend class array;
@@ -220,13 +228,23 @@ T &unwrap(const wrap_ref<T> &wrapper) {
  * const_ptr_const<T> = const ptr<const T> = const T *const
  *
  */
-template <typename T>
+template <typename T, internal::ptr_type_enum ptr_type>
 class ptr : public wrap<T *> {
     using element_type = T;
     static_assert(
         !std::is_reference<typename std::remove_const<T>::type>::value,
-        "y3c::wrap cannot have pointer to reference");
+        "y3c::ptr cannot have pointer to reference");
 
+    static std::string func_name_() {
+        switch (ptr_type) {
+        case internal::ptr_type_enum::array_iterator:
+            return "y3c::array::iterator";
+        default:
+            return "y3c::ptr";
+        }
+    }
+
+  protected:
     element_type *begin_;
     std::size_t size_;
     std::shared_ptr<bool> range_alive_;
@@ -260,11 +278,11 @@ class ptr : public wrap<T *> {
         : wrap<T *>(nullptr), begin_(nullptr), size_(0), range_alive_() {}
 
     template <typename U>
-    ptr(const ptr<U> &ref)
+    ptr(const ptr<U, ptr_type> &ref)
         : wrap<T *>(unwrap(ref)), begin_(ref.begin_), size_(ref.size_),
           range_alive_(ref.range_alive_) {}
     template <typename U>
-    ptr &operator=(const ptr<U> &ref) {
+    ptr &operator=(const ptr<U, ptr_type> &ref) {
         this->wrap<T *>::operator=(unwrap(ref));
         begin_ = ref.begin_;
         size_ = ref.size_;
@@ -275,15 +293,19 @@ class ptr : public wrap<T *> {
     friend class wrap<element_type>;
     friend class wrap_ref<element_type>;
     friend class shared_ptr<element_type>;
+    template <typename, internal::ptr_type_enum>
+    friend class ptr;
     template <typename, std::size_t>
     friend class array;
 
     wrap_ref<element_type> operator*() const {
+        static std::string func_name = func_name_() + "::operator*()";
         return wrap_ref<element_type>(
-            begin_, size_, ptr_unwrap("y3c::ptr::operator*()"), range_alive_);
+            begin_, size_, ptr_unwrap(func_name.c_str()), range_alive_);
     }
     element_type *operator->() const {
-        return ptr_unwrap("y3c::ptr::operator->()");
+        static std::string func_name = func_name_() + "::operator->()";
+        return ptr_unwrap(func_name.c_str());
     }
 
     ptr &operator++() {
@@ -322,7 +344,8 @@ class ptr : public wrap<T *> {
         return this->unwrap() - other.ptr_;
     }
     element_type &operator[](std::ptrdiff_t n) const {
-        return *(*this + n).ptr_unwrap("y3c::ptr::operator[]()");
+        static std::string func_name = func_name_() + "::operator[]()";
+        return *(*this + n).ptr_unwrap(func_name.c_str());
     }
 };
 template <typename T>

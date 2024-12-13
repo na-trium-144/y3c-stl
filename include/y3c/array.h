@@ -24,6 +24,10 @@ template <class T, std::size_t N>
 class array : wrap<std::array<T, N>> {
   public:
     array() = default;
+    template <typename... Args>
+    array(Args &&...args)
+        : wrap<std::array<T, N>>(
+              std::array<T, N>{std::forward<Args>(args)...}) {}
     array(const std::array<T, N> &elems) : wrap<std::array<T, N>>(elems) {}
     array(std::array<T, N> &&elems)
         : wrap<std::array<T, N>>(std::move(elems)) {}
@@ -39,8 +43,9 @@ class array : wrap<std::array<T, N>> {
 
     using reference = wrap_ref<T>;
     using const_reference = const_wrap_ref<T>;
-    using iterator = ptr<T>;
-    using const_iterator = const_ptr<T>;
+    using iterator = ptr<T, internal::ptr_type_enum::array_iterator>;
+    using const_iterator =
+        ptr<const T, internal::ptr_type_enum::array_iterator>;
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
     using size_type = std::size_t;
@@ -53,31 +58,31 @@ class array : wrap<std::array<T, N>> {
         if (n >= N) {
             throw y3c::exception_std::out_of_range("y3c::array::at()", N, n);
         }
-        return wrap_ref<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                           this->alive());
+        return reference(&this->unwrap().front(), N, &this->unwrap()[n],
+                         this->alive());
     }
     const_reference at(size_type n) const {
         if (n >= N) {
             throw y3c::exception_std::out_of_range("y3c::array::at()", N, n);
         }
-        return const_wrap_ref<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                                 this->alive());
+        return const_reference(&this->unwrap().front(), N, &this->unwrap()[n],
+                               this->alive());
     }
     reference operator[](size_type n) {
         if (n >= N) {
             y3c::internal::undefined_behavior("y3c::array::operator[]()",
                                               y3c::msg::out_of_range(N, n));
         }
-        return wrap_ref<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                           this->alive());
+        return reference(&this->unwrap().front(), N, &this->unwrap()[n],
+                         this->alive());
     }
     const_reference operator[](size_type n) const {
         if (n >= N) {
             y3c::internal::undefined_behavior("y3c::array::operator[]()",
                                               y3c::msg::out_of_range(N, n));
         }
-        return const_wrap_ref<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                                 this->alive());
+        return const_reference(&this->unwrap().front(), N, &this->unwrap()[n],
+                               this->alive());
     }
 
     reference front() {
@@ -85,64 +90,66 @@ class array : wrap<std::array<T, N>> {
             y3c::internal::undefined_behavior("y3c::array::front()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return wrap_ref<T>(&this->unwrap().front(), N, &this->unwrap().front(),
-                           this->alive());
+        return reference(&this->unwrap().front(), N, &this->unwrap().front(),
+                         this->alive());
     }
     const_reference front() const {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::front()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return const_wrap_ref<T>(&this->unwrap().front(), N,
-                                 &this->unwrap().front(), this->alive());
+        return const_reference(&this->unwrap().front(), N,
+                               &this->unwrap().front(), this->alive());
     }
     reference back() {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::back()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return wrap_ref<T>(&this->unwrap().front(), N, &this->unwrap().back(),
-                           this->alive());
+        return reference(&this->unwrap().front(), N, &this->unwrap().back(),
+                         this->alive());
     }
     const_reference back() const {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::back()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return const_wrap_ref<T>(&this->unwrap().front(), N,
-                                 &this->unwrap().back(), this->alive());
+        return const_reference(&this->unwrap().front(), N,
+                               &this->unwrap().back(), this->alive());
     }
 
-    pointer data() noexcept {
-        return ptr<T>(&this->unwrap().front(), N, &this->unwrap().front(),
-                      this->alive());
+    pointer data() {
+        return pointer(&this->unwrap().front(), N, &this->unwrap().front(),
+                       this->alive());
     }
-    const_pointer data() const noexcept {
-        return const_ptr<T>(&this->unwrap().front(), N, &this->unwrap().front(),
-                            this->alive());
+    const_pointer data() const {
+        return const_pointer(&this->unwrap().front(), N,
+                             &this->unwrap().front(), this->alive());
     }
 
-    iterator begin() noexcept { return data(); }
-    const_iterator begin() const noexcept { return data(); }
-    const_iterator cbegin() const noexcept { return data(); }
-    iterator end() noexcept { return data() + N; }
-    const_iterator end() const noexcept { return data() + N; }
-    const_iterator cend() const noexcept { return data() + N; }
+    iterator begin() {
+        return iterator(&this->unwrap().front(), N, &this->unwrap().front(),
+                        this->alive());
+    }
+    const_iterator begin() const {
+        return const_iterator(&this->unwrap().front(), N,
+                              &this->unwrap().front(), this->alive());
+    }
+    const_iterator cbegin() const { return begin(); }
+    iterator end() { return begin() + N; }
+    const_iterator end() const { return begin() + N; }
+    const_iterator cend() const { return begin() + N; }
 
-    reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
-    const_reverse_iterator rbegin() const noexcept {
+    reverse_iterator rbegin() { return reverse_iterator(end()); }
+    const_reverse_iterator rbegin() const {
         return const_reverse_iterator(end());
     }
-    const_reverse_iterator crbegin() const noexcept {
+    const_reverse_iterator crbegin() const {
         return const_reverse_iterator(end());
     }
-    reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
-    const_reverse_iterator rend() const noexcept {
-        return reverse_iterator(begin());
-    }
-    const_reverse_iterator crend() const noexcept {
-        return reverse_iterator(begin());
-    }
+    reverse_iterator rend() { return reverse_iterator(begin()); }
+    const_reverse_iterator rend() const { return reverse_iterator(begin()); }
+    const_reverse_iterator crend() const { return reverse_iterator(begin()); }
 
     bool empty() const noexcept { return N == 0; }
     size_type size() const noexcept { return N; }
