@@ -18,13 +18,14 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y ninja-build
-        if [[ ${{matrix.dep}} = apt ]]; then sudo apt-get install -y libdwarf-dev doctest-dev; fi
+        if [[ ${{matrix.dep}} = apt ]]; then sudo apt-get install -y libdwarf-dev; fi
     - name: Install meson
       run: pip install meson || pip install --break-system-packages meson
     - name: Setup Meson
       run: >
         meson setup build
         --buildtype=debug
+        -Dprefix=${{github.workspace}}/install
     - name: Compile
       run: meson compile -C build
     - name: Test

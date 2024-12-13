@@ -28,6 +28,7 @@ jobs:
       run: >
         meson setup build
         --buildtype=debug
+        -Dprefix=${{github.workspace}}/install
     - name: Compile
       run: |
         meson compile -C build

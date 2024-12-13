@@ -20,11 +20,12 @@ jobs:
       run: |
         brew update --preinstall
         brew install meson
-        if [[ ${{matrix.dep}} = brew ]]; then brew install dwarfutils doctest || true; fi
+        if [[ ${{matrix.dep}} = brew ]]; then brew install dwarfutils || true; fi
     - name: Setup Meson
       run: >
         meson setup build
         --buildtype=debug
+        -Dprefix=${{github.workspace}}/install
     - name: Compile
       run: meson compile -C build
     - name: Test
