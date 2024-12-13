@@ -2,11 +2,12 @@ project('y3c-stl', 'cpp',
   meson_version: '>=1.1',
   default_options: [
     'cpp_std=c++11',
+    'libdwarf:default_library=static',
+    'cpptrace:default_library=static',
   ],
 )
 
-# todo: find and build dependency zstd and libdwarf from meson side?
-cpptrace_dep = dependency('cpptrace', default_options: ['default_library=static'])
+cpptrace_dep = dependency('cpptrace')
 rang_dep = dependency('rang')
 doctest_dep = dependency('doctest')
 

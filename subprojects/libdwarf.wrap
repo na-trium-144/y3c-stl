@@ -1,0 +1,8 @@
+[wrap-git]
+url = https://github.com/na-trium-144/libdwarf-code.git
+# revision = v0.11.1
+revision = fix-meson-static
+depth = 1
+
+[provide]
+dependency_names = libdwarf

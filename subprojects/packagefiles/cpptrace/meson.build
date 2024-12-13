@@ -141,14 +141,15 @@ if cpptrace_get_symbols_with_libdwarf
       endif
     endforeach
   endif
-  if not libdwarf_dep.found()
-    libdwarf_dep = dependency('libdwarf', required: true)
-  endif
-  if cxx.has_header('libdwarf/libdwarf.h', dependencies: libdwarf_dep)
-    cpptrace_args += ['-DCPPTRACE_USE_NESTED_LIBDWARF_HEADER_PATH']
-  elif cxx.has_header('libdwarf.h', dependencies: libdwarf_dep)
+  if libdwarf_dep.found()
+    if cxx.has_header('libdwarf/libdwarf.h', dependencies: libdwarf_dep)
+      cpptrace_args += ['-DCPPTRACE_USE_NESTED_LIBDWARF_HEADER_PATH']
+    elif cxx.has_header('libdwarf.h', dependencies: libdwarf_dep)
+    else
+      error('couldn\'t find libdwarf.h')
+    endif
   else
-    error('couldn\'t find libdwarf.h')
+    libdwarf_dep = dependency('libdwarf', required: true)
   endif
   cpptrace_deps += libdwarf_dep
   if dl_dep
