@@ -10,7 +10,7 @@ namespace internal {
 static bool throw_terminate = false;
 void enable_throw_terminate() { throw_terminate = true; }
 
-static void print_trace(std::ostream &stream) {
+void print_trace(std::ostream &stream) {
     auto trace = cpptrace::generate_trace();
     while (!trace.frames.empty() &&
            (trace.frames.front().symbol.empty() ||
@@ -18,16 +18,16 @@ static void print_trace(std::ostream &stream) {
             trace.frames.front().symbol.find(" y3c::") != std::string::npos)) {
         trace.frames.erase(trace.frames.begin());
     }
-    while (!trace.frames.empty() &&
-           (trace.frames.back().symbol.empty() ||
-            trace.frames.back().symbol.substr(0, 5) == "y3c::" ||
-            trace.frames.back().symbol.find(" y3c::") != std::string::npos)) {
+    while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
         trace.frames.erase(trace.frames.end() - 1);
     }
-    trace.print_with_snippets(stream);
     if (trace.frames.empty()) {
-        stream << "  (You may need to re-compile with debug symbols enabled.)"
-               << std::endl;
+        stream << rang::style::dim << rang::style::italic
+               << "(No stack trace available. You may need to re-compile with "
+                  "debug symbols enabled.)"
+               << rang::style::reset << std::endl;
+    } else {
+        trace.print_with_snippets(stream);
     }
 }
 
