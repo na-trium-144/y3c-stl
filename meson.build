@@ -86,7 +86,20 @@ y3c_config_dep = declare_dependency(
 
 cpptrace_dep = dependency('cpptrace')
 rang_dep = dependency('rang')
-doctest_dep = dependency('doctest')
+
+doctest_dep = dependency('doctest', required: false)
+if doctest_dep.found()
+  if cxx.has_header('doctest/doctest.h', dependencies: doctest_dep)
+    doctest_dep = declare_dependency(
+      dependencies: doctest_dep,
+      compile_args: ['-DY3C_DOCTEST_NESTED_HEADER'],
+    )
+  endif
+else
+  doctest_dep = dependency('doctest', required: true)
+  # subprojectのdoctestのヘッダーはネストしていない
+endif
+
 
 y3c_inc = include_directories('include')
 y3c_src = [

@@ -1,6 +1,10 @@
 #include <y3c/wrap.h>
 #include <y3c/exception.h>
+#ifdef Y3C_DOCTEST_NESTED_HEADER
+#include <doctest/doctest.h>
+#else
 #include <doctest.h>
+#endif
 
 struct A {
     A(int val) : val(val) {}
