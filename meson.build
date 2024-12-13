@@ -6,22 +6,7 @@ project('y3c-stl', 'cpp',
 )
 
 # todo: find and build dependency zstd and libdwarf from meson side?
-cpptrace_dep = dependency('cpptrace', required: false)
-if not cpptrace_dep.found()
-  cmake = import('cmake')
-  opt_var = cmake.subproject_options()
-  opt_var.add_cmake_defines({
-    'CPPTRACE_BUILD_SHARED': false,
-  })
-  cpptrace_proj = cmake.subproject('cpptrace', options: opt_var)
-  # https://github.com/mesonbuild/meson/issues/13101
-  cpptrace_dep = []
-  foreach target : cpptrace_proj.target_list()
-    if target != 'uninstall' and target != 'clean-all'
-      cpptrace_dep += cpptrace_proj.dependency(target)
-    endif
-  endforeach
-endif
+cpptrace_dep = dependency('cpptrace', default_options: ['default_library=static'])
 rang_dep = dependency('rang')
 doctest_dep = dependency('doctest')
 
