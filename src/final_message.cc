@@ -8,6 +8,26 @@
 Y3C_NS_BEGIN
 namespace internal {
 
+void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
+    while (!trace.frames.empty() &&
+           (trace.frames.front().symbol.empty() ||
+            trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
+            trace.frames.front().symbol.find(" y3c::") != std::string::npos)) {
+        trace.frames.erase(trace.frames.begin());
+    }
+    while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
+        trace.frames.erase(trace.frames.end() - 1);
+    }
+    if (trace.frames.empty()) {
+        stream << rang::style::dim << rang::style::italic
+               << "(No stack trace available. You may need to re-compile with "
+                  "debug symbols enabled.)"
+               << rang::style::reset << std::endl;
+    } else {
+        trace.print_with_snippets(stream);
+    }
+}
+
 void print_header(std::ostream &stream) {
     stream << rang::style::bold << rang::fg::red << "y3c-stl terminated";
     stream << rang::style::reset << ": ";
@@ -63,25 +83,6 @@ void print_y3c_exception(std::ostream &stream, exception_detail &e) {
     print_what(stream,
                e.type == exception_type_enum::exception ? e.e_class : nullptr,
                e.func.c_str(), e.what.c_str());
-
-    auto trace = e.raw_trace.resolve();
-    while (!trace.frames.empty() &&
-           (trace.frames.front().symbol.empty() ||
-            trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
-            trace.frames.front().symbol.find(" y3c::") != std::string::npos)) {
-        trace.frames.erase(trace.frames.begin());
-    }
-    while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
-        trace.frames.erase(trace.frames.end() - 1);
-    }
-    if (trace.frames.empty()) {
-        stream << rang::style::dim << rang::style::italic
-               << "(No stack trace available. You may need to re-compile with "
-                  "debug symbols enabled.)"
-               << rang::style::reset << std::endl;
-    } else {
-        trace.print_with_snippets(stream);
-    }
 }
 
 void print_current_exception(std::ostream &stream, std::exception_ptr current) {
@@ -107,6 +108,8 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
             print_header(stream);
             assert(e);
             print_y3c_exception(stream, *e);
+            auto trace = e->raw_trace.resolve();
+            strip_and_print_trace(stream, trace);
         },
         []() { // empty
             print_header(stream);
@@ -118,6 +121,8 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
                           "current_exception information is empty."
                        << std::endl;
             }
+            auto trace = cpptrace::generate_trace();
+            strip_and_print_trace(stream, trace);
         },
         []() { // dead
             print_header(stream);
@@ -133,6 +138,8 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
                           "current_exception information is empty."
                        << std::endl;
             }
+            auto trace = cpptrace::generate_trace();
+            strip_and_print_trace(stream, trace);
         });
 
     std::abort();
