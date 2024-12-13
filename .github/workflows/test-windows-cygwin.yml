@@ -1,0 +1,68 @@
+name: Windows Cygwin64 Test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: []
+
+env:
+  SHELLOPTS: igncr
+
+jobs:
+  test-windows-cygwin:
+    strategy:
+      matrix:
+        dep: ["source"]
+    runs-on: windows-latest
+    steps:
+    # Cygwinのgawkがcrlfを処理できないので、必要 (SHELLOPTSを設定しても意味ない)
+    # それはそれとしてymlのコマンドを処理するのにSHELLOPTSも必要
+    - run: git config --global core.autocrlf input
+
+    - uses: actions/checkout@v4
+
+    - uses: cygwin/cygwin-install-action@master
+      with:
+        # platform: x86
+        packages: >-
+          gcc-core
+          gcc-g++
+          cmake
+          make
+          ninja
+          pkg-config
+          meson
+        # git -> error setting certificate verify locations:  CAfile: /etc/pki/tls/certs/ca-bundle.crt CApath: none
+    
+    # cygwinの中でもconfigを設定する?
+    - run: git config --global core.autocrlf input
+      shell: C:\cygwin\bin\bash.exe '{0}'
+
+    - name: Setup Meson
+      shell: C:\cygwin\bin\bash.exe '{0}'
+      run: >
+        meson setup build
+        --buildtype=debug
+
+    - name: Compile
+      shell: C:\cygwin\bin\bash.exe '{0}'
+      run: meson compile -C build
+
+    - name: Test
+      shell: C:\cygwin\bin\bash.exe '{0}'
+      run: meson test -C build --suite y3c-stl --print-errorlog
+
+    - name: Check Exported Symbol
+      if: matrix.dep == 'submodule'
+      shell: pwsh -command ". '{0}'"
+      run: |
+        ${VS_INST_PATH} = & "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe" -latest -property installationPath
+        Write-Output "  <-> VS Install Path: ${VS_INST_PATH}"
+        Import-Module ${VS_INST_PATH}/Common7/Tools/Microsoft.VisualStudio.DevShell.dll
+        Enter-VsDevShell -VsInstallPath ${VS_INST_PATH} -SkipAutomaticLocation -DevCmdArguments '-arch=${{matrix.config.arch}} -no_logo'
+        C:\msys64\usr\bin\bash.exe -c "export PATH=\"/usr/bin:$PATH\" &&      dumpbin //exports build/*y3c*.dll | grep -A 10000 RVA | grep -B 10000 Summary | grep -v y3c"
+
+    - name: install
+      shell: C:\cygwin\bin\bash.exe '{0}'
+      run: meson install -C build
