@@ -1,6 +1,6 @@
 #include "y3c/exception.h"
 
-namespace y3c {
+Y3C_NS_BEGIN
 namespace msg {
 std::string out_of_range(std::size_t size, long long index) {
     std::ostringstream ss;
@@ -21,4 +21,4 @@ std::string access_nullptr() {
     return "attempted to access the value of nullptr.";
 }
 } // namespace msg
-} // namespace y3c
+Y3C_NS_END

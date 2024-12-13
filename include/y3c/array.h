@@ -1,9 +1,14 @@
 #pragma once
+#ifdef Y3C_MESON
+#include "y3c-config.h"
+#else
+#include "y3c/y3c-config.h"
+#endif
 #include "y3c/exception.h"
 #include "y3c/wrap.h"
 #include <array>
 
-namespace y3c {
+Y3C_NS_BEGIN
 
 /*!
  * `at()`, `operator[]`, `front()`, `back()` で範囲外アクセスを検出する
@@ -147,4 +152,4 @@ class array : wrap<std::array<T, N>> {
     void swap(array &other) { this->unwrap().swap(unwrap(other)); }
 };
 
-} // namespace y3c
+Y3C_NS_END

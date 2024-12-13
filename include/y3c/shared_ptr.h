@@ -1,10 +1,16 @@
 #pragma once
+#ifdef Y3C_MESON
+#include "y3c-config.h"
+#else
+#include "y3c/y3c-config.h"
+#endif
 #include "y3c/exception.h"
 #include "y3c/wrap.h"
 #include <memory>
 #include <type_traits>
 
-namespace y3c {
+Y3C_NS_BEGIN
+
 /*!
  * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
  *
@@ -197,4 +203,4 @@ void swap(shared_ptr<T> &lhs, shared_ptr<T> &rhs) noexcept {
     lhs.swap(rhs);
 }
 
-} // namespace y3c
+Y3C_NS_END

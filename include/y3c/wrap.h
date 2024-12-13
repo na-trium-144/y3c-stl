@@ -1,9 +1,15 @@
 #pragma once
+#ifdef Y3C_MESON
+#include "y3c-config.h"
+#else
+#include "y3c/y3c-config.h"
+#endif
 #include "y3c/exception.h"
 #include <memory>
 #include <cassert>
 
-namespace y3c {
+Y3C_NS_BEGIN
+
 template <typename T>
 class wrap;
 template <typename T>
@@ -339,4 +345,4 @@ inline ptr<T> wrap_ref<T>::operator&() const noexcept {
     return ptr<T>(begin_, size_, ptr_, range_alive_);
 }
 
-} // namespace y3c
+Y3C_NS_END
