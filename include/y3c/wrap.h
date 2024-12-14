@@ -259,9 +259,9 @@ class wrap_auto : public wrap<typename std::remove_const<T>::type> {
     std::shared_ptr<bool> range_alive_;
 
     void clear_ref() {
-        begin_ = &unwrap(*this);
+        begin_ = &this->unwrap();
         size_ = 1;
-        ptr_ = &unwrap(*this);
+        ptr_ = &this->unwrap();
         range_alive_ = this->alive();
     }
 
@@ -309,6 +309,8 @@ class wrap_auto : public wrap<typename std::remove_const<T>::type> {
         }
         return *this;
     }
+
+    ptr<element_type> operator&() const noexcept;
 };
 template <typename T>
 template <typename U>
@@ -316,6 +318,10 @@ wrap_ref<T>::wrap_ref(const wrap_auto<U> &auto_ref) noexcept
     : wrap_ref(auto_ref.begin_, auto_ref.size_, auto_ref.ptr_,
                auto_ref.range_alive_) {}
 
+template <typename T>
+T &unwrap(const wrap_auto<T> &wrapper) {
+    return unwrap(wrap_ref<T>(wrapper));
+}
 
 /*!
  * 生ポインタのラッパー。
@@ -472,6 +478,10 @@ inline ptr<const T> wrap<T>::operator&() const {
 template <typename T>
 inline ptr<T> wrap_ref<T>::operator&() const noexcept {
     return ptr<T>(begin_, size_, ptr_, range_alive_);
+}
+template <typename T>
+inline ptr<T> wrap_auto<T>::operator&() const noexcept {
+    return &wrap_ref<T>(*this);
 }
 
 Y3C_NS_END
