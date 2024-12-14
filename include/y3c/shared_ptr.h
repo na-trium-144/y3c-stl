@@ -131,13 +131,13 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
         return ptr<element_type>(this->unwrap().get(), ptr_alive_);
     }
     template <typename U = T>
-    y3c::wrap_ref<U> operator*() const {
+    y3c::wrap_auto<U> operator*() const {
         if (!this->unwrap()) {
             y3c::internal::undefined_behavior("y3c::shared_ptr::operator*()",
                                               y3c::msg::access_nullptr());
         }
         assert(ptr_alive_);
-        return y3c::wrap_ref<T>(this->unwrap().get(), ptr_alive_);
+        return y3c::wrap_auto<T>(this->unwrap().get(), ptr_alive_);
     }
     element_type *operator->() const {
         if (!this->unwrap()) {

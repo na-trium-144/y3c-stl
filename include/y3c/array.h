@@ -49,67 +49,67 @@ class array : wrap<std::array<T, N>> {
     using const_pointer = const_ptr<T>;
     using value_type = T;
 
-    reference at(size_type n) {
+    wrap_auto<T> at(size_type n) {
         if (n >= N) {
             throw y3c::out_of_range("y3c::array::at()", N, n);
         }
-        return reference(&this->unwrap().front(), N, &this->unwrap()[n],
+        return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
                          this->alive());
     }
-    const_reference at(size_type n) const {
+    wrap_auto<const T> at(size_type n) const {
         if (n >= N) {
             throw y3c::out_of_range("y3c::array::at()", N, n);
         }
-        return const_reference(&this->unwrap().front(), N, &this->unwrap()[n],
+        return wrap_auto<const T>(&this->unwrap().front(), N, &this->unwrap()[n],
                                this->alive());
     }
-    reference operator[](size_type n) {
+    wrap_auto<T> operator[](size_type n) {
         if (n >= N) {
             y3c::internal::undefined_behavior("y3c::array::operator[]()",
                                               y3c::msg::out_of_range(N, n));
         }
-        return reference(&this->unwrap().front(), N, &this->unwrap()[n],
+        return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
                          this->alive());
     }
-    const_reference operator[](size_type n) const {
+    wrap_auto<const T> operator[](size_type n) const {
         if (n >= N) {
             y3c::internal::undefined_behavior("y3c::array::operator[]()",
                                               y3c::msg::out_of_range(N, n));
         }
-        return const_reference(&this->unwrap().front(), N, &this->unwrap()[n],
+        return wrap_auto<const T>(&this->unwrap().front(), N, &this->unwrap()[n],
                                this->alive());
     }
 
-    reference front() {
+    wrap_auto<T> front() {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::front()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return reference(&this->unwrap().front(), N, &this->unwrap().front(),
+        return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().front(),
                          this->alive());
     }
-    const_reference front() const {
+    wrap_auto<const T> front() const {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::front()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return const_reference(&this->unwrap().front(), N,
+        return wrap_auto<const T>(&this->unwrap().front(), N,
                                &this->unwrap().front(), this->alive());
     }
-    reference back() {
+    wrap_auto<T> back() {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::back()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return reference(&this->unwrap().front(), N, &this->unwrap().back(),
+        return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().back(),
                          this->alive());
     }
-    const_reference back() const {
+    wrap_auto<const T> back() const {
         if (N == 0) {
             y3c::internal::undefined_behavior("y3c::array::back()",
                                               y3c::msg::out_of_range(N, 0LL));
         }
-        return const_reference(&this->unwrap().front(), N,
+        return wrap_auto<const T>(&this->unwrap().front(), N,
                                &this->unwrap().back(), this->alive());
     }
 

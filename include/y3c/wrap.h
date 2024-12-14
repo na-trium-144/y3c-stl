@@ -44,6 +44,8 @@ T &unwrap(const wrap_ref<T> &wrapper);
 template <typename T>
 class wrap {
     using base_type = T;
+    static_assert(!std::is_void<base_type>::value,
+                  "y3c::wrap cannot have void value");
     static_assert(!std::is_const<base_type>::value,
                   "y3c::wrap cannot have const value");
     static_assert(!std::is_reference<base_type>::value,
@@ -144,6 +146,7 @@ class wrap_ref {
     element_type *ptr_;
     std::shared_ptr<bool> range_alive_;
 
+  protected:
     element_type *ptr_unwrap(const char *func) const {
         if (!ptr_) {
             y3c::internal::undefined_behavior(func, y3c::msg::access_nullptr());
@@ -175,8 +178,6 @@ class wrap_ref {
         : begin_(&wrapper.base_), size_(1), ptr_(&wrapper.base_),
           range_alive_(wrapper.alive()) {}
 
-    explicit wrap_ref(wrap_auto<element_type> &wrapper);
-
     template <typename U>
     wrap_ref(const wrap_ref<U> &ref) noexcept
         : begin_(ref.begin_), size_(ref.size_), ptr_(ref.ptr_),
@@ -187,6 +188,9 @@ class wrap_ref {
         *ptr_unwrap("y3c::wrap_ref::operator=()") = std::forward<Args>(args);
         return *this;
     }
+
+    template <typename U>
+    wrap_ref(const wrap_auto<U> &auto_ref) noexcept;
 
     /*!
      * コピー構築の場合は参照としてコピーする
@@ -215,11 +219,6 @@ class wrap_ref {
     ~wrap_ref() = default;
 
     friend class wrap_auto<element_type>;
-    template <typename, internal::ptr_type_enum>
-    friend class ptr;
-    friend class shared_ptr<element_type>;
-    template <typename, std::size_t>
-    friend class array;
     friend element_type &
     y3c::unwrap<element_type>(const wrap_ref<element_type> &);
 
@@ -240,48 +239,76 @@ T &unwrap(const wrap_ref<T> &wrapper) {
 
 /*!
  * 値の参照を返す関数が、wrap_ref<T> を返す代わりにこれを返すことで、
- * auto で受け取られた時は wrap<T> として機能し(独自に値を保持する)、
- * 明示的にwrap_ref<T>にキャストされた場合のみ元の参照を指すようになる
+ * ユーザーがそれをさらに明示的に wrap_ref<T> にキャストすれば元の参照を返すが、
+ * autoで受け取るなどwrap_refにならなかった場合は参照ではなく値をコピーしたものとしてふるまう
  */
 template <typename T>
-class wrap_auto : public wrap<T> {
-    wrap_ref<T> ref;
+class wrap_auto : public wrap<typename std::remove_const<T>::type> {
+    using base_type = typename std::remove_const<T>::type;
+    using element_type = T;
+    element_type *begin_;
+    std::size_t size_;
+    element_type *ptr_;
+    std::shared_ptr<bool> range_alive_;
 
-    wrap_auto(T *begin, std::size_t size, T *ptr,
+    void clear_ref() {
+        begin_ = &unwrap(*this);
+        size_ = 1;
+        ptr_ = &unwrap(*this);
+        range_alive_ = this->alive();
+    }
+
+    wrap_auto(element_type *begin, std::size_t size, element_type *ptr,
               std::shared_ptr<bool> range_alive) noexcept
-        : wrap<T>(*ptr), ref(begin, size, ptr, std::move(range_alive)) {}
-    wrap_auto(T *ptr, std::shared_ptr<bool> ptr_alive) noexcept
-        : wrap<T>(*ptr), ref(ptr, std::move(ptr_alive)) {}
-    wrap_auto() = delete;
+        : wrap<base_type>(*ptr), begin_(begin), size_(size), ptr_(ptr),
+          range_alive_(range_alive) {}
+    wrap_auto(element_type *ptr, std::shared_ptr<bool> ptr_alive) noexcept
+        : wrap_auto(ptr, 1, ptr, std::move(ptr_alive)) {}
 
   public:
+    wrap_auto() = delete;
     wrap_auto(const wrap_auto &) = default;
     wrap_auto(wrap_auto &&) = default;
+    ~wrap_auto() = default;
+
+    template <typename>
+    friend class wrap_ref;
+    template <typename, internal::ptr_type_enum>
+    friend class ptr;
+    friend class shared_ptr<element_type>;
+    template <typename, std::size_t>
+    friend class array;
 
     /*!
-     * 何かが代入された場合、元の参照は破棄し、もうwrap<T>としてしか使わない
+     * 値が代入されたら元の参照は破棄し値のコピーだけが利用可能になる
      */
+    template <typename Args>
+    wrap_auto &operator=(Args &&args) {
+        clear_ref();
+        this->wrap<base_type>::operator=(std::forward<Args>(args));
+        return *this;
+    }
     wrap_auto &operator=(const wrap_auto &other) {
-        ref = *this;
-        this->wrap<T>::operator=(other);
+        clear_ref();
+        if (this != &other) {
+            this->wrap<base_type>::operator=(other);
+        }
         return *this;
     }
     wrap_auto &operator=(wrap_auto &&other) {
-        ref = *this;
-        this->wrap<T>::operator=(std::move(other));
+        clear_ref();
+        if (this != &other) {
+            this->wrap<base_type>::operator=(other);
+        }
         return *this;
     }
-    template <typename Args>
-    wrap_auto &operator=(Args &&args) {
-        ref = *this;
-        this->wrap<T>::operator=(std::forward<Args>(args));
-        return *this;
-    }
-
-    friend class wrap_ref<T>;
 };
 template <typename T>
-wrap_ref<T>::wrap_ref(wrap_auto<T> &wrapper) : wrap_ref(wrapper.ref) {}
+template <typename U>
+wrap_ref<T>::wrap_ref(const wrap_auto<U> &auto_ref) noexcept
+    : wrap_ref(auto_ref.begin_, auto_ref.size_, auto_ref.ptr_,
+               auto_ref.range_alive_) {}
+
 
 /*!
  * 生ポインタのラッパー。
@@ -370,9 +397,9 @@ class ptr : public wrap<T *> {
     template <typename, std::size_t>
     friend class array;
 
-    wrap_ref<element_type> operator*() const {
+    wrap_auto<element_type> operator*() const {
         static std::string func_name = func_name_() + "::operator*()";
-        return wrap_ref<element_type>(
+        return wrap_auto<element_type>(
             begin_, size_, ptr_unwrap(func_name.c_str()), range_alive_);
     }
     element_type *operator->() const {
