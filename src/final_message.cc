@@ -12,6 +12,8 @@ void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
     while (!trace.frames.empty() &&
            (trace.frames.front().symbol.empty() ||
             trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
+            // Windowsのラムダ式
+            trace.frames.front().symbol.substr(0, 6) == "`y3c::" ||
             // Macでtemplate関数の場合戻り値型がsymbolに含まれる
             trace.frames.front().symbol.substr(0, 10) == "void y3c::" ||
             trace.frames.front().symbol.find("y3c::" Y3C_NS_ABI_S "::unwrap") != std::string::npos)) {

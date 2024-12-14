@@ -1,4 +1,4 @@
-project('y3c-stl', 'cpp',
+project('y3c-stl', 'c', 'cpp',
   version: '0.1.0',
   meson_version: '>=1.1',
   default_options: [
