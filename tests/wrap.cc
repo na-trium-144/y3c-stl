@@ -57,4 +57,21 @@ TEST_CASE("wrap") {
     p2++;
     CHECK_EQ(p2, p3);
     CHECK_THROWS_AS(*p2, y3c::internal::exception_undefined_behavior);
+
+    {
+        y3c::wrap<int> a = 1;
+        y3c::wrap<int> b = 2;
+        y3c::wrap_ref<int> r = a;
+        r = b; // 参照のセットではなく、値のコピー
+        CHECK_EQ(unwrap(r), 2);
+        CHECK_EQ(unwrap(a), 2);
+
+        y3c::wrap_ref<int> r2 = r; // 同じものを参照する
+        r2 = 3;
+        CHECK_EQ(unwrap(r), 3);
+
+        y3c::wrap_ref<int> r3 = std::move(r2); // ムーブはコピーと同じ
+        r3 = 4;
+        CHECK_EQ(unwrap(r), 4);
+    }
 }

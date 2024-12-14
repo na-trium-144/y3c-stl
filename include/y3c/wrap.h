@@ -15,6 +15,8 @@ template <typename T>
 class wrap;
 template <typename T>
 class wrap_ref;
+template <typename T>
+class wrap_auto;
 template <typename T,
           internal::ptr_type_enum ptr_type = internal::ptr_type_enum::ptr>
 class ptr;
@@ -162,7 +164,7 @@ class wrap_ref {
              std::shared_ptr<bool> range_alive) noexcept
         : begin_(begin), size_(size), ptr_(ptr), range_alive_(range_alive) {}
     wrap_ref(element_type *ptr, std::shared_ptr<bool> ptr_alive) noexcept
-        : wrap_ref(ptr, 1, ptr, ptr_alive) {}
+        : wrap_ref(ptr, 1, ptr, std::move(ptr_alive)) {}
 
     wrap_ref(std::nullptr_t = nullptr) noexcept
         : begin_(nullptr), size_(0), ptr_(nullptr), range_alive_() {}
@@ -173,8 +175,10 @@ class wrap_ref {
         : begin_(&wrapper.base_), size_(1), ptr_(&wrapper.base_),
           range_alive_(wrapper.alive()) {}
 
+    explicit wrap_ref(wrap_auto<element_type> &wrapper);
+
     template <typename U>
-    wrap_ref(const wrap_ref<U> &ref)
+    wrap_ref(const wrap_ref<U> &ref) noexcept
         : begin_(ref.begin_), size_(ref.size_), ptr_(ref.ptr_),
           range_alive_(ref.range_alive_) {}
 
@@ -184,6 +188,33 @@ class wrap_ref {
         return *this;
     }
 
+    /*!
+     * コピー構築の場合は参照としてコピーする
+     */
+    wrap_ref(const wrap_ref &) noexcept = default;
+    /*!
+     * 参照のムーブはコピーと同じ
+     */
+    wrap_ref(wrap_ref &&other) noexcept
+        : wrap_ref(static_cast<const wrap_ref &>(other)) {}
+    /*!
+     * コピー代入しようとした場合は値のコピーにする
+     */
+    wrap_ref &operator=(const wrap_ref &other) {
+        *ptr_unwrap("y3c::wrap_ref::operator=()") =
+            *other.ptr_unwrap("cast from y3c::wrap_ref to reference");
+        return *this;
+    }
+    wrap_ref &operator=(wrap_ref &&other) {
+        T &val = *other.ptr_unwrap("cast from y3c::wrap_ref to reference");
+        if (this != &other) {
+            *ptr_unwrap("y3c::wrap_ref::operator=()") = std::move(val);
+        }
+        return *this;
+    }
+    ~wrap_ref() = default;
+
+    friend class wrap_auto<element_type>;
     template <typename, internal::ptr_type_enum>
     friend class ptr;
     friend class shared_ptr<element_type>;
@@ -206,6 +237,51 @@ template <typename T>
 T &unwrap(const wrap_ref<T> &wrapper) {
     return *wrapper.ptr_unwrap("y3c::unwrap()");
 }
+
+/*!
+ * 値の参照を返す関数が、wrap_ref<T> を返す代わりにこれを返すことで、
+ * auto で受け取られた時は wrap<T> として機能し(独自に値を保持する)、
+ * 明示的にwrap_ref<T>にキャストされた場合のみ元の参照を指すようになる
+ */
+template <typename T>
+class wrap_auto : public wrap<T> {
+    wrap_ref<T> ref;
+
+    wrap_auto(T *begin, std::size_t size, T *ptr,
+              std::shared_ptr<bool> range_alive) noexcept
+        : wrap<T>(*ptr), ref(begin, size, ptr, std::move(range_alive)) {}
+    wrap_auto(T *ptr, std::shared_ptr<bool> ptr_alive) noexcept
+        : wrap<T>(*ptr), ref(ptr, std::move(ptr_alive)) {}
+    wrap_auto() = delete;
+
+  public:
+    wrap_auto(const wrap_auto &) = default;
+    wrap_auto(wrap_auto &&) = default;
+
+    /*!
+     * 何かが代入された場合、元の参照は破棄し、もうwrap<T>としてしか使わない
+     */
+    wrap_auto &operator=(const wrap_auto &other) {
+        ref = *this;
+        this->wrap<T>::operator=(other);
+        return *this;
+    }
+    wrap_auto &operator=(wrap_auto &&other) {
+        ref = *this;
+        this->wrap<T>::operator=(std::move(other));
+        return *this;
+    }
+    template <typename Args>
+    wrap_auto &operator=(Args &&args) {
+        ref = *this;
+        this->wrap<T>::operator=(std::forward<Args>(args));
+        return *this;
+    }
+
+    friend class wrap_ref<T>;
+};
+template <typename T>
+wrap_ref<T>::wrap_ref(wrap_auto<T> &wrapper) : wrap_ref(wrapper.ref) {}
 
 /*!
  * 生ポインタのラッパー。
@@ -267,7 +343,7 @@ class ptr : public wrap<T *> {
         : wrap<T *>(ptr_), begin_(begin), size_(size),
           range_alive_(range_alive) {}
     ptr(element_type *ptr_, std::shared_ptr<bool> ptr_alive) noexcept
-        : ptr(ptr_, 1, ptr_, ptr_alive) {}
+        : ptr(ptr_, 1, ptr_, std::move(ptr_alive)) {}
 
   public:
     ptr(std::nullptr_t = nullptr) noexcept
