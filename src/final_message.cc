@@ -60,6 +60,11 @@ void print_what(std::ostream &stream, const char *func, const char *what,
         stream << rang::style::reset << std::endl;
     }
 }
+void print_maybe_inaccurate(std::ostream &stream) {
+    stream << rang::style::italic << rang::style::dim
+           << "The following stack trace may be inaccurate.";
+    stream << rang::style::reset << std::endl;
+}
 void print_y3c_exception(std::ostream &stream, exception_detail &e) {
     switch (e.type) {
     case terminate_type::exception:
@@ -118,9 +123,12 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
                << std::endl;
         print_what(stream, nullptr, e, true);
     } catch (...) {
-        stream << "unsupported type exception thrown, but that's not from y3c-stl." << std::endl;
+        stream
+            << "unsupported type exception thrown, but that's not from y3c-stl."
+            << std::endl;
         print_what(stream, nullptr, nullptr, false);
     }
+    print_maybe_inaccurate(stream);
     auto trace = cpptrace::generate_trace();
     strip_and_print_trace(stream, trace);
 }
@@ -135,6 +143,7 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
         stream << "terminate() called, but that's not from y3c-stl and "
                   "current_exception information is empty."
                << std::endl;
+        print_maybe_inaccurate(stream);
         auto trace = cpptrace::generate_trace();
         strip_and_print_trace(stream, trace);
     }
