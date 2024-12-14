@@ -34,31 +34,30 @@ TEST_CASE("shared_ptr") {
         CHECK_EQ(unwrap(r).val, 42);
 
         a.reset();
-        CHECK_THROWS_AS(unwrap(*a).val,
-                        y3c::internal::exception_undefined_behavior);
-        CHECK_THROWS_AS(a->val, y3c::internal::exception_undefined_behavior);
+        CHECK_THROWS_AS(unwrap(*a).val, y3c::internal::ub_access_nullptr);
+        CHECK_THROWS_AS(a->val, y3c::internal::ub_access_nullptr);
         CHECK_EQ(a.get(), nullptr);
         CHECK_EQ(a.use_count(), 0L);
         CHECK_FALSE(static_cast<bool>(a));
         CHECK_FALSE(static_cast<bool>(y3c::unwrap(a)));
 
-        CHECK_THROWS_AS(p->val, y3c::internal::exception_undefined_behavior);
-        CHECK_THROWS_AS(unwrap(r).val, y3c::internal::exception_undefined_behavior);
+        CHECK_THROWS_AS(p->val, y3c::internal::ub_access_deleted);
+        CHECK_THROWS_AS(unwrap(r).val, y3c::internal::ub_access_deleted);
 
         p = a.get();
-        CHECK_THROWS_AS(p->val, y3c::internal::exception_undefined_behavior);
+        CHECK_THROWS_AS(p->val, y3c::internal::ub_access_nullptr);
     }
 
     y3c::shared_ptr<A> a1 = new A(42);
     y3c::ptr<A> p1 = a1.get();
     a1 = new A(42);
-    CHECK_THROWS_AS(p1->val, y3c::internal::exception_undefined_behavior);
+    CHECK_THROWS_AS(p1->val, y3c::internal::ub_access_deleted);
     p1 = a1.get();
 
     y3c::shared_ptr<A> a2 = new B(42);
     y3c::ptr<A> p2 = a2.get();
     a2 = new B(42);
-    CHECK_THROWS_AS(p2->val, y3c::internal::exception_undefined_behavior);
+    CHECK_THROWS_AS(p2->val, y3c::internal::ub_access_deleted);
     p2 = a2.get();
 
     y3c::shared_ptr<A> a3 = a2;
@@ -67,15 +66,15 @@ TEST_CASE("shared_ptr") {
     a2.reset();
     CHECK_EQ(p3->val, 42);
     a3 = a1;
-    CHECK_THROWS_AS(p3->val, y3c::internal::exception_undefined_behavior);
+    CHECK_THROWS_AS(p3->val, y3c::internal::ub_access_deleted);
     p3 = a3.get();
 
     a1.reset();
     CHECK_EQ(p1->val, 42);
     CHECK_EQ(p3->val, 42);
     a3.reset();
-    CHECK_THROWS_AS(p1->val, y3c::internal::exception_undefined_behavior);
-    CHECK_THROWS_AS(p3->val, y3c::internal::exception_undefined_behavior);
+    CHECK_THROWS_AS(p1->val, y3c::internal::ub_access_deleted);
+    CHECK_THROWS_AS(p3->val, y3c::internal::ub_access_deleted);
 
     y3c::shared_ptr<B> b1 = new B(42);
     y3c::shared_ptr<A> a4 = b1;
@@ -92,6 +91,4 @@ TEST_CASE("shared_ptr") {
     ca5 = std::make_shared<B>(42);
     y3c::shared_ptr<const A> ca6 = b1;
     ca6 = b1;
-
-
 }

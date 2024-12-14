@@ -6,6 +6,7 @@
 #endif
 #include <stdexcept>
 #include <string>
+#include <memory>
 
 Y3C_NS_BEGIN
 
@@ -27,19 +28,30 @@ Y3C_DLL void Y3C_CALL link() noexcept;
  *
  */
 namespace msg {
-Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size, long long index);
-inline std::string Y3C_CALL out_of_range(std::size_t size, std::size_t index) {
-    return out_of_range(size, static_cast<long long>(index));
-}
+Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size,
+                                          std::ptrdiff_t index);
 Y3C_DLL const char *Y3C_CALL access_nullptr();
 Y3C_DLL const char *Y3C_CALL access_deleted();
 } // namespace msg
 
 namespace internal {
-enum class exception_type_enum {
-    exception,
-    undefined_behavior,
-    terminate,
+
+/*!
+ * y3c::内部の関数がスタックトレースに表示されないようにするために、
+ * 関数の引数型やテンプレートにこれを含めると、スタックトレースからそのフレームを除外してくれる
+ * (`internal::skip_trace_tag = {}`, `template <typename = internal::skip_trace_tag>` など)
+ * 
+ * handle_final_terminate_message() はtag無しでも除外する例外。
+ *
+ */
+struct skip_trace_tag {};
+
+enum class terminate_type {
+    exception = 0,
+    terminate = 1,
+    ub_out_of_range = 2,
+    ub_access_nullptr = 3,
+    ub_access_deleted = 4,
 };
 
 /*!
@@ -49,13 +61,15 @@ enum class exception_type_enum {
  */
 [[noreturn]] Y3C_DLL void Y3C_CALL handle_final_terminate_message() noexcept;
 /*!
- * y3c::global_storage に今から投げる例外を登録し、std::terminate()する
+ * 例外を表示して強制終了する
+ *
+ * 内部ではstd::terminate()ではなくstd::abort()を呼んでいる
  *
  */
-[[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(exception_type_enum type,
-                                                     const char *e_class,
+[[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_type type,
                                                      std::string &&func,
-                                                     std::string &&what);
+                                                     std::string &&what,
+                                                     skip_trace_tag = {});
 
 /*!
  * y3cの例外クラスのベース。
@@ -64,15 +78,11 @@ enum class exception_type_enum {
  * what() は通常の例外と同様短いメッセージを返す。
  *
  */
-class Y3C_DLL exception_base {
-    int detail_id_;
-
-  public:
+struct Y3C_DLL exception_base {
     explicit exception_base(const char *e_class, std::string &&func,
-                            std::string &&what);
-    exception_base(const exception_base &);
-    exception_base &operator=(const exception_base &);
-    ~exception_base() noexcept;
+                            std::string &&what, skip_trace_tag = {});
+    std::shared_ptr<void> detail;
+    const char *what() const noexcept;
 };
 
 /*!
@@ -87,27 +97,36 @@ class Y3C_DLL exception_base {
  */
 extern Y3C_DLL bool throw_on_terminate;
 
-class exception_terminate {};
-class exception_undefined_behavior {};
+class ub_out_of_range {};
+class ub_access_nullptr {};
+class ub_access_deleted {};
 
-[[noreturn]] inline void terminate(std::string func, std::string what) {
+[[noreturn]] inline void terminate_ub_out_of_range(std::string func,
+                                                   std::size_t size,
+                                                   std::ptrdiff_t index,
+                                                   skip_trace_tag = {}) {
     if (throw_on_terminate) {
-        throw exception_terminate();
-    } else {
-        do_terminate_with(exception_type_enum::terminate, nullptr,
-                          std::move(func), std::move(what));
+        throw ub_out_of_range();
     }
+    do_terminate_with(terminate_type::ub_out_of_range, std::move(func),
+                      msg::out_of_range(size, index));
 }
-[[noreturn]] inline void undefined_behavior(std::string func,
-                                            std::string what) {
+[[noreturn]] inline void terminate_ub_access_nullptr(std::string func,
+                                                     skip_trace_tag = {}) {
     if (throw_on_terminate) {
-        throw exception_undefined_behavior();
-    } else {
-        do_terminate_with(exception_type_enum::undefined_behavior, nullptr,
-                          std::move(func), std::move(what));
+        throw ub_access_nullptr();
     }
+    do_terminate_with(terminate_type::ub_access_nullptr, std::move(func),
+                      msg::access_nullptr());
 }
-
+[[noreturn]] inline void terminate_ub_access_deleted(std::string func,
+                                                     skip_trace_tag = {}) {
+    if (throw_on_terminate) {
+        throw ub_access_deleted();
+    }
+    do_terminate_with(terminate_type::ub_access_deleted, std::move(func),
+                      msg::access_deleted());
+}
 } // namespace internal
 
 /*!
@@ -119,14 +138,18 @@ class exception_undefined_behavior {};
  * (catchできるけど...)
  *
  */
-class out_of_range final : public std::out_of_range, internal::exception_base {
+class out_of_range final : public std::out_of_range,
+                           public internal::exception_base {
   public:
-    out_of_range(std::string func, std::size_t size, long long index)
-        : std::out_of_range(msg::out_of_range(size, index)),
+    out_of_range(std::string func, std::size_t size, std::ptrdiff_t index,
+                 internal::skip_trace_tag = {})
+        : std::out_of_range(""),
           internal::exception_base("y3c::out_of_range", std::move(func),
                                    msg::out_of_range(size, index)) {}
-    out_of_range(std::string func, std::size_t size, std::size_t index)
-        : out_of_range(std::move(func), size, static_cast<long long>(index)) {}
+
+    const char *what() const noexcept override {
+        return internal::exception_base::what();
+    }
 };
 
 Y3C_NS_END
