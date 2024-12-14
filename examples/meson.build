@@ -9,6 +9,8 @@ examples = [
   'ptr-local',
   'ptr-null',
   'shared_ptr-null',
+  'shared_ptr-ref',
+  'shared_ptr-unwrap-ref',
   'terminate-direct',
   'terminate-throw-any',
   'terminate-throw-exception',

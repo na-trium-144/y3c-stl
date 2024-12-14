@@ -97,7 +97,8 @@ class wrap {
         return *this;
     }
 
-    friend class wrap_ref<base_type>;
+    template <typename>
+    friend class wrap_ref;
     friend base_type &y3c::unwrap<base_type>(wrap<base_type> &) noexcept;
     friend const base_type &
     y3c::unwrap<base_type>(const wrap<base_type> &) noexcept;
