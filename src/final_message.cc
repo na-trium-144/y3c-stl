@@ -36,44 +36,40 @@ void print_header(std::ostream &stream) {
     stream << rang::style::bold << rang::fg::red << "y3c-stl terminated";
     stream << rang::style::reset << ": ";
 }
-void print_what(std::ostream &stream, const char *e_class, const char *func,
-                const char *what, bool quote = false) {
-    stream << "  ";
-    if (e_class) {
-        stream << rang::style::italic << rang::fg::cyan << e_class;
-    }
-    if (e_class && func) {
-        stream << " ";
-    }
-    if (func) {
-        stream << rang::fg::reset << rang::style::italic << rang::style::dim
-               << "at ";
-        stream << rang::style::reset << rang::style::italic << rang::fg::yellow
-               << func;
-    }
-    if (e_class || func) {
-        stream << rang::fg::reset << rang::style::italic << rang::style::dim
-               << ": ";
-    }
-    if (what) {
-        if (quote) {
+void print_what(std::ostream &stream, const char *func, const char *what,
+                bool quote = false) {
+    if (func || what) {
+        stream << "  ";
+        if (func) {
+            stream << rang::style::italic << rang::style::dim << "at ";
+            stream << rang::style::reset << rang::style::italic
+                   << rang::fg::yellow << func;
+            stream << rang::fg::reset << rang::style::italic << rang::style::dim
+                   << ": ";
             stream << rang::style::reset;
-            stream << rang::style::dim << '"';
         }
-        stream << rang::style::reset << what;
-        if (quote) {
-            stream << rang::style::dim << '"';
+        if (what) {
+            if (quote) {
+                stream << rang::style::dim << '"';
+            }
+            stream << rang::style::reset << what;
+            if (quote) {
+                stream << rang::style::dim << '"';
+            }
         }
-    } else {
-        stream << rang::fg::reset << rang::style::italic << rang::style::dim
-               << "unknown exception type.";
+        stream << rang::style::reset << std::endl;
     }
-    stream << rang::style::reset << std::endl;
 }
 void print_y3c_exception(std::ostream &stream, exception_detail &e) {
     switch (e.type) {
     case terminate_type::exception:
-        stream << rang::style::bold << "exception thrown";
+        if (e.e_class) {
+            stream << rang::style::bold << "exception of type ";
+            stream << rang::fg::cyan << e.e_class;
+            stream << rang::fg::reset << " thrown";
+        } else {
+            stream << rang::style::bold << "unsupported type exception thrown";
+        }
         break;
     // case terminate_type::terminate:
     //     stream << rang::style::bold << "terminate() called";
@@ -90,9 +86,7 @@ void print_y3c_exception(std::ostream &stream, exception_detail &e) {
     }
     stream << rang::style::reset << std::endl;
 
-    print_what(stream,
-               e.type == terminate_type::exception ? e.e_class : nullptr,
-               e.func.c_str(), e.what.c_str());
+    print_what(stream, e.func.c_str(), e.what.c_str());
 }
 
 void print_current_exception(std::ostream &stream, std::exception_ptr current,
@@ -106,17 +100,26 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
         strip_and_print_trace(stream, trace);
         return;
     } catch (const std::exception &e) {
-        stream << "exception thrown, but that's not from y3c-stl." << std::endl;
-        print_what(stream, "std::exception", nullptr, e.what(), true);
+        stream << "exception of type ";
+        stream << rang::fg::cyan << "std::exception";
+        stream << rang::fg::reset << " thrown, but that's not from y3c-stl."
+               << std::endl;
+        print_what(stream, nullptr, e.what(), true);
     } catch (const std::string &e) {
-        stream << "exception thrown, but that's not from y3c-stl." << std::endl;
-        print_what(stream, "std::string", nullptr, e.c_str(), true);
+        stream << "exception of type ";
+        stream << rang::fg::cyan << "std::string";
+        stream << rang::fg::reset << " thrown, but that's not from y3c-stl."
+               << std::endl;
+        print_what(stream, nullptr, e.c_str(), true);
     } catch (const char *e) {
-        stream << "exception thrown, but that's not from y3c-stl." << std::endl;
-        print_what(stream, nullptr, nullptr, e, true);
+        stream << "exception of type ";
+        stream << rang::fg::cyan << "const char *";
+        stream << rang::fg::reset << " thrown, but that's not from y3c-stl."
+               << std::endl;
+        print_what(stream, nullptr, e, true);
     } catch (...) {
-        stream << "exception thrown, but that's not from y3c-stl." << std::endl;
-        print_what(stream, nullptr, nullptr, nullptr, false);
+        stream << "unsupported type exception thrown, but that's not from y3c-stl." << std::endl;
+        print_what(stream, nullptr, nullptr, false);
     }
     auto trace = cpptrace::generate_trace();
     strip_and_print_trace(stream, trace);
