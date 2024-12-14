@@ -8,7 +8,7 @@ void link() noexcept {}
 namespace internal {
 
 exception_base::exception_base(const char *e_class, std::string &&func,
-                               std::string &&what)
+                               std::string &&what, skip_trace_tag)
     : detail(std::make_shared<exception_detail>(
           terminate_type::exception, e_class, std::move(func), std::move(what),
           cpptrace::generate_raw_trace())) {}

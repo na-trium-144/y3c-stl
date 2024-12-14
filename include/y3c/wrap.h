@@ -22,7 +22,7 @@ template <typename T,
 class ptr;
 template <typename T>
 class shared_ptr;
-template <class T, std::size_t N>
+template <typename T, std::size_t N>
 class array;
 
 template <typename T>
@@ -30,7 +30,7 @@ T &unwrap(wrap<T> &wrapper) noexcept;
 template <typename T>
 const T &unwrap(const wrap<T> &wrapper) noexcept;
 template <typename T>
-T &unwrap(const wrap_ref<T> &wrapper);
+T &unwrap(const wrap_ref<T> &wrapper, internal::skip_trace_tag = {});
 
 /*!
  * T型のデータ(base_)と、このコンテナの生存状態(alive_)を持つクラス
@@ -147,7 +147,8 @@ class wrap_ref {
     std::shared_ptr<bool> range_alive_;
 
   protected:
-    element_type *ptr_unwrap(const char *func) const {
+    element_type *ptr_unwrap(const char *func,
+                             internal::skip_trace_tag = {}) const {
         if (!ptr_) {
             y3c::internal::terminate_ub_access_nullptr(func);
         }
@@ -183,7 +184,7 @@ class wrap_ref {
         : begin_(ref.begin_), size_(ref.size_), ptr_(ref.ptr_),
           range_alive_(ref.range_alive_) {}
 
-    template <typename Args>
+    template <typename Args, typename = internal::skip_trace_tag>
     wrap_ref &operator=(Args &&args) {
         *ptr_unwrap("y3c::wrap_ref::operator=()") = std::forward<Args>(args);
         return *this;
@@ -204,11 +205,13 @@ class wrap_ref {
     /*!
      * コピー代入しようとした場合は値のコピーにする
      */
+    template <typename = internal::skip_trace_tag>
     wrap_ref &operator=(const wrap_ref &other) {
         *ptr_unwrap("y3c::wrap_ref::operator=()") =
             *other.ptr_unwrap("cast from y3c::wrap_ref to reference");
         return *this;
     }
+    template <typename = internal::skip_trace_tag>
     wrap_ref &operator=(wrap_ref &&other) {
         T &val = *other.ptr_unwrap("cast from y3c::wrap_ref to reference");
         if (this != &other) {
@@ -220,8 +223,10 @@ class wrap_ref {
 
     friend class wrap_auto<element_type>;
     friend element_type &
-    y3c::unwrap<element_type>(const wrap_ref<element_type> &);
+    y3c::unwrap<element_type>(const wrap_ref<element_type> &,
+                              internal::skip_trace_tag);
 
+    template <typename = internal::skip_trace_tag>
     operator element_type &() {
         return *ptr_unwrap("cast from y3c::wrap_ref to reference");
     }
@@ -233,7 +238,7 @@ template <typename T>
 using const_wrap_ref = wrap_ref<const T>;
 
 template <typename T>
-T &unwrap(const wrap_ref<T> &wrapper) {
+T &unwrap(const wrap_ref<T> &wrapper, internal::skip_trace_tag) {
     return *wrapper.ptr_unwrap("y3c::unwrap()");
 }
 
@@ -319,7 +324,7 @@ wrap_ref<T>::wrap_ref(const wrap_auto<U> &auto_ref) noexcept
                auto_ref.range_alive_) {}
 
 template <typename T>
-T &unwrap(const wrap_auto<T> &wrapper) {
+T &unwrap(const wrap_auto<T> &wrapper, internal::skip_trace_tag = {}) {
     return unwrap(wrap_ref<T>(wrapper));
 }
 
@@ -361,7 +366,8 @@ class ptr : public wrap<T *> {
     std::size_t size_;
     std::shared_ptr<bool> range_alive_;
 
-    element_type *ptr_unwrap(const char *func) const {
+    element_type *ptr_unwrap(const char *func,
+                             internal::skip_trace_tag = {}) const {
         if (!this->unwrap()) {
             y3c::internal::terminate_ub_access_nullptr(func);
         }
@@ -409,11 +415,13 @@ class ptr : public wrap<T *> {
     template <typename, std::size_t>
     friend class array;
 
+    template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator*() const {
         static std::string func_name = func_name_() + "::operator*()";
         return wrap_auto<element_type>(
             begin_, size_, ptr_unwrap(func_name.c_str()), range_alive_);
     }
+    template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
         static std::string func_name = func_name_() + "::operator->()";
         return ptr_unwrap(func_name.c_str());
@@ -454,6 +462,7 @@ class ptr : public wrap<T *> {
     std::ptrdiff_t operator-(const ptr &other) const {
         return this->unwrap() - other.ptr_;
     }
+    template <typename = internal::skip_trace_tag>
     element_type &operator[](std::ptrdiff_t n) const {
         static std::string func_name = func_name_() + "::operator[]()";
         return *(*this + n).ptr_unwrap(func_name.c_str());

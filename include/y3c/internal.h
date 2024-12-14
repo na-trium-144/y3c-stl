@@ -35,6 +35,17 @@ Y3C_DLL const char *Y3C_CALL access_deleted();
 } // namespace msg
 
 namespace internal {
+
+/*!
+ * y3c::内部の関数がスタックトレースに表示されないようにするために、
+ * 関数の引数型やテンプレートにこれを含めると、スタックトレースからそのフレームを除外してくれる
+ * (`internal::skip_trace_tag = {}`, `template <typename = internal::skip_trace_tag>` など)
+ * 
+ * handle_final_terminate_message() はtag無しでも除外する例外。
+ *
+ */
+struct skip_trace_tag {};
+
 enum class terminate_type {
     exception = 0,
     terminate = 1,
@@ -57,7 +68,8 @@ enum class terminate_type {
  */
 [[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_type type,
                                                      std::string &&func,
-                                                     std::string &&what);
+                                                     std::string &&what,
+                                                     skip_trace_tag = {});
 
 /*!
  * y3cの例外クラスのベース。
@@ -68,7 +80,7 @@ enum class terminate_type {
  */
 struct Y3C_DLL exception_base {
     explicit exception_base(const char *e_class, std::string &&func,
-                            std::string &&what);
+                            std::string &&what, skip_trace_tag = {});
     std::shared_ptr<void> detail;
     const char *what() const noexcept;
 };
@@ -91,21 +103,24 @@ class ub_access_deleted {};
 
 [[noreturn]] inline void terminate_ub_out_of_range(std::string func,
                                                    std::size_t size,
-                                                   std::ptrdiff_t index) {
+                                                   std::ptrdiff_t index,
+                                                   skip_trace_tag = {}) {
     if (throw_on_terminate) {
         throw ub_out_of_range();
     }
     do_terminate_with(terminate_type::ub_out_of_range, std::move(func),
                       msg::out_of_range(size, index));
 }
-[[noreturn]] inline void terminate_ub_access_nullptr(std::string func) {
+[[noreturn]] inline void terminate_ub_access_nullptr(std::string func,
+                                                     skip_trace_tag = {}) {
     if (throw_on_terminate) {
         throw ub_access_nullptr();
     }
     do_terminate_with(terminate_type::ub_access_nullptr, std::move(func),
                       msg::access_nullptr());
 }
-[[noreturn]] inline void terminate_ub_access_deleted(std::string func) {
+[[noreturn]] inline void terminate_ub_access_deleted(std::string func,
+                                                     skip_trace_tag = {}) {
     if (throw_on_terminate) {
         throw ub_access_deleted();
     }
@@ -126,13 +141,11 @@ class ub_access_deleted {};
 class out_of_range final : public std::out_of_range,
                            public internal::exception_base {
   public:
-    out_of_range(std::string func, std::size_t size, std::ptrdiff_t index)
+    out_of_range(std::string func, std::size_t size, std::ptrdiff_t index,
+                 internal::skip_trace_tag = {})
         : std::out_of_range(""),
           internal::exception_base("y3c::out_of_range", std::move(func),
                                    msg::out_of_range(size, index)) {}
-    out_of_range(std::string func, std::size_t size, std::size_t index)
-        : out_of_range(std::move(func), size,
-                       static_cast<std::ptrdiff_t>(index)) {}
 
     const char *what() const noexcept override {
         return internal::exception_base::what();

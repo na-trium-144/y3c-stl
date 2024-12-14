@@ -3,7 +3,6 @@
 #include <rang.hpp>
 #include <iostream>
 #include <ostream>
-#include <cassert>
 
 Y3C_NS_BEGIN
 namespace internal {
@@ -11,12 +10,12 @@ namespace internal {
 void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
     while (!trace.frames.empty() &&
            (trace.frames.front().symbol.empty() ||
-            trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
-            // Windowsのラムダ式
-            trace.frames.front().symbol.substr(0, 6) == "`y3c::" ||
-            // Macでtemplate関数の場合戻り値型がsymbolに含まれる
-            trace.frames.front().symbol.substr(0, 10) == "void y3c::" ||
-            trace.frames.front().symbol.find("y3c::" Y3C_NS_ABI_S "::unwrap") !=
+            trace.frames.front().symbol.find("y3c::" Y3C_NS_ABI_S
+                                             "::internal::skip_trace_tag") !=
+                std::string::npos ||
+            trace.frames.front().symbol.find(
+                "y3c::" Y3C_NS_ABI_S
+                "::internal::handle_final_terminate_message") !=
                 std::string::npos)) {
         trace.frames.erase(trace.frames.begin());
     }
@@ -96,7 +95,8 @@ void print_y3c_exception(std::ostream &stream, exception_detail &e) {
                e.func.c_str(), e.what.c_str());
 }
 
-void print_current_exception(std::ostream &stream, std::exception_ptr current) {
+void print_current_exception(std::ostream &stream, std::exception_ptr current,
+                             skip_trace_tag = {}) {
     try {
         std::rethrow_exception(current);
     } catch (const y3c::internal::exception_base &e) {
@@ -139,7 +139,7 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
 }
 
 [[noreturn]] void do_terminate_with(terminate_type type, std::string &&func,
-                                    std::string &&what) {
+                                    std::string &&what, skip_trace_tag) {
     exception_detail detail(type, nullptr, std::move(func), std::move(what),
                             cpptrace::generate_raw_trace());
     auto &stream = std::cerr;

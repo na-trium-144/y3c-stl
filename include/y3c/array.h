@@ -15,7 +15,7 @@ Y3C_NS_BEGIN
  * std::arrayと違って集成体初期化はできない
  * (できるようにする必要はあるのか?)
  */
-template <class T, std::size_t N>
+template <typename T, std::size_t N>
 class array : wrap<std::array<T, N>> {
   public:
     array() = default;
@@ -49,20 +49,23 @@ class array : wrap<std::array<T, N>> {
     using const_pointer = const_ptr<T>;
     using value_type = T;
 
-    wrap_auto<T> at(size_type n) {
+    wrap_auto<T> at(size_type n, internal::skip_trace_tag = {}) {
         if (n >= N) {
-            throw y3c::out_of_range("y3c::array::at()", N, n);
+            throw y3c::out_of_range("y3c::array::at()", N,
+                                    static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
                             this->alive());
     }
-    wrap_auto<const T> at(size_type n) const {
+    wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= N) {
-            throw y3c::out_of_range("y3c::array::at()", N, n);
+            throw y3c::out_of_range("y3c::array::at()", N,
+                                    static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
                                   &this->unwrap()[n], this->alive());
     }
+    template <typename = internal::skip_trace_tag>
     wrap_auto<T> operator[](size_type n) {
         if (n >= N) {
             y3c::internal::terminate_ub_out_of_range(
@@ -71,6 +74,7 @@ class array : wrap<std::array<T, N>> {
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
                             this->alive());
     }
+    template <typename = internal::skip_trace_tag>
     wrap_auto<const T> operator[](size_type n) const {
         if (n >= N) {
             y3c::internal::terminate_ub_out_of_range(
@@ -80,7 +84,7 @@ class array : wrap<std::array<T, N>> {
                                   &this->unwrap()[n], this->alive());
     }
 
-    wrap_auto<T> front() {
+    wrap_auto<T> front(internal::skip_trace_tag = {}) {
         if (N == 0) {
             y3c::internal::terminate_ub_out_of_range("y3c::array::front()", N,
                                                      0);
@@ -88,7 +92,7 @@ class array : wrap<std::array<T, N>> {
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().front(),
                             this->alive());
     }
-    wrap_auto<const T> front() const {
+    wrap_auto<const T> front(internal::skip_trace_tag = {}) const {
         if (N == 0) {
             y3c::internal::terminate_ub_out_of_range("y3c::array::front()", N,
                                                      0);
@@ -96,7 +100,7 @@ class array : wrap<std::array<T, N>> {
         return wrap_auto<const T>(&this->unwrap().front(), N,
                                   &this->unwrap().front(), this->alive());
     }
-    wrap_auto<T> back() {
+    wrap_auto<T> back(internal::skip_trace_tag = {}) {
         if (N == 0) {
             y3c::internal::terminate_ub_out_of_range("y3c::array::back()", N,
                                                      0);
@@ -104,7 +108,7 @@ class array : wrap<std::array<T, N>> {
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().back(),
                             this->alive());
     }
-    wrap_auto<const T> back() const {
+    wrap_auto<const T> back(internal::skip_trace_tag = {}) const {
         if (N == 0) {
             y3c::internal::terminate_ub_out_of_range("y3c::array::back()", N,
                                                      0);

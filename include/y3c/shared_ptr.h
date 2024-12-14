@@ -130,7 +130,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     ptr<element_type> get() const noexcept {
         return ptr<element_type>(this->unwrap().get(), ptr_alive_);
     }
-    template <typename U = T>
+    template <typename U = T, typename = internal::skip_trace_tag>
     y3c::wrap_auto<U> operator*() const {
         if (!this->unwrap()) {
             y3c::internal::terminate_ub_access_nullptr(
@@ -139,6 +139,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
         assert(ptr_alive_);
         return y3c::wrap_auto<T>(this->unwrap().get(), ptr_alive_);
     }
+    template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
         if (!this->unwrap()) {
             y3c::internal::terminate_ub_access_nullptr(
