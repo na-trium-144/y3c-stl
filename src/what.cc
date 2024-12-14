@@ -1,14 +1,9 @@
-#include "y3c/exception.h"
+#include "y3c/internal.h"
+#include <sstream>
 
 Y3C_NS_BEGIN
 namespace msg {
 std::string out_of_range(std::size_t size, long long index) {
-    std::ostringstream ss;
-    ss << "attempted to access index " << index
-       << ", that is outside the bounds of size " << size << ".";
-    return ss.str();
-}
-std::string out_of_range(std::size_t size, std::size_t index) {
     std::ostringstream ss;
     ss << "attempted to access index " << index
        << ", that is outside the bounds of size " << size << ".";

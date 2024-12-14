@@ -1,7 +1,6 @@
-#include <y3c/shared_ptr.h>
+#include <y3c/memory>
 
-void some_func() {
+int main() {
     y3c::shared_ptr<int> a = nullptr;
     int v = *a;
 }
-int main() { some_func(); }

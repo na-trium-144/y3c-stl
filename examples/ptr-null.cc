@@ -1,7 +1,6 @@
-#include <y3c/wrap.h>
+#include <y3c/wrap>
 
-void some_func() {
+int main() {
     y3c::ptr<int> a = nullptr;
     int v = *a;
 }
-int main() { some_func(); }

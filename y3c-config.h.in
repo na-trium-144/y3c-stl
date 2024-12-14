@@ -10,7 +10,7 @@
 #if Y3C_SYSTEM_DLLEXPORT
 #ifdef Y3C_BUILDING
 #define Y3C_DLL __declspec(dllexport)
-#else  // !Y3C_BUILDING
+#else // !Y3C_BUILDING
 #define Y3C_DLL __declspec(dllimport)
 #endif // Y3C_BUILDING
 #elif Y3C_SYSTEM_VISIBILITY
@@ -53,11 +53,15 @@
 #endif
 
 #define Y3C_NS_ABI(ver) Y3C_NS_ABI_2(ver)
-#define Y3C_NS_BEGIN                                                      \
-    namespace y3c {                                                       \
+#define Y3C_NS_BEGIN                                                           \
+    namespace y3c {                                                            \
     inline namespace Y3C_NS_ABI(Y3C_ABI_MAJOR) {
-#define Y3C_NS_END                                                        \
-    }                                                                     \
+#define Y3C_NS_END                                                             \
+    }                                                                          \
     }
+
+#define Y3C_NS_ABI_S3(ns) #ns
+#define Y3C_NS_ABI_S2(ns) Y3C_NS_ABI_S3(ns)
+#define Y3C_NS_ABI_S Y3C_NS_ABI_S2(Y3C_NS_ABI(Y3C_ABI_MAJOR))
 
 #endif
