@@ -241,6 +241,13 @@ T &unwrap(const wrap_ref<T> &wrapper) {
  * 値の参照を返す関数が、wrap_ref<T> を返す代わりにこれを返すことで、
  * ユーザーがそれをさらに明示的に wrap_ref<T> にキャストすれば元の参照を返すが、
  * autoで受け取るなどwrap_refにならなかった場合は参照ではなく値をコピーしたものとしてふるまう
+ *
+ * \todo
+ * autoで受け取ったあとしばらく値を変更せずにあとでrefに変換した場合も元の値を参照することになるが、
+ * それは直感的ではない
+ *
+ * ↑ しばらくしてから の定義ってなんだ?
+ *
  */
 template <typename T>
 class wrap_auto : public wrap<typename std::remove_const<T>::type> {
