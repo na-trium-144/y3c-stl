@@ -28,19 +28,19 @@ Y3C_DLL void Y3C_CALL link() noexcept;
  *
  */
 namespace msg {
-Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size, long long index);
-inline std::string Y3C_CALL out_of_range(std::size_t size, std::size_t index) {
-    return out_of_range(size, static_cast<long long>(index));
-}
+Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size,
+                                          std::ptrdiff_t index);
 Y3C_DLL const char *Y3C_CALL access_nullptr();
 Y3C_DLL const char *Y3C_CALL access_deleted();
 } // namespace msg
 
 namespace internal {
-enum class exception_type_enum {
-    exception,
-    undefined_behavior,
-    terminate,
+enum class terminate_type {
+    exception = 0,
+    terminate = 1,
+    ub_out_of_range = 2,
+    ub_access_nullptr = 3,
+    ub_access_deleted = 4,
 };
 
 /*!
@@ -51,12 +51,11 @@ enum class exception_type_enum {
 [[noreturn]] Y3C_DLL void Y3C_CALL handle_final_terminate_message() noexcept;
 /*!
  * 例外を表示して強制終了する
- * 
+ *
  * 内部ではstd::terminate()ではなくstd::abort()を呼んでいる
- * 
+ *
  */
-[[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(exception_type_enum type,
-                                                     const char *e_class,
+[[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_type type,
                                                      std::string &&func,
                                                      std::string &&what);
 
@@ -86,27 +85,33 @@ struct Y3C_DLL exception_base {
  */
 extern Y3C_DLL bool throw_on_terminate;
 
-class exception_terminate {};
-class exception_undefined_behavior {};
+class ub_out_of_range {};
+class ub_access_nullptr {};
+class ub_access_deleted {};
 
-[[noreturn]] inline void terminate(std::string func, std::string what) {
+[[noreturn]] inline void terminate_ub_out_of_range(std::string func,
+                                                   std::size_t size,
+                                                   std::ptrdiff_t index) {
     if (throw_on_terminate) {
-        throw exception_terminate();
-    } else {
-        do_terminate_with(exception_type_enum::terminate, nullptr,
-                          std::move(func), std::move(what));
+        throw ub_out_of_range();
     }
+    do_terminate_with(terminate_type::ub_out_of_range, std::move(func),
+                      msg::out_of_range(size, index));
 }
-[[noreturn]] inline void undefined_behavior(std::string func,
-                                            std::string what) {
+[[noreturn]] inline void terminate_ub_access_nullptr(std::string func) {
     if (throw_on_terminate) {
-        throw exception_undefined_behavior();
-    } else {
-        do_terminate_with(exception_type_enum::undefined_behavior, nullptr,
-                          std::move(func), std::move(what));
+        throw ub_access_nullptr();
     }
+    do_terminate_with(terminate_type::ub_access_nullptr, std::move(func),
+                      msg::access_nullptr());
 }
-
+[[noreturn]] inline void terminate_ub_access_deleted(std::string func) {
+    if (throw_on_terminate) {
+        throw ub_access_deleted();
+    }
+    do_terminate_with(terminate_type::ub_access_deleted, std::move(func),
+                      msg::access_deleted());
+}
 } // namespace internal
 
 /*!
@@ -121,12 +126,13 @@ class exception_undefined_behavior {};
 class out_of_range final : public std::out_of_range,
                            public internal::exception_base {
   public:
-    out_of_range(std::string func, std::size_t size, long long index)
+    out_of_range(std::string func, std::size_t size, std::ptrdiff_t index)
         : std::out_of_range(""),
           internal::exception_base("y3c::out_of_range", std::move(func),
                                    msg::out_of_range(size, index)) {}
     out_of_range(std::string func, std::size_t size, std::size_t index)
-        : out_of_range(std::move(func), size, static_cast<long long>(index)) {}
+        : out_of_range(std::move(func), size,
+                       static_cast<std::ptrdiff_t>(index)) {}
 
     const char *what() const noexcept override {
         return internal::exception_base::what();

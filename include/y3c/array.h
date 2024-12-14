@@ -54,63 +54,63 @@ class array : wrap<std::array<T, N>> {
             throw y3c::out_of_range("y3c::array::at()", N, n);
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                         this->alive());
+                            this->alive());
     }
     wrap_auto<const T> at(size_type n) const {
         if (n >= N) {
             throw y3c::out_of_range("y3c::array::at()", N, n);
         }
-        return wrap_auto<const T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                               this->alive());
+        return wrap_auto<const T>(&this->unwrap().front(), N,
+                                  &this->unwrap()[n], this->alive());
     }
     wrap_auto<T> operator[](size_type n) {
         if (n >= N) {
-            y3c::internal::undefined_behavior("y3c::array::operator[]()",
-                                              y3c::msg::out_of_range(N, n));
+            y3c::internal::terminate_ub_out_of_range(
+                "y3c::array::operator[]()", N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                         this->alive());
+                            this->alive());
     }
     wrap_auto<const T> operator[](size_type n) const {
         if (n >= N) {
-            y3c::internal::undefined_behavior("y3c::array::operator[]()",
-                                              y3c::msg::out_of_range(N, n));
+            y3c::internal::terminate_ub_out_of_range(
+                "y3c::array::operator[]()", N, static_cast<std::ptrdiff_t>(n));
         }
-        return wrap_auto<const T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                               this->alive());
+        return wrap_auto<const T>(&this->unwrap().front(), N,
+                                  &this->unwrap()[n], this->alive());
     }
 
     wrap_auto<T> front() {
         if (N == 0) {
-            y3c::internal::undefined_behavior("y3c::array::front()",
-                                              y3c::msg::out_of_range(N, 0LL));
+            y3c::internal::terminate_ub_out_of_range("y3c::array::front()", N,
+                                                     0);
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().front(),
-                         this->alive());
+                            this->alive());
     }
     wrap_auto<const T> front() const {
         if (N == 0) {
-            y3c::internal::undefined_behavior("y3c::array::front()",
-                                              y3c::msg::out_of_range(N, 0LL));
+            y3c::internal::terminate_ub_out_of_range("y3c::array::front()", N,
+                                                     0);
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
-                               &this->unwrap().front(), this->alive());
+                                  &this->unwrap().front(), this->alive());
     }
     wrap_auto<T> back() {
         if (N == 0) {
-            y3c::internal::undefined_behavior("y3c::array::back()",
-                                              y3c::msg::out_of_range(N, 0LL));
+            y3c::internal::terminate_ub_out_of_range("y3c::array::back()", N,
+                                                     0);
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().back(),
-                         this->alive());
+                            this->alive());
     }
     wrap_auto<const T> back() const {
         if (N == 0) {
-            y3c::internal::undefined_behavior("y3c::array::back()",
-                                              y3c::msg::out_of_range(N, 0LL));
+            y3c::internal::terminate_ub_out_of_range("y3c::array::back()", N,
+                                                     0);
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
-                               &this->unwrap().back(), this->alive());
+                                  &this->unwrap().back(), this->alive());
     }
 
     pointer data() {

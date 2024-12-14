@@ -7,13 +7,13 @@ Y3C_NS_BEGIN
 namespace internal {
 
 struct exception_detail {
-    exception_type_enum type;
+    terminate_type type;
     const char *e_class;
     std::string func;
     std::string what;
     cpptrace::raw_trace raw_trace;
 
-    exception_detail(exception_type_enum type, const char *e_class,
+    exception_detail(terminate_type type, const char *e_class,
                      std::string &&func, std::string &&what,
                      cpptrace::raw_trace &&raw_trace);
 };

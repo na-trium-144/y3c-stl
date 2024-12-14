@@ -40,7 +40,7 @@ TEST_CASE("wrap") {
         CHECK_EQ(unwrap(r).val, 200);
     }
 
-    CHECK_THROWS_AS(p->val, y3c::internal::exception_undefined_behavior);
+    CHECK_THROWS_AS(p->val, y3c::internal::ub_access_deleted);
 
     {
         y3c::wrap<int> i = 1;
@@ -57,7 +57,7 @@ TEST_CASE("wrap") {
         CHECK_LT(p2, p3);
         p2++;
         CHECK_EQ(p2, p3);
-        CHECK_THROWS_AS(*p2, y3c::internal::exception_undefined_behavior);
+        CHECK_THROWS_AS(*p2, y3c::internal::ub_out_of_range);
     }
     {
         y3c::wrap<int> a = 1;

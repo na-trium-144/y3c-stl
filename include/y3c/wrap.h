@@ -149,16 +149,16 @@ class wrap_ref {
   protected:
     element_type *ptr_unwrap(const char *func) const {
         if (!ptr_) {
-            y3c::internal::undefined_behavior(func, y3c::msg::access_nullptr());
+            y3c::internal::terminate_ub_access_nullptr(func);
         }
         assert(range_alive_);
         if (!*range_alive_) {
-            y3c::internal::undefined_behavior(func, y3c::msg::access_deleted());
+            y3c::internal::terminate_ub_access_deleted(func);
         }
-        if (ptr_ - begin_ < 0 || ptr_ - begin_ >= size_) {
-            y3c::internal::undefined_behavior(
-                func, y3c::msg::out_of_range(
-                          size_, static_cast<long long>(ptr_ - begin_)));
+        if (ptr_ - begin_ < 0 ||
+            ptr_ - begin_ >= static_cast<std::ptrdiff_t>(size_)) {
+            y3c::internal::terminate_ub_out_of_range(func, size_,
+                                                     ptr_ - begin_);
         }
         return ptr_;
     }
@@ -363,17 +363,16 @@ class ptr : public wrap<T *> {
 
     element_type *ptr_unwrap(const char *func) const {
         if (!this->unwrap()) {
-            y3c::internal::undefined_behavior(func, y3c::msg::access_nullptr());
+            y3c::internal::terminate_ub_access_nullptr(func);
         }
         assert(range_alive_);
         if (!*range_alive_) {
-            y3c::internal::undefined_behavior(func, y3c::msg::access_deleted());
+            y3c::internal::terminate_ub_access_deleted(func);
         }
-        if (this->unwrap() - begin_ < 0 || this->unwrap() - begin_ >= size_) {
-            y3c::internal::undefined_behavior(
-                func,
-                y3c::msg::out_of_range(
-                    size_, static_cast<long long>(this->unwrap() - begin_)));
+        if (this->unwrap() - begin_ < 0 ||
+            this->unwrap() - begin_ >= static_cast<std::ptrdiff_t>(size_)) {
+            y3c::internal::terminate_ub_out_of_range(func, size_,
+                                                     this->unwrap() - begin_);
         }
         return this->unwrap();
     }

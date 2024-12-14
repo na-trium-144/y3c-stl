@@ -16,7 +16,8 @@ void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
             trace.frames.front().symbol.substr(0, 6) == "`y3c::" ||
             // Macでtemplate関数の場合戻り値型がsymbolに含まれる
             trace.frames.front().symbol.substr(0, 10) == "void y3c::" ||
-            trace.frames.front().symbol.find("y3c::" Y3C_NS_ABI_S "::unwrap") != std::string::npos)) {
+            trace.frames.front().symbol.find("y3c::" Y3C_NS_ABI_S "::unwrap") !=
+                std::string::npos)) {
         trace.frames.erase(trace.frames.begin());
     }
     while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
@@ -72,27 +73,33 @@ void print_what(std::ostream &stream, const char *e_class, const char *func,
 }
 void print_y3c_exception(std::ostream &stream, exception_detail &e) {
     switch (e.type) {
-    case exception_type_enum::exception:
+    case terminate_type::exception:
         stream << rang::style::bold << "exception thrown";
         break;
-    case exception_type_enum::terminate:
-        stream << rang::style::bold << "terminate() called";
-        break;
-    case exception_type_enum::undefined_behavior:
+    // case terminate_type::terminate:
+    //     stream << rang::style::bold << "terminate() called";
+    //     break;
+    case terminate_type::ub_out_of_range:
+    case terminate_type::ub_access_nullptr:
+    case terminate_type::ub_access_deleted:
         stream << rang::style::bold << "undefined behavior detected";
+        break;
+    default:
+        stream << rang::style::italic << rang::fg::red
+               << "error: invalid terminate type " << static_cast<int>(e.type);
         break;
     }
     stream << rang::style::reset << std::endl;
 
     print_what(stream,
-               e.type == exception_type_enum::exception ? e.e_class : nullptr,
+               e.type == terminate_type::exception ? e.e_class : nullptr,
                e.func.c_str(), e.what.c_str());
 }
 
 void print_current_exception(std::ostream &stream, std::exception_ptr current) {
     try {
         std::rethrow_exception(current);
-    }catch (const y3c::internal::exception_base &e){
+    } catch (const y3c::internal::exception_base &e) {
         auto detail = std::static_pointer_cast<exception_detail>(e.detail);
         print_y3c_exception(stream, *detail);
         auto trace = detail->raw_trace.resolve();
@@ -131,12 +138,10 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current) {
     std::abort();
 }
 
-[[noreturn]] void do_terminate_with(exception_type_enum type,
-                                    const char *e_class, std::string &&func,
+[[noreturn]] void do_terminate_with(terminate_type type, std::string &&func,
                                     std::string &&what) {
-    exception_detail detail(type, e_class, std::move(func),
-                                       std::move(what),
-                                       cpptrace::generate_raw_trace());
+    exception_detail detail(type, nullptr, std::move(func), std::move(what),
+                            cpptrace::generate_raw_trace());
     auto &stream = std::cerr;
     rang::setControlMode(rang::control::Force);
     print_header(stream);
