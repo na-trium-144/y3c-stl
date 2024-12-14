@@ -33,12 +33,13 @@ template <typename T>
 T &unwrap(const wrap_ref<T> &wrapper, internal::skip_trace_tag = {});
 
 /*!
- * T型のデータ(base_)と、このコンテナの生存状態(alive_)を持つクラス
- *
+ * \brief T型のデータ(base_)と、このコンテナの生存状態(alive_)を管理するクラス
  * y3cの各コンテナ型のベース
  *
- * alive_はshared_ptrとして wrap_ref
- * に渡され、wrapが破棄される時にfalseにする
+ * * alive_は wrap_ref や ptr を生成したときに渡され、
+ * wrapが破棄される時にfalseにする
+ * * `operator&` で y3c::ptr<T> が得られる
+ * * y3c::wrap_ref<T> にキャストできる
  *
  */
 template <typename T>
@@ -123,14 +124,15 @@ const T &unwrap(const wrap<T> &wrapper) noexcept {
 }
 
 /*!
- * T型のデータへのポインタと、その生存状態を持つクラス
+ * \brief T型のデータへのポインタと、その生存状態を持つクラス
  *
- * wrap<remove_const_t<T>> の左辺値からキャストできる
+ * * `T&`へのキャスト時と、`y3c::unwrap()` 時に参照先が生きているかなどのチェックを行う。
+ * キャストとy3c::unwrapでチェックが入るのは (今のところ) wrap_ref のみ。
+ * * y3c::wrap<remove_const_t<T>> の左辺値からキャストできる
+ * * y3c::wrap_ref<T> から y3c::const_wrap_ref<T> にキャストできる
+ * * `operator&` で y3c::ptr<T> が得られる
  *
- * wrap_ref<T> から const_wrap_ref<T> にキャストできる
- *
- * const_wrap_ref<T> = wrap_ref<const T> = const T &
- *
+ * \sa const_wrap_ref
  */
 template <typename T>
 class wrap_ref {
@@ -243,10 +245,12 @@ T &unwrap(const wrap_ref<T> &wrapper, internal::skip_trace_tag) {
 }
 
 /*!
- * 値の参照を返す関数が、wrap_ref<T> を返す代わりにこれを返すことで、
- * ユーザーがそれをさらに明示的に wrap_ref<T> にキャストすれば元の参照を返すが、
+ * 値の参照を返す関数が、y3c::wrap_ref<T> を返す代わりにこれを返すことで、
+ * ユーザーがそれをさらに明示的に y3c::wrap_ref<T> にキャストすれば元の参照を返すが、
  * autoで受け取るなどwrap_refにならなかった場合は参照ではなく値をコピーしたものとしてふるまう
  *
+ * * `operator&` で y3c::ptr<T> が得られる
+ * 
  * \todo
  * autoで受け取ったあとしばらく値を変更せずにあとでrefに変換した場合も元の値を参照することになるが、
  * それは直感的ではない
@@ -329,21 +333,16 @@ T &unwrap(const wrap_auto<T> &wrapper, internal::skip_trace_tag = {}) {
 }
 
 /*!
- * 生ポインタのラッパー。
+ * \brief 生ポインタ T* のラッパー
  *
- * `*ptr` と `ptr->`
- * 使用時にnullptrでないかと、参照先が生きているかのチェックを行う。
+ * * `operator*`, `operator->`, `operator[]`
+ * 時にnullptrチェックと範囲外アクセスチェックをする
+ * 使用時にnullptrでないかと範囲外でないかのチェックを行う。
+ * * また `operator*`, `operator[]` が返す参照はラップ済み (y3c::wrap_auto)
+ * * `T*` にキャストできるがその場合チェックされないので注意
+ * * y3c::ptr<T> から y3c::const_ptr<T> にキャストできる
  *
- * T* にキャストできるがその場合チェックされないので注意
- *
- * ptr<T> から const_ptr<T> にキャストできる
- *
- * const_ptr<T> = ptr<const T> = const T *
- *
- * ptr_const<T> = const ptr<T> = T *const
- *
- * const_ptr_const<T> = const ptr<const T> = const T *const
- *
+ * \sa y3c::const_ptr, y3c::ptr_const, y3c::const_ptr_const
  */
 template <typename T, internal::ptr_type_enum ptr_type>
 class ptr : public wrap<T *> {
