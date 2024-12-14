@@ -11,7 +11,8 @@ namespace internal {
                                     const char *e_class, std::string &&func,
                                     std::string &&what) {
     get_global_storage().add_exception(type, e_class, std::move(func),
-                                       std::move(what));
+                                       std::move(what),
+                                       cpptrace::generate_raw_trace());
     std::terminate();
 }
 
@@ -19,7 +20,7 @@ exception_base::exception_base(const char *e_class, std::string &&func,
                                std::string &&what)
     : detail_id_(get_global_storage().add_exception(
           exception_type_enum::exception, e_class, std::move(func),
-          std::move(what))) {}
+          std::move(what), cpptrace::generate_raw_trace())) {}
 exception_base::exception_base(const exception_base &other)
     : detail_id_(get_global_storage().copy_exception(other.detail_id_)) {}
 exception_base &exception_base::operator=(const exception_base &other) {
@@ -37,9 +38,10 @@ bool throw_on_terminate = false;
 
 exception_detail::exception_detail(exception_type_enum type,
                                    const char *e_class, std::string &&func,
-                                   std::string &&what)
+                                   std::string &&what,
+                                   cpptrace::raw_trace &&raw_trace)
     : type(type), e_class(e_class), func(std::move(func)),
-      what(std::move(what)), raw_trace(cpptrace::generate_raw_trace()) {}
+      what(std::move(what)), raw_trace(std::move(raw_trace)) {}
 
 global_storage::global_storage() {
     std::set_terminate(handle_final_terminate_message);
@@ -52,7 +54,8 @@ global_storage::~global_storage() {
 }
 
 int global_storage::add_exception(exception_type_enum type, const char *e_class,
-                                  std::string &&func, std::string &&what) {
+                                  std::string &&func, std::string &&what,
+                                  cpptrace::raw_trace &&raw_trace) {
     if (!alive()) {
         return 0;
     }
@@ -61,9 +64,9 @@ int global_storage::add_exception(exception_type_enum type, const char *e_class,
         return 0;
     }
     int detail_id = ++last_detail_id;
-    exceptions.emplace(detail_id,
-                       std::make_shared<exception_detail>(
-                           type, e_class, std::move(func), std::move(what)));
+    exceptions.emplace(detail_id, std::make_shared<exception_detail>(
+                                      type, e_class, std::move(func),
+                                      std::move(what), std::move(raw_trace)));
     return detail_id;
 }
 int global_storage::copy_exception(int old_detail_id) {

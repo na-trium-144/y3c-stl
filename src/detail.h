@@ -17,7 +17,8 @@ struct exception_detail {
     cpptrace::raw_trace raw_trace;
 
     exception_detail(exception_type_enum type, const char *e_class,
-                     std::string &&func, std::string &&what);
+                     std::string &&func, std::string &&what,
+                     cpptrace::raw_trace &&raw_trace);
 };
 
 /*!
@@ -44,7 +45,8 @@ class global_storage {
 
     bool alive() const noexcept { return initialized; }
     int add_exception(exception_type_enum type, const char *e_class,
-                      std::string &&func, std::string &&what);
+                      std::string &&func, std::string &&what,
+                      cpptrace::raw_trace &&raw_trace);
     void remove_exception(int detail_id);
     int copy_exception(int old_detail_id);
 

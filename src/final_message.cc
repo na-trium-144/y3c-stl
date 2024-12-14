@@ -12,7 +12,7 @@ void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
     while (!trace.frames.empty() &&
            (trace.frames.front().symbol.empty() ||
             trace.frames.front().symbol.substr(0, 5) == "y3c::" ||
-            trace.frames.front().symbol.find(" y3c::") != std::string::npos)) {
+            trace.frames.front().symbol.substr(0, 10) == "void y3c::")) {
         trace.frames.erase(trace.frames.begin());
     }
     while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
