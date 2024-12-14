@@ -1,4 +1,4 @@
-#include "y3c/internal.h"
+#include <y3c/wrap>
 #include <exception>
 
 void func3() { std::terminate(); }

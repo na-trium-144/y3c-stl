@@ -133,3 +133,20 @@ y3c:: のラッパークラス以外が投げた標準のexceptionや、直接 `
 
 ただしいずれもチェックされる条件として生ポインタや参照の代わりに `y3c::ptr`, `y3c::wrap_ref` などを使用することに加えて、
 アクセスする対象も y3c:: のクラスまたは `y3c::wrap` でラップされている必要があります
+
+### 実装済みの関数、クラス一覧
+
+* `#include <y3c/wrap>` (y3c独自のユーティリティ関数、STLのクラスに属さないものなど)
+    * `y3c::link()`
+    * `y3c::unwrap(y3c::wrap<T>)`
+    * `y3c::wrap<T>` ← `T`
+    * `y3c::wrap_ref<T>` ← `T&`
+        * `y3c::const_wrap_ref<T>` ← `const T&`
+    * `y3c::ptr<T>` ← `T*`
+        * `y3c::const_ptr<T>` ← `const T*`
+        * `y3c::ptr_const<T>` ← `T* const`
+        * `y3c::const_ptr_const<T>` ← `const T* const`
+* `#include <y3c/array>`
+    * `y3c::array<T, N>` ← `std::array<T, N>`
+* `#include <y3c/memory>`
+    * `y3c::shared_ptr<T>` ← `std::shared_ptr<T>`

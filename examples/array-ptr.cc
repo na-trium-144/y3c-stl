@@ -1,4 +1,4 @@
-#include <y3c/array.h>
+#include <y3c/array>
 #include <iostream>
 
 int main() {

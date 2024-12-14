@@ -2,7 +2,6 @@
 #include "y3c/internal.h"
 #include "y3c/wrap.h"
 #include <memory>
-#include <type_traits>
 
 Y3C_NS_BEGIN
 

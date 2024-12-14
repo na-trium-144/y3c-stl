@@ -1,4 +1,4 @@
-#include <y3c/shared_ptr.h>
+#include <y3c/memory>
 
 int main() {
     y3c::shared_ptr<int> a = nullptr;

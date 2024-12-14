@@ -1,4 +1,4 @@
-#include <y3c/wrap.h>
+#include <y3c/wrap>
 
 int main() {
     y3c::ptr<int> a = nullptr;

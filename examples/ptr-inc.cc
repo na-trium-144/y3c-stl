@@ -1,4 +1,4 @@
-#include <y3c/wrap.h>
+#include <y3c/wrap>
 #include <iostream>
 
 int main() {

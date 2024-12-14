@@ -1,4 +1,4 @@
-#include <y3c/array.h>
+#include <y3c/array>
 
 int main() {
     y3c::array<int, 5> a;
