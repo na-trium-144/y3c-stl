@@ -4,6 +4,7 @@ examples = [
   'array-operator',
   'array-ptr-local',
   'array-ptr',
+  'catch',
   'ptr-inc',
   'ptr-local',
   'ptr-null',
