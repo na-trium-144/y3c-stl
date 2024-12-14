@@ -214,7 +214,7 @@ class wrap_ref {
     template <typename = internal::skip_trace_tag>
     wrap_ref &operator=(wrap_ref &&other) {
         T &val = *other.ptr_unwrap("cast from y3c::wrap_ref to reference");
-        if (this != &other) {
+        if (this != std::addressof(other)) {
             *ptr_unwrap("y3c::wrap_ref::operator=()") = std::move(val);
         }
         return *this;
@@ -302,14 +302,14 @@ class wrap_auto : public wrap<typename std::remove_const<T>::type> {
     }
     wrap_auto &operator=(const wrap_auto &other) {
         clear_ref();
-        if (this != &other) {
+        if (this != std::addressof(other)) {
             this->wrap<base_type>::operator=(other);
         }
         return *this;
     }
     wrap_auto &operator=(wrap_auto &&other) {
         clear_ref();
-        if (this != &other) {
+        if (this != std::addressof(other)) {
             this->wrap<base_type>::operator=(other);
         }
         return *this;
@@ -463,9 +463,11 @@ class ptr : public wrap<T *> {
         return this->unwrap() - other.ptr_;
     }
     template <typename = internal::skip_trace_tag>
-    element_type &operator[](std::ptrdiff_t n) const {
+    wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
         static std::string func_name = func_name_() + "::operator[]()";
-        return *(*this + n).ptr_unwrap(func_name.c_str());
+        return wrap_auto<element_type>(
+            begin_, size_, (*this + n).ptr_unwrap(func_name.c_str()),
+            range_alive_);
     }
 };
 template <typename T>

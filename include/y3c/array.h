@@ -16,7 +16,7 @@ Y3C_NS_BEGIN
  * (できるようにする必要はあるのか?)
  */
 template <typename T, std::size_t N>
-class array : wrap<std::array<T, N>> {
+class array : public wrap<std::array<T, N>> {
   public:
     array() = default;
     template <typename... Args>
