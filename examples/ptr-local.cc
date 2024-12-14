@@ -5,6 +5,7 @@ int main() {
     y3c::ptr<int> p;
     {
         y3c::wrap<int> a = 42;
+        p = &a;
         std::cout << *p << std::endl;
     }
     std::cout << *p << std::endl;

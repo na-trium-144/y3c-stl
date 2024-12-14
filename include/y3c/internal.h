@@ -6,6 +6,7 @@
 #endif
 #include <stdexcept>
 #include <string>
+#include <memory>
 
 Y3C_NS_BEGIN
 
@@ -49,8 +50,10 @@ enum class exception_type_enum {
  */
 [[noreturn]] Y3C_DLL void Y3C_CALL handle_final_terminate_message() noexcept;
 /*!
- * y3c::global_storage に今から投げる例外を登録し、std::terminate()する
- *
+ * 例外を表示して強制終了する
+ * 
+ * 内部ではstd::terminate()ではなくstd::abort()を呼んでいる
+ * 
  */
 [[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(exception_type_enum type,
                                                      const char *e_class,
@@ -64,15 +67,11 @@ enum class exception_type_enum {
  * what() は通常の例外と同様短いメッセージを返す。
  *
  */
-class Y3C_DLL exception_base {
-    int detail_id_;
-
-  public:
+struct Y3C_DLL exception_base {
     explicit exception_base(const char *e_class, std::string &&func,
                             std::string &&what);
-    exception_base(const exception_base &);
-    exception_base &operator=(const exception_base &);
-    ~exception_base() noexcept;
+    std::shared_ptr<void> detail;
+    const char *what() const noexcept;
 };
 
 /*!
@@ -119,14 +118,19 @@ class exception_undefined_behavior {};
  * (catchできるけど...)
  *
  */
-class out_of_range final : public std::out_of_range, internal::exception_base {
+class out_of_range final : public std::out_of_range,
+                           public internal::exception_base {
   public:
     out_of_range(std::string func, std::size_t size, long long index)
-        : std::out_of_range(msg::out_of_range(size, index)),
+        : std::out_of_range(""),
           internal::exception_base("y3c::out_of_range", std::move(func),
                                    msg::out_of_range(size, index)) {}
     out_of_range(std::string func, std::size_t size, std::size_t index)
         : out_of_range(std::move(func), size, static_cast<long long>(index)) {}
+
+    const char *what() const noexcept override {
+        return internal::exception_base::what();
+    }
 };
 
 Y3C_NS_END
