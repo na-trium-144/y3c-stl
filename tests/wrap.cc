@@ -77,25 +77,31 @@ TEST_CASE("wrap") {
     }
 
     {
-        y3c::wrap<int> a = 1;
+        y3c::wrap<int> a = 0;
         y3c::ptr<int> p = &a;
         auto r1 = *p; // wrap_auto
-        r1 = 2;       // 参照切れる
-        CHECK_EQ(unwrap(a), 1);
-        CHECK_EQ(unwrap(*p), 1);
-        CHECK_EQ(unwrap(r1), 2);
-
-        y3c::wrap_ref<int> r3 = r1; // もうaの参照は持っていないが、r1を参照する
-        r3 = 4;
-        CHECK_EQ(unwrap(a), 1);
-        CHECK_EQ(unwrap(*p), 1);
-        CHECK_EQ(unwrap(r1), 4);
-        CHECK_EQ(unwrap(r3), 4);
+        r1 = 1;       // 参照切れる
+        CHECK_EQ(unwrap(a), 0);
+        CHECK_EQ(unwrap(*p), 0);
+        CHECK_EQ(unwrap(r1), 1);
 
         y3c::wrap_ref<int> r2 = *p; // wrap_ref
-        r2 = 3;                     // 参照のまま
-        CHECK_EQ(unwrap(a), 3);
-        CHECK_EQ(unwrap(*p), 3);
-        CHECK_EQ(unwrap(r2), 3);
+        r2 = 2;                     // 参照のまま
+        CHECK_EQ(unwrap(a), 2);
+        CHECK_EQ(unwrap(*p), 2);
+        CHECK_EQ(unwrap(r2), 2);
+
+        y3c::wrap_ref<int> r3 = r1; // もうaの参照は持っていないが、r1を参照する
+        r3 = 3;
+        CHECK_EQ(unwrap(a), 2);
+        CHECK_EQ(unwrap(*p), 2);
+        CHECK_EQ(unwrap(r1), 3);
+        CHECK_EQ(unwrap(r3), 3);
+
+        int &r4 = unwrap(*p); // 参照
+        r4 = 4;
+        CHECK_EQ(unwrap(a), 4);
+        CHECK_EQ(unwrap(*p), 4);
+        CHECK_EQ(r4, 4);
     }
 }
