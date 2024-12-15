@@ -118,8 +118,8 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     ptr<element_type> get() const noexcept {
         return ptr<element_type>(this->unwrap().get(), ptr_alive_);
     }
-    template <typename U = T, typename = internal::skip_trace_tag>
-    y3c::wrap_auto<U> operator*() const {
+    template <typename = internal::skip_trace_tag>
+    y3c::wrap_auto<T> operator*() const {
         if (!this->unwrap()) {
             y3c::internal::terminate_ub_access_nullptr(
                 "y3c::shared_ptr::operator*()");
@@ -149,41 +149,42 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     bool owner_before(const shared_ptr &arg) const {
         return this->unwrap().owner_before(arg.base_);
     }
-
-    friend bool operator==(const shared_ptr &lhs,
-                           const shared_ptr &rhs) noexcept {
-        return unwrap(lhs) == unwrap(rhs);
-    }
-    friend bool operator!=(const shared_ptr &lhs,
-                           const shared_ptr &rhs) noexcept {
-        return unwrap(lhs) != unwrap(rhs);
-    }
-    friend bool operator<(const shared_ptr &lhs,
-                          const shared_ptr &rhs) noexcept {
-        return unwrap(lhs) < unwrap(rhs);
-    }
-    friend bool operator<=(const shared_ptr &lhs,
-                           const shared_ptr &rhs) noexcept {
-        return unwrap(lhs) <= unwrap(rhs);
-    }
-    friend bool operator>(const shared_ptr &lhs,
-                          const shared_ptr &rhs) noexcept {
-        return unwrap(lhs) > unwrap(rhs);
-    }
-    friend bool operator>=(const shared_ptr &lhs,
-                           const shared_ptr &rhs) noexcept {
-        return unwrap(lhs) >= unwrap(rhs);
-    }
-    template <class CharT, class Traits>
-    friend std::basic_ostream<CharT, Traits> &
-    operator<<(std::basic_ostream<CharT, Traits> &os, const shared_ptr &p) {
-        return os << unwrap(p);
-    }
 };
 
 template <typename T>
 void swap(shared_ptr<T> &lhs, shared_ptr<T> &rhs) noexcept {
     lhs.swap(rhs);
+}
+
+template <typename T, typename U>
+bool operator==(const shared_ptr<T> &lhs, const shared_ptr<U> &rhs) noexcept {
+    return unwrap(lhs) == unwrap(rhs);
+}
+template <typename T, typename U>
+bool operator!=(const shared_ptr<T> &lhs, const shared_ptr<U> &rhs) noexcept {
+    return unwrap(lhs) != unwrap(rhs);
+}
+template <typename T, typename U>
+bool operator<(const shared_ptr<T> &lhs, const shared_ptr<U> &rhs) noexcept {
+    return unwrap(lhs) < unwrap(rhs);
+}
+template <typename T, typename U>
+bool operator<=(const shared_ptr<T> &lhs, const shared_ptr<U> &rhs) noexcept {
+    return unwrap(lhs) <= unwrap(rhs);
+}
+template <typename T, typename U>
+bool operator>(const shared_ptr<T> &lhs, const shared_ptr<U> &rhs) noexcept {
+    return unwrap(lhs) > unwrap(rhs);
+}
+template <typename T, typename U>
+bool operator>=(const shared_ptr<T> &lhs, const shared_ptr<U> &rhs) noexcept {
+    return unwrap(lhs) >= unwrap(rhs);
+}
+
+template <class CharT, class Traits, typename T>
+std::basic_ostream<CharT, Traits> &
+operator<<(std::basic_ostream<CharT, Traits> &os, const shared_ptr<T> &p) {
+    return os << unwrap(p);
 }
 
 template <typename T, typename... Args>
