@@ -126,7 +126,8 @@ const T &unwrap(const wrap<T> &wrapper) noexcept {
 /*!
  * \brief T型のデータへのポインタと、その生存状態を持つクラス
  *
- * * `T&`へのキャスト時と、`y3c::unwrap()` 時に参照先が生きているかなどのチェックを行う。
+ * * `T&`へのキャスト時と、`y3c::unwrap()`
+ * 時に参照先が生きているかなどのチェックを行う。
  * キャストとy3c::unwrapでチェックが入るのは (今のところ) wrap_ref のみ。
  * * y3c::wrap<remove_const_t<T>> の左辺値からキャストできる
  * * y3c::wrap_ref<T> から y3c::const_wrap_ref<T> にキャストできる
@@ -151,10 +152,11 @@ class wrap_ref {
   protected:
     element_type *ptr_unwrap(const char *func,
                              internal::skip_trace_tag = {}) const {
-        if (!ptr_) {
+        // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
+        // になる場合があるが、 その場合はnullptrアクセスエラーとしない
+        if (!range_alive_) {
             y3c::internal::terminate_ub_access_nullptr(func);
         }
-        assert(range_alive_);
         if (!*range_alive_) {
             y3c::internal::terminate_ub_access_deleted(func);
         }
@@ -246,11 +248,12 @@ T &unwrap(const wrap_ref<T> &wrapper, internal::skip_trace_tag) {
 
 /*!
  * 値の参照を返す関数が、y3c::wrap_ref<T> を返す代わりにこれを返すことで、
- * ユーザーがそれをさらに明示的に y3c::wrap_ref<T> にキャストすれば元の参照を返すが、
+ * ユーザーがそれをさらに明示的に y3c::wrap_ref<T>
+ * にキャストすれば元の参照を返すが、
  * autoで受け取るなどwrap_refにならなかった場合は参照ではなく値をコピーしたものとしてふるまう
  *
  * * `operator&` で y3c::ptr<T> が得られる
- * 
+ *
  * \todo
  * autoで受け取ったあとしばらく値を変更せずにあとでrefに変換した場合も元の値を参照することになるが、
  * それは直感的ではない
@@ -367,10 +370,11 @@ class ptr : public wrap<T *> {
 
     element_type *ptr_unwrap(const char *func,
                              internal::skip_trace_tag = {}) const {
-        if (!this->unwrap()) {
+        // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
+        // になる場合があるが、 その場合はnullptrアクセスエラーとしない
+        if (!range_alive_) {
             y3c::internal::terminate_ub_access_nullptr(func);
         }
-        assert(range_alive_);
         if (!*range_alive_) {
             y3c::internal::terminate_ub_access_deleted(func);
         }

@@ -24,7 +24,7 @@ struct B : A {
 };
 
 TEST_CASE_TEMPLATE("shared_ptr ctor", P, y3c::shared_ptr<A>, y3c::shared_ptr<B>,
-                   std::shared_ptr<A>, std::shared_ptr<A>) {
+                   std::shared_ptr<A>, std::shared_ptr<B>) {
     using element_type = typename P::element_type; // A or B
     P a = std::make_shared<element_type>(100);
     y3c::shared_ptr<A> *p;
