@@ -1,7 +1,6 @@
 [wrap-git]
-url = https://github.com/na-trium-144/libdwarf-code.git
-# revision = v0.11.1
-revision = fix-meson-static
+url = https://github.com/davea42/libdwarf-code.git
+revision = 3ea552f49f7e38ed3dfaff82cebfef62a8f47586
 depth = 1
 
 [provide]
