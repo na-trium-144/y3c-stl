@@ -86,12 +86,12 @@ TEST_CASE("array") {
                         y3c::internal::ub_out_of_range);
         CHECK_THROWS_AS(unwrap(*(e.data())), y3c::internal::ub_out_of_range);
 
-        CHECK_EQ(&unwrap(*a.begin()), unwrap(a).begin());
-        CHECK_EQ(&unwrap(*a.cbegin()), unwrap(a).cbegin());
+        CHECK_EQ(&unwrap(*a.begin()), &*unwrap(a).begin());
+        CHECK_EQ(&unwrap(*a.cbegin()), &*unwrap(a).cbegin());
         CHECK_THROWS_AS(*a.end(), y3c::internal::ub_out_of_range);
         CHECK_THROWS_AS(*a.cend(), y3c::internal::ub_out_of_range);
-        CHECK_EQ(unwrap(a.end()), unwrap(a).begin() + 2);
-        CHECK_EQ(unwrap(a.cend()), unwrap(a).cbegin() + 2);
+        CHECK_EQ(unwrap(a.end()), &*unwrap(a).begin() + 2);
+        CHECK_EQ(unwrap(a.cend()), &*unwrap(a).cbegin() + 2);
         CHECK_THROWS_AS(*e.begin(), y3c::internal::ub_out_of_range);
         CHECK_THROWS_AS(*e.cbegin(), y3c::internal::ub_out_of_range);
         CHECK_THROWS_AS(*e.end(), y3c::internal::ub_out_of_range);
