@@ -8,7 +8,7 @@ Y3C_NS_BEGIN
 /*!
  * `at()`, `operator[]`, `front()`, `back()` で範囲外アクセスを検出する
  *
- * `data()`, `begin()`, `end()`
+ * `at()`, `operator[]`, `front()`, `back()`, `data()`, `begin()`, `end()`
  * などが返すポインタ、イテレータはラップされたものであり、
  * 使用時に範囲外でないかと参照先が生きているかのチェックができる。
  *
@@ -16,10 +16,17 @@ Y3C_NS_BEGIN
  * (できるようにする必要はあるのか?)
  */
 template <typename T, std::size_t N>
-class array : wrap<std::array<T, N>> {
+class array : public wrap<std::array<T, N>> {
   public:
     array() = default;
-    template <typename... Args>
+    array(const array &) = default;
+    array &operator=(const array &) = default;
+    array(array &&) = default;
+    array &operator=(array &&) = default;
+
+    template <typename... Args,
+              typename std::enable_if<(sizeof...(Args) == N),
+                                      std::nullptr_t>::type = nullptr>
     array(Args &&...args)
         : wrap<std::array<T, N>>(
               std::array<T, N>{std::forward<Args>(args)...}) {}
@@ -41,8 +48,8 @@ class array : wrap<std::array<T, N>> {
     using iterator = ptr<T, internal::ptr_type_enum::array_iterator>;
     using const_iterator =
         ptr<const T, internal::ptr_type_enum::array_iterator>;
-    using reverse_iterator = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    // using reverse_iterator = std::reverse_iterator<iterator>;
+    // using const_reverse_iterator = std::reverse_iterator<const_iterator>;
     using size_type = std::size_t;
     using difference_type = std::ptrdiff_t;
     using pointer = ptr<T>;
@@ -54,7 +61,7 @@ class array : wrap<std::array<T, N>> {
             throw y3c::out_of_range("y3c::array::at()", N,
                                     static_cast<std::ptrdiff_t>(n));
         }
-        return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
+        return wrap_auto<T>(&this->unwrap()[0], N, &this->unwrap()[n],
                             this->alive());
     }
     wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
@@ -118,19 +125,32 @@ class array : wrap<std::array<T, N>> {
     }
 
     pointer data() {
+        if (N == 0) {
+            return pointer(nullptr, 0, nullptr, this->alive());
+        }
         return pointer(&this->unwrap().front(), N, &this->unwrap().front(),
                        this->alive());
     }
     const_pointer data() const {
+        if (N == 0) {
+            return const_pointer(nullptr, 0, nullptr, this->alive());
+        }
         return const_pointer(&this->unwrap().front(), N,
                              &this->unwrap().front(), this->alive());
     }
 
     iterator begin() {
+        if (N == 0) {
+            return iterator(nullptr, 0, nullptr, this->alive());
+        }
+
         return iterator(&this->unwrap().front(), N, &this->unwrap().front(),
                         this->alive());
     }
     const_iterator begin() const {
+        if (N == 0) {
+            return const_iterator(nullptr, 0, nullptr, this->alive());
+        }
         return const_iterator(&this->unwrap().front(), N,
                               &this->unwrap().front(), this->alive());
     }
@@ -138,17 +158,6 @@ class array : wrap<std::array<T, N>> {
     iterator end() { return begin() + N; }
     const_iterator end() const { return begin() + N; }
     const_iterator cend() const { return begin() + N; }
-
-    reverse_iterator rbegin() { return reverse_iterator(end()); }
-    const_reverse_iterator rbegin() const {
-        return const_reverse_iterator(end());
-    }
-    const_reverse_iterator crbegin() const {
-        return const_reverse_iterator(end());
-    }
-    reverse_iterator rend() { return reverse_iterator(begin()); }
-    const_reverse_iterator rend() const { return reverse_iterator(begin()); }
-    const_reverse_iterator crend() const { return reverse_iterator(begin()); }
 
     bool empty() const noexcept { return N == 0; }
     size_type size() const noexcept { return N; }

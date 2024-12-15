@@ -6,10 +6,10 @@
 Y3C_NS_BEGIN
 
 /*!
- * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
- *
- * `get()` は ptr<T> を返し、
+ * * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
+ * * `get()` は ptr<T> を返し、
  * 使用時にnullptrと参照先が生きているかのチェックができる。
+ * * 初期化は std::make_shared<T> または y3c::make_shared<T> で行う。
  *
  */
 template <typename T>
@@ -51,18 +51,6 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
         check_dead();
         this->wrap<std::shared_ptr<T>>::operator=(
             std::shared_ptr<T>(std::move(ptr)));
-        ptr_alive_ = std::make_shared<bool>(true);
-        return *this;
-    }
-
-    template <typename U>
-    shared_ptr(U *ptr)
-        : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(ptr)),
-          ptr_alive_(std::make_shared<bool>(true)) {}
-    template <typename U>
-    shared_ptr &operator=(U *ptr) {
-        check_dead();
-        this->wrap<std::shared_ptr<T>>::operator=(std::shared_ptr<T>(ptr));
         ptr_alive_ = std::make_shared<bool>(true);
         return *this;
     }
@@ -123,7 +111,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
         ptr_alive_.reset();
     }
     void swap(shared_ptr &other) noexcept {
-        this->unwrap().swap(other.base_);
+        this->unwrap().swap(unwrap(other));
         ptr_alive_.swap(other.ptr_alive_);
     }
 
@@ -196,6 +184,11 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
 template <typename T>
 void swap(shared_ptr<T> &lhs, shared_ptr<T> &rhs) noexcept {
     lhs.swap(rhs);
+}
+
+template <typename T, typename... Args>
+shared_ptr<T> make_shared(Args &&...args) {
+    return shared_ptr<T>(std::make_shared<T>(std::forward<Args>(args)...));
 }
 
 Y3C_NS_END

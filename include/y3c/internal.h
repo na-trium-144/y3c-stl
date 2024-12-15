@@ -39,8 +39,9 @@ namespace internal {
 /*!
  * y3c::内部の関数がスタックトレースに表示されないようにするために、
  * 関数の引数型やテンプレートにこれを含めると、スタックトレースからそのフレームを除外してくれる
- * (`internal::skip_trace_tag = {}`, `template <typename = internal::skip_trace_tag>` など)
- * 
+ * (`internal::skip_trace_tag = {}`, `template <typename =
+ * internal::skip_trace_tag>` など)
+ *
  * handle_final_terminate_message() はtag無しでも除外する例外。
  *
  */
@@ -78,11 +79,11 @@ enum class terminate_type {
  * what() は通常の例外と同様短いメッセージを返す。
  *
  */
-struct Y3C_DLL exception_base {
-    explicit exception_base(const char *e_class, std::string &&func,
-                            std::string &&what, skip_trace_tag = {});
+struct exception_base {
+    explicit Y3C_DLL exception_base(const char *e_class, std::string &&func,
+                                    std::string &&what, skip_trace_tag = {});
     std::shared_ptr<void> detail;
-    const char *what() const noexcept;
+    Y3C_DLL const char *what() const noexcept;
 };
 
 /*!

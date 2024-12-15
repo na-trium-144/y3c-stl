@@ -41,6 +41,7 @@ elif host_machine.system() == 'windows'
     summary('System', 'windows msvc ' + host_machine.cpu_family())
     y3c_system_add_debug = true
     magick_vs = true
+    add_project_arguments('/utf-8', language: 'cpp')
   else
     summary('System', 'windows mingw')
   endif

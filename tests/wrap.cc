@@ -1,5 +1,6 @@
 #include <y3c/wrap.h>
 #include <y3c/internal.h>
+#include <y3c/array.h>
 #ifdef Y3C_DOCTEST_NESTED_HEADER
 #include <doctest/doctest.h>
 #else
@@ -7,8 +8,17 @@
 #endif
 
 struct A {
+    A() = default;
     A(int val) : val(val) {}
-    int val;
+    A(const A &) = default;
+    A &operator=(const A &) = default;
+    A(A &&other) : val(other.val) { other.val = -1; }
+    A &operator=(A &&other) {
+        val = other.val;
+        other.val = -1;
+        return *this;
+    }
+    int val = -1;
 };
 struct B : A {
     B(int val) : A(val) {}
@@ -17,91 +27,273 @@ struct B : A {
 TEST_CASE("wrap") {
     y3c::internal::throw_on_terminate = true;
 
-    y3c::ptr<A> p;
-    {
-        y3c::wrap<A> a{42};
-        CHECK_EQ(unwrap(a).val, 42);
-
-        p = &a;
-        CHECK_EQ(p->val, 42);
-
-        y3c::wrap_ref<A> r = a;
-        CHECK_EQ(unwrap(r).val, 42);
-
-        a = 100;
-        CHECK_EQ(unwrap(a).val, 100);
-        CHECK_EQ(p->val, 100);
-        CHECK_EQ(unwrap(r).val, 100);
-
-        y3c::wrap<A> b = 200;
-        a = b;
-        CHECK_EQ(unwrap(a).val, 200);
-        CHECK_EQ(p->val, 200);
-        CHECK_EQ(unwrap(r).val, 200);
+    SUBCASE("wrap") {
+        SUBCASE("ctor") {
+            A base(100);
+            y3c::wrap<A> *a;
+            SUBCASE("default ctor") {
+                a = new y3c::wrap<A>();
+                CHECK_EQ(unwrap(*a).val, -1);
+                CHECK_EQ(static_cast<A>(*a).val, -1);
+            }
+            SUBCASE("args") {
+                SUBCASE("ctor") { a = new y3c::wrap<A>(100); }
+                SUBCASE("assign") {
+                    a = new y3c::wrap<A>();
+                    *a = 100;
+                }
+                CHECK_EQ(unwrap(*a).val, 100);
+                CHECK_EQ(static_cast<A>(*a).val, 100);
+            }
+            SUBCASE("copy base") {
+                SUBCASE("ctor") { a = new y3c::wrap<A>(base); }
+                SUBCASE("assign") {
+                    a = new y3c::wrap<A>();
+                    *a = base;
+                }
+                CHECK_EQ(unwrap(*a).val, 100);
+            }
+            SUBCASE("move base") {
+                SUBCASE("ctor") { a = new y3c::wrap<A>(std::move(base)); }
+                SUBCASE("assign") {
+                    a = new y3c::wrap<A>();
+                    *a = std::move(base);
+                }
+                CHECK_EQ(unwrap(*a).val, 100);
+                CHECK_EQ(base.val, -1);
+            }
+            delete a;
+        }
+        SUBCASE("") {
+            y3c::wrap<A> a(100);
+            y3c::wrap<A> *b;
+            SUBCASE("copy") {
+                SUBCASE("ctor") { b = new y3c::wrap<A>(a); }
+                SUBCASE("assign") {
+                    b = new y3c::wrap<A>();
+                    *b = a;
+                }
+                CHECK_EQ(unwrap(a).val, 100);
+                CHECK_EQ(unwrap(*b).val, 100);
+            }
+            SUBCASE("move") {
+                SUBCASE("ctor") { b = new y3c::wrap<A>(std::move(a)); }
+                SUBCASE("assign") {
+                    b = new y3c::wrap<A>();
+                    *b = std::move(a);
+                }
+                CHECK_EQ(unwrap(a).val, -1);
+                CHECK_EQ(unwrap(*b).val, 100);
+            }
+            delete b;
+        }
     }
-
-    CHECK_THROWS_AS(p->val, y3c::internal::ub_access_deleted);
-
-    {
-        y3c::wrap<int> i = 1;
-        y3c::ptr<int> p2 = &i;
-        y3c::wrap_ref<int> r2 = i;
-        bool e1 = *p2 == 1;
-        CHECK(e1);
-        CHECK_EQ(p2, p2);
-        CHECK_EQ(p2, &r2);
-        CHECK(p2);
-        bool e2 = p2 == &unwrap(i);
-        CHECK(e2);
-        y3c::ptr<int> p3 = p2 + 1;
-        CHECK_LT(p2, p3);
-        p2++;
-        CHECK_EQ(p2, p3);
-        CHECK_THROWS_AS(*p2, y3c::internal::ub_out_of_range);
+    SUBCASE("ref") {
+        SUBCASE("ctor") {
+            SUBCASE("same type") {
+                y3c::wrap<A> a(100);
+                y3c::wrap_ref<A> r(a);
+                CHECK_EQ(unwrap(r).val, 100);
+            }
+            SUBCASE("inherited type") {
+                y3c::wrap<B> b(100);
+                y3c::wrap_ref<A> r(b);
+                CHECK_EQ(unwrap(r).val, 100);
+            }
+        }
+        SUBCASE("") {
+            y3c::wrap<A> *a = new y3c::wrap<A>(100);
+            y3c::wrap<A> b(50);
+            y3c::wrap_ref<A> r(*a);
+            CHECK_EQ(&unwrap(r), &unwrap(*a));
+            CHECK_EQ(unwrap(r).val, 100);
+            CHECK_EQ(static_cast<A &>(r).val, 100);
+            SUBCASE("delete") {
+                delete a;
+                a = nullptr;
+                CHECK_THROWS_AS(unwrap(r), y3c::internal::ub_access_deleted);
+                CHECK_THROWS_AS(static_cast<A &>(r),
+                                y3c::internal::ub_access_deleted);
+            }
+            SUBCASE("assign") {
+                r = A(200);
+                CHECK_EQ(unwrap(r).val, 200);
+                CHECK_EQ(unwrap(*a).val, 200);
+            }
+            SUBCASE("copy ctor") {
+                y3c::wrap_ref<A> r2(r);
+                CHECK_EQ(&unwrap(r), &unwrap(r2));
+                CHECK_EQ(unwrap(r2).val, 100);
+            }
+            SUBCASE("move ctor") {
+                y3c::wrap_ref<A> r2(std::move(r));
+                CHECK_EQ(&unwrap(r), &unwrap(r2));
+                CHECK_EQ(unwrap(r2).val, 100);
+                CHECK_EQ(unwrap(r).val, 100);
+            }
+            SUBCASE("copy assign") {
+                y3c::wrap_ref<A> r2(b);
+                r2 = r;
+                CHECK_EQ(&unwrap(r2), &unwrap(b));
+                CHECK_NE(&unwrap(r2), &unwrap(r));
+                CHECK_EQ(unwrap(r).val, 100);
+                CHECK_EQ(unwrap(r2).val, 100);
+            }
+            SUBCASE("move assign") {
+                y3c::wrap_ref<A> r2(b);
+                r2 = std::move(r);
+                CHECK_EQ(&unwrap(r2), &unwrap(b));
+                CHECK_NE(&unwrap(r2), &unwrap(r));
+                CHECK_EQ(unwrap(r).val, -1);
+                CHECK_EQ(unwrap(r2).val, 100);
+            }
+            if (a) {
+                delete a;
+            }
+        }
     }
-    {
-        y3c::wrap<int> a = 1;
-        y3c::wrap<int> b = 2;
-        y3c::wrap_ref<int> r = a;
-        r = b; // 参照のセットではなく、値のコピー
-        CHECK_EQ(unwrap(r), 2);
-        CHECK_EQ(unwrap(a), 2);
-
-        y3c::wrap_ref<int> r2 = r; // 同じものを参照する
-        r2 = 3;
-        CHECK_EQ(unwrap(r), 3);
-
-        y3c::wrap_ref<int> r3 = std::move(r2); // ムーブはコピーと同じ
-        r3 = 4;
-        CHECK_EQ(unwrap(r), 4);
+    SUBCASE("auto") {
+        y3c::array<A, 2> aa{100, 200};
+        y3c::wrap_auto<A> ar = aa[0];
+        CHECK_EQ(unwrap(ar).val, 100);
+        CHECK_EQ(static_cast<A &>(ar).val, 100);
+        CHECK_EQ(&unwrap(ar), &unwrap(aa)[0]);
+        SUBCASE("assign") {
+            SUBCASE("value") {
+                ar = A(200);
+                CHECK_EQ(unwrap(ar).val, 200);
+            }
+            SUBCASE("copy auto") {
+                y3c::wrap_auto<A> ar2 = aa[1];
+                ar = ar2;
+                CHECK_EQ(unwrap(ar).val, 200);
+                CHECK_EQ(unwrap(ar2).val, 200);
+                CHECK_NE(&unwrap(ar), &unwrap(ar2));
+            }
+            SUBCASE("move auto") {
+                y3c::wrap_auto<A> ar2 = aa[1];
+                ar = std::move(ar2);
+                CHECK_EQ(unwrap(ar).val, 200);
+                CHECK_EQ(unwrap(ar2).val, 200);
+                CHECK_NE(&unwrap(ar), &unwrap(ar2));
+            }
+            CHECK_EQ(unwrap(aa[0]).val, 100);
+            CHECK_NE(&unwrap(ar), &unwrap(aa)[0]);
+        }
     }
+    SUBCASE("ptr") {
+        SUBCASE("ctor") {
+            SUBCASE("same type") {
+                y3c::wrap<A> a(100);
+                y3c::ptr<A> p(&a);
+                CHECK_EQ(unwrap(p)->val, 100);
+            }
+            SUBCASE("inherited type") {
+                y3c::wrap<B> b(100);
+                y3c::ptr<A> p(&b);
+                CHECK_EQ(unwrap(p)->val, 100);
+            }
+            SUBCASE("from_ref") {
+                y3c::wrap<A> a(100);
+                y3c::wrap_ref<A> r(a);
+                y3c::ptr<A> p(&r);
+                CHECK_EQ(unwrap(p)->val, 100);
+                CHECK_EQ(unwrap(p), &unwrap(r));
+            }
+            SUBCASE("from_auto") {
+                y3c::array<A, 2> aa{100, 200};
+                y3c::wrap_auto<A> ar = aa[0];
+                y3c::ptr<A> p(&ar);
+                CHECK_EQ(unwrap(p)->val, 100);
+                CHECK_EQ(unwrap(p), &unwrap(ar));
+            }
+        }
+        SUBCASE("null") {
+            y3c::wrap<A> a(100);
+            y3c::ptr<A> *p;
+            SUBCASE("default") { p = new y3c::ptr<A>(); }
+            SUBCASE("nullptr") { p = new y3c::ptr<A>(nullptr); }
+            SUBCASE("assign nullptr") {
+                p = new y3c::ptr<A>(&a);
+                *p = nullptr;
+            }
+            CHECK(!*p);
+            CHECK_EQ(unwrap(*p), nullptr);
+            CHECK_THROWS_AS((*p)->val, y3c::internal::ub_access_nullptr);
+            delete p;
+        }
+        SUBCASE("") {
+            y3c::wrap<A> *a = new y3c::wrap<A>(100);
+            y3c::ptr<A> p(&*a);
 
-    {
-        y3c::wrap<int> a = 0;
-        y3c::ptr<int> p = &a;
-        auto r1 = *p; // wrap_auto
-        r1 = 1;       // 参照切れる
-        CHECK_EQ(unwrap(a), 0);
-        CHECK_EQ(unwrap(*p), 0);
-        CHECK_EQ(unwrap(r1), 1);
+            CHECK_EQ(unwrap(p), &unwrap(*a));
+            CHECK_EQ(unwrap(p)->val, 100);
 
-        y3c::wrap_ref<int> r2 = *p; // wrap_ref
-        r2 = 2;                     // 参照のまま
-        CHECK_EQ(unwrap(a), 2);
-        CHECK_EQ(unwrap(*p), 2);
-        CHECK_EQ(unwrap(r2), 2);
+            CHECK_EQ(p->val, 100);
+            SUBCASE("out of range") {
+                CHECK_EQ(unwrap(p + 1), &unwrap(*a) + 1);
+                CHECK_THROWS_AS((p + 1)->val, y3c::internal::ub_out_of_range);
+                CHECK_EQ(unwrap(p - 1), &unwrap(*a) - 1);
+                CHECK_THROWS_AS((p - 1)->val, y3c::internal::ub_out_of_range);
+                CHECK_EQ(unwrap(p + 5) - unwrap(p), 5);
+                // CHECK_EQ(unwrap(&p[5]), &unwrap(*a) + 5);
+                CHECK_THROWS_AS(unwrap(p[5]).val,
+                                y3c::internal::ub_out_of_range);
 
-        y3c::wrap_ref<int> r3 = r1; // もうaの参照は持っていないが、r1を参照する
-        r3 = 3;
-        CHECK_EQ(unwrap(a), 2);
-        CHECK_EQ(unwrap(*p), 2);
-        CHECK_EQ(unwrap(r1), 3);
-        CHECK_EQ(unwrap(r3), 3);
+                SUBCASE("inc") {
+                    SUBCASE("left") { CHECK_EQ(unwrap(++p), &unwrap(*a) + 1); }
+                    SUBCASE("right") { CHECK_EQ(unwrap(p++), &unwrap(*a)); }
+                    CHECK_EQ(unwrap(p), &unwrap(*a) + 1);
+                }
+                SUBCASE("dec") {
+                    SUBCASE("left") { CHECK_EQ(unwrap(--p), &unwrap(*a) - 1); }
+                    SUBCASE("right") { CHECK_EQ(unwrap(p--), &unwrap(*a)); }
+                    CHECK_EQ(unwrap(p), &unwrap(*a) - 1);
+                }
+                SUBCASE("add") {
+                    CHECK_EQ(unwrap(p += 5), &unwrap(*a) + 5);
+                    CHECK_EQ(unwrap(p), &unwrap(*a) + 5);
+                }
+                SUBCASE("sub") {
+                    CHECK_EQ(unwrap(p -= 5), &unwrap(*a) - 5);
+                    CHECK_EQ(unwrap(p), &unwrap(*a) - 5);
+                }
+                CHECK_THROWS_AS(p->val, y3c::internal::ub_out_of_range);
+            }
 
-        int &r4 = unwrap(*p); // 参照
-        r4 = 4;
-        CHECK_EQ(unwrap(a), 4);
-        CHECK_EQ(unwrap(*p), 4);
-        CHECK_EQ(r4, 4);
+            SUBCASE("delete") {
+                delete a;
+                a = nullptr;
+                CHECK_THROWS_AS(p->val, y3c::internal::ub_access_deleted);
+            }
+            SUBCASE("remains on") {
+                SUBCASE("assign") {
+                    *a = 200;
+                    CHECK_EQ(p->val, 200);
+                }
+                SUBCASE("copied") {
+                    *a = y3c::wrap<A>(200);
+                    CHECK_EQ(p->val, 200);
+                }
+                SUBCASE("moved") {
+                    *a = std::move(y3c::wrap<A>(200));
+                    CHECK_EQ(p->val, 200);
+                }
+                SUBCASE("copy") {
+                    y3c::wrap<A> b(*a);
+                    CHECK_EQ(p->val, 100);
+                }
+                SUBCASE("move") {
+                    y3c::wrap<A> b(std::move(*a));
+                    CHECK_EQ(p->val, -1);
+                }
+                CHECK_EQ(unwrap(p), &unwrap(*a));
+                CHECK_THROWS_AS((p - 1)->val, y3c::internal::ub_out_of_range);
+                CHECK_THROWS_AS((p + 1)->val, y3c::internal::ub_out_of_range);
+            }
+            if (a) {
+                delete a;
+            }
+        }
     }
 }

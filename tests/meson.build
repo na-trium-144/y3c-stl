@@ -1,4 +1,5 @@
 test_cases = [
+  'array',
   'shared_ptr',
   'wrap',
 ]
