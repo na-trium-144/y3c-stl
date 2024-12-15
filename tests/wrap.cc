@@ -208,6 +208,13 @@ TEST_CASE("wrap") {
                 CHECK_EQ(unwrap(p), &unwrap(ar));
             }
         }
+        SUBCASE("void"){
+            y3c::wrap<A> a;
+            y3c::ptr<A> ap(&a);
+            y3c::ptr<void> vp(&a);
+            CHECK_EQ(unwrap(ap), unwrap(vp));
+            CHECK_EQ(ap, vp);
+        }
         SUBCASE("null") {
             y3c::wrap<A> a(100);
             y3c::ptr<A> *p;

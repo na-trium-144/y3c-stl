@@ -34,7 +34,8 @@ TEST_CASE_TEMPLATE("shared_ptr ctor", P, y3c::shared_ptr<A>, y3c::shared_ptr<B>,
             p = new y3c::shared_ptr<A>();
             *p = a;
         }
-        CHECK_EQ(unwrap(*p), std::shared_ptr<A>(std::shared_ptr<element_type>(a)));
+        CHECK_EQ(unwrap(*p),
+                 std::shared_ptr<A>(std::shared_ptr<element_type>(a)));
         CHECK_EQ(unwrap(*p)->val, 100);
     }
     SUBCASE("move") {
@@ -52,6 +53,12 @@ TEST_CASE_TEMPLATE("shared_ptr ctor", P, y3c::shared_ptr<A>, y3c::shared_ptr<B>,
 TEST_CASE("shared_ptr") {
     y3c::internal::throw_on_terminate = true;
 
+    SUBCASE("void") {
+        auto a = y3c::make_shared<A>(100);
+        y3c::shared_ptr<void> p = a;
+        CHECK_EQ(unwrap(p), unwrap(a));
+        CHECK_EQ(p, a);
+    }
     SUBCASE("null") {
         y3c::shared_ptr<A> *p;
         SUBCASE("default") { p = new y3c::shared_ptr<A>(); }
@@ -70,7 +77,7 @@ TEST_CASE("shared_ptr") {
         delete p;
     }
     SUBCASE("") {
-        auto a = y3c::make_shared<A>(100);
+        auto a = std::make_shared<A>(100);
         y3c::shared_ptr<A> p(a);
         y3c::ptr<A> rp(p.get());
 
@@ -96,14 +103,27 @@ TEST_CASE("shared_ptr") {
             CHECK_THROWS_AS(rp->val, y3c::internal::ub_access_deleted);
         }
         SUBCASE("swap") {
-            auto p2 = y3c::make_shared<A>(200);
-            swap(p, p2);
-            CHECK_EQ(unwrap(p)->val, 200);
-            CHECK_EQ(unwrap(p2)->val, 100);
-            CHECK_EQ(rp->val, 100);
+            SUBCASE("wrapped") {
+                auto p2 = y3c::make_shared<A>(200);
+                swap(p, p2);
+                CHECK_EQ(unwrap(p2)->val, 100);
+                CHECK_EQ(unwrap(p)->val, 200);
+                CHECK_EQ(rp->val, 100);
 
-            p2.reset();
-            CHECK_THROWS_AS(rp->val, y3c::internal::ub_access_deleted);
+                p2.reset();
+                CHECK_THROWS_AS(rp->val, y3c::internal::ub_access_deleted);
+            }
+            // todo: this doesn't work
+            // SUBCASE("base") {
+            //     auto p2 = std::make_shared<A>(200);
+            //     swap(unwrap(p), p2);
+            //     CHECK_EQ(p2->val, 100);
+            //     CHECK_EQ(unwrap(p)->val, 200);
+            //     CHECK_EQ(rp->val, 100);
+
+            //     p2.reset();
+            //     CHECK_THROWS_AS(rp->val, y3c::internal::ub_access_deleted);
+            // }
         }
         SUBCASE("use_count") {
             CHECK_EQ(p.use_count(), 1);
