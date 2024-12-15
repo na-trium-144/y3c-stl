@@ -22,7 +22,6 @@ struct A {
 };
 struct B : A {
     B(int val) : A(val) {}
-    int val;
 };
 
 TEST_CASE("wrap") {

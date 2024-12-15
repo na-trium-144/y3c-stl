@@ -56,18 +56,6 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     }
 
     template <typename U>
-    shared_ptr(U *ptr)
-        : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(ptr)),
-          ptr_alive_(std::make_shared<bool>(true)) {}
-    template <typename U>
-    shared_ptr &operator=(U *ptr) {
-        check_dead();
-        this->wrap<std::shared_ptr<T>>::operator=(std::shared_ptr<T>(ptr));
-        ptr_alive_ = std::make_shared<bool>(true);
-        return *this;
-    }
-
-    template <typename U>
     shared_ptr(const shared_ptr<U> &ref)
         : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(unwrap(ref))),
           ptr_alive_(ref.ptr_alive_) {}
@@ -123,7 +111,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
         ptr_alive_.reset();
     }
     void swap(shared_ptr &other) noexcept {
-        this->unwrap().swap(other.base_);
+        this->unwrap().swap(unwrap(other));
         ptr_alive_.swap(other.ptr_alive_);
     }
 
