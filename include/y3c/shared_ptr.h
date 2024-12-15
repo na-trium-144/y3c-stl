@@ -6,10 +6,10 @@
 Y3C_NS_BEGIN
 
 /*!
- * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
- *
- * `get()` は ptr<T> を返し、
+ * * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
+ * * `get()` は ptr<T> を返し、
  * 使用時にnullptrと参照先が生きているかのチェックができる。
+ * * 初期化は std::make_shared<T> または y3c::make_shared<T> で行う。
  *
  */
 template <typename T>
@@ -184,6 +184,11 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
 template <typename T>
 void swap(shared_ptr<T> &lhs, shared_ptr<T> &rhs) noexcept {
     lhs.swap(rhs);
+}
+
+template <typename T, typename... Args>
+shared_ptr<T> make_shared(Args &&...args) {
+    return shared_ptr<T>(std::make_shared<T>(std::forward<Args>(args)...));
 }
 
 Y3C_NS_END

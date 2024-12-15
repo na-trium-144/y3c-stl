@@ -57,11 +57,11 @@ TEST_CASE("shared_ptr") {
         SUBCASE("default") { p = new y3c::shared_ptr<A>(); }
         SUBCASE("nullptr") { p = new y3c::shared_ptr<A>(nullptr); }
         SUBCASE("assign nullptr") {
-            p = new y3c::shared_ptr<A>(std::make_shared<A>());
+            p = new y3c::shared_ptr<A>(y3c::make_shared<A>());
             *p = nullptr;
         }
         SUBCASE("reset") {
-            p = new y3c::shared_ptr<A>(std::make_shared<A>());
+            p = new y3c::shared_ptr<A>(y3c::make_shared<A>());
             p->reset();
         }
         CHECK(!*p);
@@ -70,7 +70,7 @@ TEST_CASE("shared_ptr") {
         delete p;
     }
     SUBCASE("") {
-        auto a = std::make_shared<A>(100);
+        auto a = y3c::make_shared<A>(100);
         y3c::shared_ptr<A> p(a);
         y3c::ptr<A> rp(p.get());
 
@@ -96,7 +96,7 @@ TEST_CASE("shared_ptr") {
             CHECK_THROWS_AS(rp->val, y3c::internal::ub_access_deleted);
         }
         SUBCASE("swap") {
-            y3c::shared_ptr<A> p2 = std::make_shared<A>(200);
+            auto p2 = y3c::make_shared<A>(200);
             swap(p, p2);
             CHECK_EQ(unwrap(p)->val, 200);
             CHECK_EQ(unwrap(p2)->val, 100);

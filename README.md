@@ -150,3 +150,4 @@ y3c:: のラッパークラス以外が投げた標準のexceptionや、直接 `
     * `y3c::array<T, N>` ← `std::array<T, N>`
 * `#include <y3c/memory>`
     * `y3c::shared_ptr<T>` ← `std::shared_ptr<T>`
+        * `y3c::make_shared<T>()` ← `std::make_shared<T>()`
