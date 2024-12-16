@@ -1,6 +1,6 @@
 project('y3c-stl', 'c', 'cpp',
   version: '0.1.0',
-  meson_version: '>=1.1',
+  meson_version: '>=0.56',
   default_options: [
     'cpp_std=c++11',
     'libdwarf:default_library=static',
@@ -165,7 +165,6 @@ if get_option('default_library') == 'shared'
     name: 'y3c',
     version: meson.project_version(),
     compatibility: 'SameMajorVersion',
-    arch_independent: false,
     install_dir: get_option('libdir') / 'cmake' / 'y3c-' + y3c_abi_major,
   )
   conf_data = configuration_data({
