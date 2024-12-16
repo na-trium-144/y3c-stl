@@ -104,8 +104,8 @@ endif
 
 y3c_inc = include_directories('include')
 y3c_src = [
-  'src/detail.cc',
   'src/final_message.cc',
+  'src/terminate_detail.cc',
   'src/what.cc',
 ]
 if y3c_system_version_rc

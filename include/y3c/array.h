@@ -1,5 +1,5 @@
 #pragma once
-#include "y3c/internal.h"
+#include "y3c/terminate.h"
 #include "y3c/wrap.h"
 #include <array>
 
@@ -62,7 +62,7 @@ class array : public wrap<std::array<T, N>> {
                                     static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->unwrap()[0], N, &this->unwrap()[n],
-                            this->alive());
+                            this->life_state());
     }
     wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= N) {
@@ -70,7 +70,7 @@ class array : public wrap<std::array<T, N>> {
                                     static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
-                                  &this->unwrap()[n], this->alive());
+                                  &this->unwrap()[n], this->life_state());
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<T> operator[](size_type n) {
@@ -79,7 +79,7 @@ class array : public wrap<std::array<T, N>> {
                 "y3c::array::operator[]()", N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap()[n],
-                            this->alive());
+                            this->life_state());
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<const T> operator[](size_type n) const {
@@ -88,7 +88,7 @@ class array : public wrap<std::array<T, N>> {
                 "y3c::array::operator[]()", N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
-                                  &this->unwrap()[n], this->alive());
+                                  &this->unwrap()[n], this->life_state());
     }
 
     wrap_auto<T> front(internal::skip_trace_tag = {}) {
@@ -97,7 +97,7 @@ class array : public wrap<std::array<T, N>> {
                                                      0);
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().front(),
-                            this->alive());
+                            this->life_state());
     }
     wrap_auto<const T> front(internal::skip_trace_tag = {}) const {
         if (N == 0) {
@@ -105,7 +105,7 @@ class array : public wrap<std::array<T, N>> {
                                                      0);
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
-                                  &this->unwrap().front(), this->alive());
+                                  &this->unwrap().front(), this->life_state());
     }
     wrap_auto<T> back(internal::skip_trace_tag = {}) {
         if (N == 0) {
@@ -113,7 +113,7 @@ class array : public wrap<std::array<T, N>> {
                                                      0);
         }
         return wrap_auto<T>(&this->unwrap().front(), N, &this->unwrap().back(),
-                            this->alive());
+                            this->life_state());
     }
     wrap_auto<const T> back(internal::skip_trace_tag = {}) const {
         if (N == 0) {
@@ -121,38 +121,38 @@ class array : public wrap<std::array<T, N>> {
                                                      0);
         }
         return wrap_auto<const T>(&this->unwrap().front(), N,
-                                  &this->unwrap().back(), this->alive());
+                                  &this->unwrap().back(), this->life_state());
     }
 
     pointer data() {
         if (N == 0) {
-            return pointer(nullptr, 0, nullptr, this->alive());
+            return pointer(nullptr, 0, nullptr, this->life_state());
         }
         return pointer(&this->unwrap().front(), N, &this->unwrap().front(),
-                       this->alive());
+                       this->life_state());
     }
     const_pointer data() const {
         if (N == 0) {
-            return const_pointer(nullptr, 0, nullptr, this->alive());
+            return const_pointer(nullptr, 0, nullptr, this->life_state());
         }
         return const_pointer(&this->unwrap().front(), N,
-                             &this->unwrap().front(), this->alive());
+                             &this->unwrap().front(), this->life_state());
     }
 
     iterator begin() {
         if (N == 0) {
-            return iterator(nullptr, 0, nullptr, this->alive());
+            return iterator(nullptr, 0, nullptr, this->life_state());
         }
 
         return iterator(&this->unwrap().front(), N, &this->unwrap().front(),
-                        this->alive());
+                        this->life_state());
     }
     const_iterator begin() const {
         if (N == 0) {
-            return const_iterator(nullptr, 0, nullptr, this->alive());
+            return const_iterator(nullptr, 0, nullptr, this->life_state());
         }
         return const_iterator(&this->unwrap().front(), N,
-                              &this->unwrap().front(), this->alive());
+                              &this->unwrap().front(), this->life_state());
     }
     const_iterator cbegin() const { return begin(); }
     iterator end() { return begin() + N; }

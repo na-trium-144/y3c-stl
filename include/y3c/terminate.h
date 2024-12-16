@@ -4,6 +4,7 @@
 #else
 #include "y3c/y3c-config.h"
 #endif
+#include "y3c/what.h"
 #include <stdexcept>
 #include <string>
 #include <memory>
@@ -22,17 +23,6 @@ Y3C_NS_BEGIN
  *
  */
 Y3C_DLL void Y3C_CALL link() noexcept;
-
-/*!
- * エラーメッセージの生成
- *
- */
-namespace msg {
-Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size,
-                                          std::ptrdiff_t index);
-Y3C_DLL const char *Y3C_CALL access_nullptr();
-Y3C_DLL const char *Y3C_CALL access_deleted();
-} // namespace msg
 
 namespace internal {
 
@@ -55,6 +45,21 @@ enum class terminate_type {
     ub_access_deleted = 4,
 };
 
+struct terminate_detail {
+    terminate_type type;
+    const char *e_class;
+    std::string func;
+    std::string what;
+    std::shared_ptr<void> raw_trace;
+
+    Y3C_DLL terminate_detail(terminate_type type, const char *e_class,
+                             std::string &&func, std::string &&what,
+                             skip_trace_tag = {});
+    terminate_detail(terminate_type type, std::string &&func,
+                     std::string &&what, skip_trace_tag = {})
+        : terminate_detail(type, nullptr, std::move(func), std::move(what)) {}
+};
+
 /*!
  * これが std::set_terminate() に自動的に登録され、
  * 例外がcatchされずterminateした時にメッセージを出してくれる。
@@ -67,10 +72,7 @@ enum class terminate_type {
  * 内部ではstd::terminate()ではなくstd::abort()を呼んでいる
  *
  */
-[[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_type type,
-                                                     std::string &&func,
-                                                     std::string &&what,
-                                                     skip_trace_tag = {});
+[[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_detail &&detail);
 
 /*!
  * y3cの例外クラスのベース。
@@ -79,11 +81,11 @@ enum class terminate_type {
  * what() は通常の例外と同様短いメッセージを返す。
  *
  */
-struct exception_base {
-    explicit Y3C_DLL exception_base(const char *e_class, std::string &&func,
-                                    std::string &&what, skip_trace_tag = {});
-    std::shared_ptr<void> detail;
-    Y3C_DLL const char *what() const noexcept;
+struct exception_base : terminate_detail {
+    exception_base(const char *e_class, std::string &&func, std::string &&what,
+                   skip_trace_tag = {})
+        : terminate_detail(terminate_type::exception, e_class, std::move(func),
+                           std::move(what)) {}
 };
 
 /*!
@@ -109,24 +111,24 @@ class ub_access_deleted {};
     if (throw_on_terminate) {
         throw ub_out_of_range();
     }
-    do_terminate_with(terminate_type::ub_out_of_range, std::move(func),
-                      msg::out_of_range(size, index));
+    do_terminate_with({terminate_type::ub_out_of_range, std::move(func),
+                       what::out_of_range(size, index)});
 }
 [[noreturn]] inline void terminate_ub_access_nullptr(std::string func,
                                                      skip_trace_tag = {}) {
     if (throw_on_terminate) {
         throw ub_access_nullptr();
     }
-    do_terminate_with(terminate_type::ub_access_nullptr, std::move(func),
-                      msg::access_nullptr());
+    do_terminate_with({terminate_type::ub_access_nullptr, std::move(func),
+                       what::access_nullptr()});
 }
 [[noreturn]] inline void terminate_ub_access_deleted(std::string func,
                                                      skip_trace_tag = {}) {
     if (throw_on_terminate) {
         throw ub_access_deleted();
     }
-    do_terminate_with(terminate_type::ub_access_deleted, std::move(func),
-                      msg::access_deleted());
+    do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
+                       what::access_deleted()});
 }
 } // namespace internal
 
@@ -146,10 +148,10 @@ class out_of_range final : public std::out_of_range,
                  internal::skip_trace_tag = {})
         : std::out_of_range(""),
           internal::exception_base("y3c::out_of_range", std::move(func),
-                                   msg::out_of_range(size, index)) {}
+                                   internal::what::out_of_range(size, index)) {}
 
     const char *what() const noexcept override {
-        return internal::exception_base::what();
+        return this->internal::terminate_detail::what.c_str();
     }
 };
 

@@ -1,5 +1,6 @@
 #pragma once
-#include "y3c/internal.h"
+#include "y3c/terminate.h"
+#include "y3c/life.h"
 #include <memory>
 #include <cassert>
 
@@ -53,23 +54,18 @@ class wrap {
                   "y3c::wrap cannot have reference value");
 
     base_type base_;
-    mutable std::shared_ptr<bool> alive_;
+    internal::life life_;
 
   protected:
-    const std::shared_ptr<bool> &alive() const {
-        if (!alive_) {
-            alive_ = std::make_shared<bool>(true);
-        }
-        return alive_;
-    }
+    internal::life_state life_state() const { return life_.state(); }
 
     base_type &unwrap() noexcept { return base_; }
     const base_type &unwrap() const noexcept { return base_; }
 
   public:
-    wrap() : base_(), alive_() {}
-    wrap(const wrap &other) : base_(other.base_), alive_() {}
-    wrap(wrap &&other) : base_(std::move(other.base_)), alive_() {}
+    wrap() : base_(), life_() {}
+    wrap(const wrap &other) : base_(other.base_), life_() {}
+    wrap(wrap &&other) : base_(std::move(other.base_)), life_() {}
     wrap &operator=(const wrap &other) {
         base_ = other.base_;
         return *this;
@@ -78,21 +74,17 @@ class wrap {
         base_ = std::move(other.base_);
         return *this;
     }
-    ~wrap() noexcept {
-        if (alive_) {
-            *alive_ = false;
-        }
-    }
+    ~wrap() = default;
 
     template <typename... Args>
-    wrap(Args &&...args) : base_(std::forward<Args>(args)...), alive_() {}
+    wrap(Args &&...args) : base_(std::forward<Args>(args)...), life_() {}
     template <typename Args>
     wrap &operator=(Args &&args) {
         base_ = std::forward<Args>(args);
         return *this;
     }
-    wrap(const base_type &base) : base_(base), alive_() {}
-    wrap(base_type &&base) : base_(std::move(base)), alive_() {}
+    wrap(const base_type &base) : base_(base), life_() {}
+    wrap(base_type &&base) : base_(std::move(base)), life_() {}
     wrap &operator=(const base_type &base) {
         base_ = base;
         return *this;
@@ -147,17 +139,17 @@ class wrap_ref {
     element_type *begin_;
     std::size_t size_;
     element_type *ptr_;
-    std::shared_ptr<bool> range_alive_;
+    internal::life_state range_state_;
 
   protected:
     element_type *ptr_unwrap(const char *func,
                              internal::skip_trace_tag = {}) const {
         // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
         // になる場合があるが、 その場合はnullptrアクセスエラーとしない
-        if (!range_alive_) {
+        if (range_state_.empty()) {
             y3c::internal::terminate_ub_access_nullptr(func);
         }
-        if (!*range_alive_) {
+        if (range_state_.dead()) {
             y3c::internal::terminate_ub_access_deleted(func);
         }
         if (ptr_ - begin_ < 0 ||
@@ -169,24 +161,24 @@ class wrap_ref {
     }
 
     wrap_ref(element_type *begin, std::size_t size, element_type *ptr,
-             std::shared_ptr<bool> range_alive) noexcept
-        : begin_(begin), size_(size), ptr_(ptr), range_alive_(range_alive) {}
-    wrap_ref(element_type *ptr, std::shared_ptr<bool> ptr_alive) noexcept
-        : wrap_ref(ptr, 1, ptr, std::move(ptr_alive)) {}
+             internal::life_state range_state) noexcept
+        : begin_(begin), size_(size), ptr_(ptr), range_state_(range_state) {}
+    wrap_ref(element_type *ptr, internal::life_state ptr_state) noexcept
+        : wrap_ref(ptr, 1, ptr, ptr_state) {}
 
     wrap_ref(std::nullptr_t = nullptr) noexcept
-        : begin_(nullptr), size_(0), ptr_(nullptr), range_alive_() {}
+        : begin_(nullptr), size_(0), ptr_(nullptr), range_state_() {}
 
   public:
     template <typename U>
     wrap_ref(wrap<U> &wrapper)
         : begin_(&wrapper.base_), size_(1), ptr_(&wrapper.base_),
-          range_alive_(wrapper.alive()) {}
+          range_state_(wrapper.life_state()) {}
 
     template <typename U>
     wrap_ref(const wrap_ref<U> &ref) noexcept
         : begin_(ref.begin_), size_(ref.size_), ptr_(ref.ptr_),
-          range_alive_(ref.range_alive_) {}
+          range_state_(ref.range_state_) {}
 
     template <typename Args, typename = internal::skip_trace_tag>
     wrap_ref &operator=(Args &&args) {
@@ -268,21 +260,21 @@ class wrap_auto : public wrap<typename std::remove_const<T>::type> {
     element_type *begin_;
     std::size_t size_;
     element_type *ptr_;
-    std::shared_ptr<bool> range_alive_;
+    internal::life_state range_state_;
 
     void clear_ref() {
         begin_ = &this->unwrap();
         size_ = 1;
         ptr_ = &this->unwrap();
-        range_alive_ = this->alive();
+        range_state_ = this->life_state();
     }
 
     wrap_auto(element_type *begin, std::size_t size, element_type *ptr,
-              std::shared_ptr<bool> range_alive) noexcept
+              internal::life_state range_state) noexcept
         : wrap<base_type>(*ptr), begin_(begin), size_(size), ptr_(ptr),
-          range_alive_(range_alive) {}
-    wrap_auto(element_type *ptr, std::shared_ptr<bool> ptr_alive) noexcept
-        : wrap_auto(ptr, 1, ptr, std::move(ptr_alive)) {}
+          range_state_(range_state) {}
+    wrap_auto(element_type *ptr, internal::life_state ptr_state) noexcept
+        : wrap_auto(ptr, 1, ptr, ptr_state) {}
 
   public:
     wrap_auto() = delete;
@@ -328,7 +320,7 @@ template <typename T>
 template <typename U>
 wrap_ref<T>::wrap_ref(const wrap_auto<U> &auto_ref) noexcept
     : wrap_ref(auto_ref.begin_, auto_ref.size_, auto_ref.ptr_,
-               auto_ref.range_alive_) {}
+               auto_ref.range_state_) {}
 
 template <typename T>
 T &unwrap(const wrap_auto<T> &wrapper, internal::skip_trace_tag = {}) {
@@ -366,16 +358,16 @@ class ptr : public wrap<T *> {
   protected:
     element_type *begin_;
     std::size_t size_;
-    std::shared_ptr<bool> range_alive_;
+    internal::life_state range_state_;
 
     element_type *ptr_unwrap(const char *func,
                              internal::skip_trace_tag = {}) const {
         // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
         // になる場合があるが、 その場合はnullptrアクセスエラーとしない
-        if (!range_alive_) {
+        if (range_state_.empty()) {
             y3c::internal::terminate_ub_access_nullptr(func);
         }
-        if (!*range_alive_) {
+        if (range_state_.dead()) {
             y3c::internal::terminate_ub_access_deleted(func);
         }
         if (this->unwrap() - begin_ < 0 ||
@@ -387,26 +379,26 @@ class ptr : public wrap<T *> {
     }
 
     ptr(element_type *begin, std::size_t size, element_type *ptr_,
-        std::shared_ptr<bool> range_alive) noexcept
+        internal::life_state range_state) noexcept
         : wrap<T *>(ptr_), begin_(begin), size_(size),
-          range_alive_(range_alive) {}
-    ptr(element_type *ptr_, std::shared_ptr<bool> ptr_alive) noexcept
-        : ptr(ptr_, 1, ptr_, std::move(ptr_alive)) {}
+          range_state_(range_state) {}
+    ptr(element_type *ptr_, internal::life_state ptr_state) noexcept
+        : ptr(ptr_, 1, ptr_, ptr_state) {}
 
   public:
     ptr(std::nullptr_t = nullptr) noexcept
-        : wrap<T *>(nullptr), begin_(nullptr), size_(0), range_alive_() {}
+        : wrap<T *>(nullptr), begin_(nullptr), size_(0), range_state_() {}
 
     template <typename U>
     ptr(const ptr<U, ptr_type> &ref)
         : wrap<T *>(unwrap(ref)), begin_(ref.begin_), size_(ref.size_),
-          range_alive_(ref.range_alive_) {}
+          range_state_(ref.range_state_) {}
     template <typename U>
     ptr &operator=(const ptr<U, ptr_type> &ref) {
         this->wrap<T *>::operator=(unwrap(ref));
         begin_ = ref.begin_;
         size_ = ref.size_;
-        range_alive_ = ref.range_alive_;
+        range_state_ = ref.range_state_;
         return *this;
     }
 
@@ -422,7 +414,7 @@ class ptr : public wrap<T *> {
     wrap_auto<element_type> operator*() const {
         static std::string func_name = func_name_() + "::operator*()";
         return wrap_auto<element_type>(
-            begin_, size_, ptr_unwrap(func_name.c_str()), range_alive_);
+            begin_, size_, ptr_unwrap(func_name.c_str()), range_state_);
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
@@ -457,10 +449,10 @@ class ptr : public wrap<T *> {
         return *this;
     }
     ptr operator+(std::ptrdiff_t n) const {
-        return ptr(begin_, size_, this->unwrap() + n, range_alive_);
+        return ptr(begin_, size_, this->unwrap() + n, range_state_);
     }
     ptr operator-(std::ptrdiff_t n) const {
-        return ptr(begin_, size_, this->unwrap() - n, range_alive_);
+        return ptr(begin_, size_, this->unwrap() - n, range_state_);
     }
     std::ptrdiff_t operator-(const ptr &other) const {
         return this->unwrap() - other.ptr_;
@@ -470,7 +462,7 @@ class ptr : public wrap<T *> {
         static std::string func_name = func_name_() + "::operator[]()";
         return wrap_auto<element_type>(
             begin_, size_, (*this + n).ptr_unwrap(func_name.c_str()),
-            range_alive_);
+            range_state_);
     }
 };
 template <typename T>
@@ -482,15 +474,15 @@ using const_ptr_const = const const_ptr<T>;
 
 template <typename T>
 inline ptr<T> wrap<T>::operator&() {
-    return ptr<T>(&base_, alive());
+    return ptr<T>(&base_, life_state());
 }
 template <typename T>
 inline ptr<const T> wrap<T>::operator&() const {
-    return ptr<const T>(&base_, alive());
+    return ptr<const T>(&base_, life_state());
 }
 template <typename T>
 inline ptr<T> wrap_ref<T>::operator&() const noexcept {
-    return ptr<T>(begin_, size_, ptr_, range_alive_);
+    return ptr<T>(begin_, size_, ptr_, range_state_);
 }
 template <typename T>
 inline ptr<T> wrap_auto<T>::operator&() const noexcept {
