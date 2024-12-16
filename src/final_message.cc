@@ -1,5 +1,5 @@
-#include "y3c/internal.h"
-#include "./detail.h"
+#include "y3c/terminate.h"
+#include <cpptrace/basic.hpp>
 #include <rang.hpp>
 #include <iostream>
 #include <ostream>
@@ -65,7 +65,7 @@ void print_maybe_inaccurate(std::ostream &stream) {
            << "The following stack trace may be inaccurate.";
     stream << rang::style::reset << std::endl;
 }
-void print_y3c_exception(std::ostream &stream, exception_detail &e) {
+void print_y3c_exception(std::ostream &stream, const terminate_detail &e) {
     switch (e.type) {
     case terminate_type::exception:
         if (e.e_class) {
@@ -99,9 +99,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
     try {
         std::rethrow_exception(current);
     } catch (const y3c::internal::exception_base &e) {
-        auto detail = std::static_pointer_cast<exception_detail>(e.detail);
-        print_y3c_exception(stream, *detail);
-        auto trace = detail->raw_trace.resolve();
+        print_y3c_exception(stream, e);
+        auto trace = std::static_pointer_cast<cpptrace::raw_trace>(e.raw_trace)
+                         ->resolve();
         strip_and_print_trace(stream, trace);
         return;
     } catch (const std::exception &e) {
@@ -150,15 +150,13 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
     std::abort();
 }
 
-[[noreturn]] void do_terminate_with(terminate_type type, std::string &&func,
-                                    std::string &&what, skip_trace_tag) {
-    exception_detail detail(type, nullptr, std::move(func), std::move(what),
-                            cpptrace::generate_raw_trace());
+[[noreturn]] void do_terminate_with(terminate_detail &&detail) {
     auto &stream = std::cerr;
     rang::setControlMode(rang::control::Force);
     print_header(stream);
     print_y3c_exception(stream, detail);
-    auto trace = cpptrace::generate_trace();
+    auto trace = std::static_pointer_cast<cpptrace::raw_trace>(detail.raw_trace)
+                     ->resolve();
     strip_and_print_trace(stream, trace);
     std::abort();
 }

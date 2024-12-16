@@ -1,5 +1,5 @@
 #include <y3c/shared_ptr.h>
-#include <y3c/internal.h>
+#include <y3c/terminate.h>
 #ifdef Y3C_DOCTEST_NESTED_HEADER
 #include <doctest/doctest.h>
 #else

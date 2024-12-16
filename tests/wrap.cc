@@ -1,5 +1,5 @@
 #include <y3c/wrap.h>
-#include <y3c/internal.h>
+#include <y3c/terminate.h>
 #include <y3c/array.h>
 #ifdef Y3C_DOCTEST_NESTED_HEADER
 #include <doctest/doctest.h>

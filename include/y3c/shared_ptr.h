@@ -1,5 +1,5 @@
 #pragma once
-#include "y3c/internal.h"
+#include "y3c/terminate.h"
 #include "y3c/wrap.h"
 #include <memory>
 
