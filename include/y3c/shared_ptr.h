@@ -15,88 +15,74 @@ Y3C_NS_BEGIN
 template <typename T>
 class shared_ptr : public wrap<std::shared_ptr<T>> {
     using base_type = std::shared_ptr<T>;
-    mutable std::shared_ptr<bool> ptr_alive_;
-
-    void check_dead() const noexcept {
-        // 複数スレッドから同時アクセスしたらばぐるかな?
-
-        if (use_count() == 1 && ptr_alive_) {
-            *ptr_alive_ = false;
-        }
-    }
+    std::shared_ptr<internal::life> ptr_life_;
 
   public:
     shared_ptr(std::nullptr_t = nullptr) noexcept
-        : wrap<std::shared_ptr<T>>(), ptr_alive_() {}
-    ~shared_ptr() noexcept { check_dead(); }
+        : wrap<std::shared_ptr<T>>(), ptr_life_() {}
+    ~shared_ptr() = default;
     using element_type = T;
 
     template <typename U>
     shared_ptr(const std::shared_ptr<U> &ptr)
         : wrap<std::shared_ptr<T>>(ptr),
-          ptr_alive_(std::make_shared<bool>(true)) {}
+          ptr_life_(std::make_shared<internal::life>()) {}
     template <typename U>
     shared_ptr &operator=(const std::shared_ptr<U> &ptr) {
-        check_dead();
         this->wrap<std::shared_ptr<T>>::operator=(std::shared_ptr<T>(ptr));
-        ptr_alive_ = std::make_shared<bool>(true);
+        ptr_life_ = std::make_shared<internal::life>();
         return *this;
     }
     template <typename U>
     shared_ptr(std::shared_ptr<U> &&ptr)
         : wrap<std::shared_ptr<T>>(std::move(ptr)),
-          ptr_alive_(std::make_shared<bool>(true)) {}
+          ptr_life_(std::make_shared<internal::life>()) {}
     template <typename U>
     shared_ptr &operator=(std::shared_ptr<U> &&ptr) {
-        check_dead();
         this->wrap<std::shared_ptr<T>>::operator=(
             std::shared_ptr<T>(std::move(ptr)));
-        ptr_alive_ = std::make_shared<bool>(true);
+        ptr_life_ = std::make_shared<internal::life>();
         return *this;
     }
 
     template <typename U>
     shared_ptr(const shared_ptr<U> &ref)
         : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(unwrap(ref))),
-          ptr_alive_(ref.ptr_alive_) {}
+          ptr_life_(ref.ptr_life_) {}
     template <typename U>
     shared_ptr &operator=(const shared_ptr<U> &ref) {
-        check_dead();
         this->wrap<std::shared_ptr<T>>::operator=(
             std::shared_ptr<T>(unwrap(ref)));
-        ptr_alive_ = ref.ptr_alive_;
+        ptr_life_ = ref.ptr_life_;
         return *this;
     }
     shared_ptr(const shared_ptr &ref) = default;
     shared_ptr &operator=(const shared_ptr &ref) {
         if (this != std::addressof(ref)) {
-            check_dead();
             this->wrap<std::shared_ptr<T>>::operator=(unwrap(ref));
-            ptr_alive_ = ref.ptr_alive_;
+            ptr_life_ = ref.ptr_life_;
         }
         return *this;
     }
     template <typename U>
     shared_ptr(shared_ptr<U> &&ref)
         : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(unwrap(ref))),
-          ptr_alive_(std::move(ref.ptr_alive_)) {
+          ptr_life_(std::move(ref.ptr_life_)) {
         ref.reset();
     }
     template <typename U>
     shared_ptr &operator=(shared_ptr<U> &&ref) {
-        check_dead();
         this->wrap<std::shared_ptr<T>>::operator=(
             std::shared_ptr<T>(unwrap(ref)));
-        ptr_alive_ = std::move(ref.ptr_alive_);
+        ptr_life_ = std::move(ref.ptr_life_);
         ref.reset();
         return *this;
     }
     shared_ptr(shared_ptr &&ref) = default;
     shared_ptr &operator=(shared_ptr &&ref) {
         if (this != std::addressof(ref)) {
-            check_dead();
             this->wrap<std::shared_ptr<T>>::operator=(unwrap(ref));
-            ptr_alive_ = std::move(ref.ptr_alive_);
+            ptr_life_ = std::move(ref.ptr_life_);
             ref.reset();
         }
         return *this;
@@ -106,17 +92,20 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     friend class shared_ptr;
 
     void reset() noexcept {
-        check_dead();
         this->unwrap().reset();
-        ptr_alive_.reset();
+        ptr_life_.reset();
     }
     void swap(shared_ptr &other) noexcept {
         this->unwrap().swap(unwrap(other));
-        ptr_alive_.swap(other.ptr_alive_);
+        ptr_life_.swap(other.ptr_life_);
     }
 
     ptr<element_type> get() const noexcept {
-        return ptr<element_type>(this->unwrap().get(), ptr_alive_);
+        if (!this->unwrap()) {
+            return nullptr;
+        }
+        assert(ptr_life_);
+        return ptr<element_type>(this->unwrap().get(), ptr_life_->state());
     }
     template <typename = internal::skip_trace_tag>
     y3c::wrap_auto<T> operator*() const {
@@ -124,8 +113,8 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
             y3c::internal::terminate_ub_access_nullptr(
                 "y3c::shared_ptr::operator*()");
         }
-        assert(ptr_alive_);
-        return y3c::wrap_auto<T>(this->unwrap().get(), ptr_alive_);
+        assert(ptr_life_);
+        return y3c::wrap_auto<T>(this->unwrap().get(), ptr_life_->state());
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
@@ -133,7 +122,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
             y3c::internal::terminate_ub_access_nullptr(
                 "y3c::shared_ptr::operator->()");
         }
-        assert(ptr_alive_);
+        assert(ptr_life_);
         return this->unwrap().get();
     }
     // template <typename U = T>
