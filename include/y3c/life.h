@@ -1,37 +1,49 @@
 #pragma once
+#include "y3c/terminate.h"
 #ifdef Y3C_MESON
 #include "y3c-config.h"
 #else
 #include "y3c/y3c-config.h"
 #endif
 #include <memory>
-#include <cassert>
 
 Y3C_NS_BEGIN
 namespace internal {
 class life_state {
-    bool alive_ = true;
-    life_state() = default;
+    void *begin_, *end_;
 
   public:
+    life_state(void *begin, void *end) : begin_(begin), end_(end) {}
     life_state(const life_state &) = delete;
     life_state &operator=(const life_state &) = delete;
+    life_state(life_state &&) = delete;
+    life_state &operator=(life_state &&) = delete;
     ~life_state() = default;
-    friend class life;
-    friend class life_observer;
+    void destroy() { begin_ = end_ = nullptr; }
+    bool alive() const { return begin_ && end_; }
+    bool in_range(const void *ptr) const { return begin_ <= ptr && ptr < end_; }
+    template <typename T>
+    std::size_t size() const {
+        return static_cast<T *>(end_) - static_cast<T *>(begin_);
+    }
+    template <typename T>
+    std::ptrdiff_t index_of(T *ptr) const {
+        return ptr - static_cast<T *>(begin_);
+    }
 };
 
 /*!
  * \brief ライフタイムの状態を観測するクラス
  *
  * オブジェクトを参照する側はlife_observerを受けとり、
- * empty() や dead() で状態を確認できる。
+ * empty(), alive(), in_range() で状態を確認できる。
  *
  */
 class life_observer {
     std::shared_ptr<life_state> state_;
 
-    explicit life_observer(std::shared_ptr<life_state> state) : state_(state) {}
+    explicit life_observer(const std::shared_ptr<life_state> &state)
+        : state_(state) {}
 
   public:
     /*!
@@ -43,10 +55,23 @@ class life_observer {
     life_observer &operator=(const life_observer &) = default;
     ~life_observer() = default;
 
-    bool empty() const { return state_ == nullptr; }
-    bool dead() const { return !state_ || !state_->alive_; }
-
-    // void swap(life_state &other) { this->state_.swap(other.state_); }
+    template <typename element_type>
+    element_type *assert_ptr(element_type *ptr, const char *func,
+                             internal::skip_trace_tag = {}) const {
+        // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
+        // になる場合があるが、 その場合はnullptrアクセスエラーとしない
+        if (!state_) {
+            y3c::internal::terminate_ub_access_nullptr(func);
+        }
+        if (!state_->alive()) {
+            y3c::internal::terminate_ub_access_deleted(func);
+        }
+        if (!state_->in_range(ptr)) {
+            y3c::internal::terminate_ub_out_of_range(
+                func, state_->size<element_type>(), state_->index_of(ptr));
+        }
+        return ptr;
+    }
 
     friend class life;
 };
@@ -61,13 +86,14 @@ class life {
     std::shared_ptr<life_state> state_;
 
   public:
-    life() : state_(new life_state()) {}
+    life(void *begin, void *end) : state_(new life_state(begin, end)) {}
+    template <typename T>
+    life(T *begin) : life(begin, begin + 1) {}
     life(const life &) = delete;
     life &operator=(const life &) = delete;
-    ~life() { state_->alive_ = false; }
-
-    // void swap(life &other) { this->state_.swap(other.state_); }
-
+    life(life &&) = delete;
+    life &operator=(life &&) = delete;
+    ~life() { state_->destroy(); }
     life_observer observer() const { return life_observer(this->state_); }
 };
 } // namespace internal
