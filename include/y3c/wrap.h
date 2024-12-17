@@ -466,6 +466,33 @@ class ptr : public wrap<T *> {
             begin_, size_, (*this + n).ptr_unwrap(func_name.c_str()),
             range_observer_);
     }
+
+    template <typename... Args>
+    static ptr<T> new_(Args &&...args) {
+        return ptr<T>(new T(std::forward<Args>(args)...),
+                      internal::life_observer::allocate(false));
+    }
+    template <std::size_t N>
+    static ptr<T> new_array() {
+        T *ptr_ = new T[N];
+        return ptr<T>(ptr_, N, ptr_, internal::life_observer::allocate(true));
+    }
+    static void delete_(ptr<T> &ptr) {
+        if(ptr.ptr_observer_.empty()){
+            y3c::internal::terminate_ub_access_nullptr("y3c_delete()");
+        }
+        if(ptr.ptr_observer_.dead()){
+            y3c::internal::terminate_ub_access_deleted("y3c_delete()");
+        }
+        if(!ptr.ptr_observer_.is_allocated()){
+            y3c::internal::terminate_ub_not_allocated("y3c_delete()");
+        }
+        if(ptr.ptr_observer_.is_array()){
+            y3c::internal::terminate_ub_is_array("y3c_delete()");
+        }
+        ptr.ptr_observer_.deallocate();
+        delete ptr.unwrap();
+    }
 };
 template <typename T>
 using const_ptr = ptr<const T>;
@@ -492,3 +519,15 @@ inline ptr<T> wrap_auto<T>::operator&() const noexcept {
 }
 
 Y3C_NS_END
+
+template <typename T, typename... Args,
+          typename std::enable_if<!std::is_array<T>::value,
+                                  std::nullptr_t>::type = nullptr>
+y3c::ptr<T> y3c_new(Args &&...args) {
+    return y3c::ptr<T>::new_(std::forward<Args>(args)...);
+}
+template <typename T>
+y3c::ptr<typename std::remove_extent<T>::type> y3c_new() {
+    using B = typename std::remove_extent<T>::type;
+    return y3c::ptr<B>::new_array<(sizeof(T) / sizeof(B))>();
+}

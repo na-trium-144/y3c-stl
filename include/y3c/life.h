@@ -11,7 +11,16 @@ Y3C_NS_BEGIN
 namespace internal {
 class life_state {
     bool alive_ = true;
+    const bool is_allocated_ = false;
+    const bool is_array_ = false;
+
     life_state() = default;
+    explicit life_state(bool allocated, bool is_array)
+        : is_allocated_(allocated), is_array_(is_array) {}
+
+    static std::shared_ptr<life_state> allocate(bool is_array) {
+        return std::shared_ptr<life_state>(new life_state(true, is_array));
+    }
 
   public:
     life_state(const life_state &) = delete;
@@ -45,6 +54,17 @@ class life_observer {
 
     bool empty() const { return state_ == nullptr; }
     bool dead() const { return !state_ || !state_->alive_; }
+
+    static life_observer allocate(bool is_array) {
+        return life_observer(life_state::allocate(is_array));
+    }
+    bool is_allocated() const { return state_ && state_->is_allocated_; }
+    bool is_array() const { return state_ && state_->is_array_; }
+    void deallocate() {
+        assert(state_);
+        assert(state_->is_allocated_);
+        state_->alive_ = false;
+    }
 
     // void swap(life_state &other) { this->state_.swap(other.state_); }
 
