@@ -105,7 +105,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
             return nullptr;
         }
         assert(ptr_life_);
-        return ptr<element_type>(this->unwrap().get(), ptr_life_->state());
+        return ptr<element_type>(this->unwrap().get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     y3c::wrap_auto<T> operator*() const {
@@ -114,7 +114,7 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
                 "y3c::shared_ptr::operator*()");
         }
         assert(ptr_life_);
-        return y3c::wrap_auto<T>(this->unwrap().get(), ptr_life_->state());
+        return y3c::wrap_auto<T>(this->unwrap().get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {

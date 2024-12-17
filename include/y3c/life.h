@@ -9,24 +9,39 @@
 
 Y3C_NS_BEGIN
 namespace internal {
-
 class life_state {
-    struct state {
-        bool alive_ = true;
-    };
-    std::shared_ptr<state> state_;
-
-    void construct() { state_ = std::make_shared<state>(); }
-    void destruct() {
-        assert(state_);
-        state_->alive_ = false;
-    }
+    bool alive_ = true;
+    life_state() = default;
 
   public:
-    life_state() = default;
-    life_state(const life_state &) = default;
-    life_state &operator=(const life_state &) = default;
+    life_state(const life_state &) = delete;
+    life_state &operator=(const life_state &) = delete;
     ~life_state() = default;
+    friend class life;
+    friend class life_observer;
+};
+
+/*!
+ * \brief ライフタイムの状態を観測するクラス
+ *
+ * オブジェクトを参照する側はlife_observerを受けとり、
+ * empty() や dead() で状態を確認できる。
+ *
+ */
+class life_observer {
+    std::shared_ptr<life_state> state_;
+
+    explicit life_observer(std::shared_ptr<life_state> state) : state_(state) {}
+
+  public:
+    /*!
+     * オブジェクトを参照しない空のobserverになる
+     *
+     */
+    explicit life_observer(std::nullptr_t) : state_(nullptr) {}
+    life_observer(const life_observer &) = default;
+    life_observer &operator=(const life_observer &) = default;
+    ~life_observer() = default;
 
     bool empty() const { return state_ == nullptr; }
     bool dead() const { return !state_ || !state_->alive_; }
@@ -37,27 +52,23 @@ class life_state {
 };
 
 /*!
- * \brief オブジェクトのライフタイム管理
+ * \brief オブジェクトのライフタイムを管理するクラス
  *
- * * オブジェクトの所有者はlifeまたはshared_ptr<life>を持つ。
- * * オブジェクトを参照する側はshared_ptr<life_state>を持ち、
- * lifeが生きているかどうかを取得できる
+ * オブジェクトの所有者はlifeまたはshared_ptr<life>を持つ。
  *
  */
 class life {
-    life_state state_;
+    std::shared_ptr<life_state> state_;
 
   public:
-    life() : state_() { state_.construct(); }
+    life() : state_(new life_state()) {}
     life(const life &) = delete;
     life &operator=(const life &) = delete;
-    life(life &&) = default;
-    life &operator=(life &&) = default;
-    ~life() { state_.destruct(); }
+    ~life() { state_->alive_ = false; }
 
     // void swap(life &other) { this->state_.swap(other.state_); }
 
-    life_state state() const { return state_; }
+    life_observer observer() const { return life_observer(this->state_); }
 };
 } // namespace internal
 Y3C_NS_END
