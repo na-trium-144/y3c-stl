@@ -28,11 +28,12 @@ Y3C_DLL void Y3C_CALL link() noexcept;
 struct skip_trace_tag {};
 
 enum class terminate_type {
-    exception = 0,
-    terminate = 1,
-    ub_out_of_range = 2,
-    ub_access_nullptr = 3,
-    ub_access_deleted = 4,
+    exception,
+    terminate,
+    internal,
+    ub_out_of_range,
+    ub_access_nullptr,
+    ub_access_deleted,
 };
 
 struct terminate_detail {
@@ -140,6 +141,13 @@ class ub_access_deleted {};
     do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
                        what::access_deleted()});
 }
+[[noreturn]] inline void terminate_internal(std::string func, std::string what, skip_trace_tag = {}) {
+    if (throw_on_terminate) {
+        throw std::runtime_error(what);
+    }
+    do_terminate_with({terminate_type::internal, std::move(func), std::move(what)});
+}
+
 } // namespace Y3C_NS_ABI
 } // namespace internal
 

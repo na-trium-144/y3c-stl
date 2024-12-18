@@ -79,6 +79,9 @@ void print_y3c_exception(std::ostream &stream, const terminate_detail &e) {
     // case terminate_type::terminate:
     //     stream << rang::style::bold << "terminate() called";
     //     break;
+    case terminate_type::internal:
+        stream << rang::style::bold << "internal error of y3c-stl itself";
+        break;
     case terminate_type::ub_out_of_range:
     case terminate_type::ub_access_nullptr:
     case terminate_type::ub_access_deleted:
