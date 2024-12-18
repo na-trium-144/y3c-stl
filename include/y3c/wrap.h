@@ -7,6 +7,8 @@
 namespace y3c {
 template <typename base_type>
 class wrap;
+template <typename base_type>
+class wrap_auto;
 
 template <typename base_type,
           typename std::enable_if<!std::is_pointer<base_type>::value &&
@@ -29,6 +31,9 @@ element_type *unwrap(const wrap<element_type *> &wrapper) noexcept;
  *
  * * `operator&` で y3c::wrap<T*> が得られる
  * * y3c::wrap<T&> にキャストできる
+ * * Tが E[N] の形の場合、
+ *   * `operator[]` で y3c::wrap<E&> が得られる
+ *   * `y3c::wrap<E*> にキャストできる
  *
  */
 template <typename base_type>
@@ -37,6 +42,10 @@ class wrap {
                   "y3c::wrap cannot have void value");
     static_assert(!std::is_const<base_type>::value,
                   "y3c::wrap cannot have const value");
+
+    const std::string &type_name() const {
+        return internal::get_type_name<wrap>();
+    }
 
   protected:
     base_type base_;
@@ -57,7 +66,7 @@ class wrap {
     ~wrap() = default;
 
     template <typename... Args>
-    wrap(Args &&...args) : base_(std::forward<Args>(args)...), life_(&base_) {}
+    wrap(Args &&...args) : base_{std::forward<Args>(args)...}, life_(&base_) {}
     template <typename V>
     wrap &operator=(V &&args) {
         base_ = std::forward<V>(args);
@@ -73,6 +82,27 @@ class wrap {
 
     operator base_type &() noexcept { return this->base_; }
     operator const base_type &() const noexcept { return this->base_; }
+
+    template <typename T = base_type,
+              typename E = typename std::remove_extent<base_type>::type,
+              typename std::enable_if<std::is_array<T>::value,
+                                      std::nullptr_t>::type = nullptr,
+              typename = internal::skip_trace_tag>
+    wrap_auto<E> operator[](std::size_t i) {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap_auto<E>(life_.observer().assert_ptr(&base_[i], func),
+                            life_.observer());
+    }
+    template <typename T = base_type,
+              typename E = typename std::remove_extent<base_type>::type,
+              typename std::enable_if<std::is_array<T>::value,
+                                      std::nullptr_t>::type = nullptr,
+              typename = internal::skip_trace_tag>
+    wrap_auto<const E> operator[](std::size_t i) const {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap_auto<const E>(life_.observer().assert_ptr(&base_[i], func),
+                                  life_.observer());
+    }
 
     wrap<base_type *> operator&() {
         return wrap<base_type *>(&base_, life_.observer());
@@ -169,6 +199,9 @@ class wrap_auto : public wrap<typename std::remove_const<element_type>::type> {
  * キャストとy3c::unwrapでチェックが入るのは (今のところ) wrap_ref のみ。
  * * y3c::wrap<remove_const_t<T>> の左辺値からキャストできる
  * * `operator&` で y3c::wrap<T*> が得られる
+ * * Tが E[N] の形の場合、
+ *   * `operator[]` で y3c::wrap<E&> が得られる
+ *   * `y3c::wrap<E*> にキャストできる
  *
  * \sa wrap_ref, const_wrap_ref
  */
@@ -279,6 +312,16 @@ class wrap<element_type &> {
         return *assert_ptr(func2);
     }
 
+    template <typename T = element_type,
+              typename E = typename std::remove_extent<element_type>::type,
+              typename std::enable_if<std::is_array<T>::value,
+                                      std::nullptr_t>::type = nullptr,
+              typename = internal::skip_trace_tag>
+    wrap_auto<E> operator[](std::size_t i) {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap_auto<E>(&assert_ptr(func)[0][i], observer_);
+    }
+
     wrap<element_type *> operator&() const noexcept {
         return wrap<element_type *>(ptr_, observer_);
     }
@@ -329,6 +372,26 @@ class wrap<element_type *> {
   public:
     wrap(element_type *ptr, internal::life_observer observer) noexcept
         : ptr_(ptr), observer_(observer), life_(&ptr_) {}
+
+    template <typename T, std::size_t N,
+              typename std::enable_if<!std::is_pointer<T>::value &&
+                                          !std::is_reference<T>::value,
+                                      std::nullptr_t>::type = nullptr>
+    wrap(wrap<T[N]> &array)
+        : ptr_(&array.base_[0]), observer_(array.life_.observer()),
+          life_(&ptr_) {}
+    template <typename T, std::size_t N, typename E = element_type,
+              typename std::enable_if<!std::is_pointer<T>::value &&
+                                          !std::is_reference<T>::value &&
+                                          std::is_const<E>::value,
+                                      std::nullptr_t>::type = nullptr>
+    wrap(const wrap<T[N]> &array)
+        : ptr_(&array.base_[0]), observer_(array.life_.observer()),
+          life_(&ptr_) {}
+
+    template <typename T, std::size_t N>
+    wrap(const wrap<T (&)[N]> &array)
+        : ptr_(&array.ptr_[0][0]), observer_(array.observer_), life_(&ptr_) {}
 
     wrap(std::nullptr_t = nullptr) noexcept
         : ptr_(nullptr), observer_(nullptr), life_(&ptr_) {}
