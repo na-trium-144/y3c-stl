@@ -2,8 +2,10 @@
 #include "y3c/terminate.h"
 #include "y3c/wrap.h"
 #include <memory>
+#include <cassert>
 
-Y3C_NS_BEGIN
+namespace y3c {
+
 template <typename T>
 class shared_ptr;
 // template <typename T>
@@ -209,4 +211,4 @@ shared_ptr<T> make_shared(Args &&...args) {
     return shared_ptr<T>(std::make_shared<T>(std::forward<Args>(args)...));
 }
 
-Y3C_NS_END
+} // namespace y3c

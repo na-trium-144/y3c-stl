@@ -2,9 +2,8 @@
 #include "y3c/terminate.h"
 #include "y3c/life.h"
 #include <memory>
-#include <cassert>
 
-Y3C_NS_BEGIN
+namespace y3c {
 template <typename base_type>
 class wrap;
 
@@ -419,4 +418,4 @@ using ptr_const = const wrap<element_type *>;
 template <typename element_type>
 using const_ptr_const = const wrap<const element_type *>;
 
-Y3C_NS_END
+} // namespace y3c

@@ -11,28 +11,16 @@
 #include <unordered_map>
 #include <atomic>
 
-Y3C_NS_BEGIN
-
-/*!
- * 実際のところなにもしない。
- *
- * y3c-stlはほとんどがテンプレートクラスであるため、
- * 使い方によってはy3cライブラリにincludeやリンクしてもy3cの初期化がされない場合がある。
- *
- * y3cライブラリのテンプレートでない関数を何かしら1つ呼ぶことで
- * 確実にリンクされ初期化させることができるので、
- * こんなものを用意してみた。
- *
- */
-Y3C_DLL void Y3C_CALL link() noexcept;
-
+namespace y3c {
 namespace internal {
+inline namespace Y3C_NS_ABI {
+
+Y3C_DLL void Y3C_CALL link() noexcept;
 
 /*!
  * y3c::内部の関数がスタックトレースに表示されないようにするために、
  * 関数の引数型やテンプレートにこれを含めると、スタックトレースからそのフレームを除外してくれる
- * (`internal::skip_trace_tag = {}`, `template <typename =
- * internal::skip_trace_tag>` など)
+ * (`skip_trace_tag = {}`, `template <typename = skip_trace_tag>` など)
  *
  * handle_final_terminate_message() はtag無しでも除外する例外。
  *
@@ -69,7 +57,7 @@ struct terminate_detail {
  */
 [[noreturn]] Y3C_DLL void Y3C_CALL handle_final_terminate_message() noexcept;
 /*!
- * 例外を表示して強制終了する
+ * \brief 例外を表示して強制終了する
  *
  * 内部ではstd::terminate()ではなくstd::abort()を呼んでいる
  *
@@ -77,7 +65,7 @@ struct terminate_detail {
 [[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_detail &&detail);
 
 /*!
- * y3cの例外クラスのベース。
+ * \brief y3cの例外クラスのベース。
  *
  * スタックトレースや例外の詳細をコンストラクタでstatic変数に保存し、
  * what() は通常の例外と同様短いメッセージを返す。
@@ -116,7 +104,7 @@ class exception_base {
  * これがtrueの場合代わりにthrowするようになる
  * (主にテスト用)
  *
- * 投げた例外がdll境界を越えるとたまにめんどくさいことになるので、
+ * 投げた例外がdll境界を越えるとMacOSでめんどくさいことになるので、
  * 例外はinline関数の中で投げる
  *
  */
@@ -152,7 +140,21 @@ class ub_access_deleted {};
     do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
                        what::access_deleted()});
 }
+} // namespace Y3C_NS_ABI
 } // namespace internal
+
+/*!
+ * 実際のところなにもしない。
+ *
+ * y3c-stlはほとんどがテンプレートクラスであるため、
+ * 使い方によってはy3cライブラリにincludeやリンクしてもy3cの初期化がされない場合がある。
+ *
+ * y3cライブラリのテンプレートでない関数を何かしら1つ呼ぶことで
+ * 確実にリンクされ初期化させることができるので、
+ * こんなものを用意してみた。
+ *
+ */
+inline void link() { internal::link(); }
 
 /*!
  * std:: のexceptionをそれぞれ継承しており、
@@ -177,4 +179,4 @@ class out_of_range final : public std::out_of_range,
     }
 };
 
-Y3C_NS_END
+} // namespace y3c

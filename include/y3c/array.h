@@ -3,7 +3,8 @@
 #include "y3c/wrap.h"
 #include <array>
 
-Y3C_NS_BEGIN
+namespace y3c {
+
 template <typename T, std::size_t N>
 class array;
 template <typename T, std::size_t N>
@@ -237,4 +238,4 @@ const std::array<T, N> &unwrap(const array<T, N> &wrapper) noexcept {
     return wrapper.base_;
 }
 
-Y3C_NS_END
+} // namespace y3c

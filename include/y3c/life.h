@@ -7,7 +7,7 @@
 #endif
 #include <memory>
 
-Y3C_NS_BEGIN
+namespace y3c {
 namespace internal {
 class life_state {
     void *begin_, *end_;
@@ -97,4 +97,4 @@ class life {
     life_observer observer() const { return life_observer(this->state_); }
 };
 } // namespace internal
-Y3C_NS_END
+} // namespace y3c
