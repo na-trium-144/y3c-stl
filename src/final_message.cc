@@ -4,19 +4,19 @@
 #include <iostream>
 #include <ostream>
 
-Y3C_NS_BEGIN
+namespace y3c {
 namespace internal {
+inline namespace Y3C_NS_ABI {
 
 void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
     while (!trace.frames.empty() &&
            (trace.frames.front().symbol.empty() ||
-            trace.frames.front().symbol.find("y3c::" Y3C_NS_ABI_S
-                                             "::internal::skip_trace_tag") !=
+            trace.frames.front().symbol.find("y3c::internal::" Y3C_NS_ABI_S
+                                             "::skip_trace_tag") !=
                 std::string::npos ||
             trace.frames.front().symbol.find(
-                "y3c::" Y3C_NS_ABI_S
-                "::internal::handle_final_terminate_message") !=
-                std::string::npos)) {
+                "y3c::internal::" Y3C_NS_ABI_S
+                "::handle_final_terminate_message") != std::string::npos)) {
         trace.frames.erase(trace.frames.begin());
     }
     while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
@@ -79,6 +79,9 @@ void print_y3c_exception(std::ostream &stream, const terminate_detail &e) {
     // case terminate_type::terminate:
     //     stream << rang::style::bold << "terminate() called";
     //     break;
+    case terminate_type::internal:
+        stream << rang::style::bold << "internal error of y3c-stl itself";
+        break;
     case terminate_type::ub_out_of_range:
     case terminate_type::ub_access_nullptr:
     case terminate_type::ub_access_deleted:
@@ -98,12 +101,6 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
                              skip_trace_tag = {}) {
     try {
         std::rethrow_exception(current);
-    } catch (const y3c::internal::exception_base &e) {
-        print_y3c_exception(stream, e);
-        auto trace = std::static_pointer_cast<cpptrace::raw_trace>(e.raw_trace)
-                         ->resolve();
-        strip_and_print_trace(stream, trace);
-        return;
     } catch (const std::exception &e) {
         stream << "exception of type ";
         stream << rang::fg::cyan << "std::exception";
@@ -138,7 +135,17 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
     print_header(stream);
     auto current = std::current_exception();
     if (current) {
-        print_current_exception(stream, current);
+        if (!exception_base::exceptions.empty()) {
+            for (auto &detail : exception_base::exceptions) {
+                print_y3c_exception(stream, detail.second);
+                auto trace = std::static_pointer_cast<cpptrace::raw_trace>(
+                                 detail.second.raw_trace)
+                                 ->resolve();
+                strip_and_print_trace(stream, trace);
+            }
+        } else {
+            print_current_exception(stream, current);
+        }
     } else {
         stream << "terminate() called, but that's not from y3c-stl and "
                   "current_exception information is empty."
@@ -161,6 +168,6 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
     std::abort();
 }
 
+} // namespace Y3C_NS_ABI
 } // namespace internal
-
-Y3C_NS_END
+} // namespace y3c

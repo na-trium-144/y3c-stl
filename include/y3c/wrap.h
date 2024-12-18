@@ -1,12 +1,14 @@
 #pragma once
 #include "y3c/terminate.h"
 #include "y3c/life.h"
+#include "y3c/typename.h"
 #include <memory>
-#include <cassert>
 
-Y3C_NS_BEGIN
+namespace y3c {
 template <typename base_type>
 class wrap;
+template <typename base_type>
+class wrap_auto;
 
 template <typename base_type,
           typename std::enable_if<!std::is_pointer<base_type>::value &&
@@ -29,6 +31,9 @@ element_type *unwrap(const wrap<element_type *> &wrapper) noexcept;
  *
  * * `operator&` で y3c::wrap<T*> が得られる
  * * y3c::wrap<T&> にキャストできる
+ * * Tが E[N] の形の場合、
+ *   * `operator[]` で y3c::wrap<E&> が得られる
+ *   * `y3c::wrap<E*> にキャストできる
  *
  */
 template <typename base_type>
@@ -37,6 +42,10 @@ class wrap {
                   "y3c::wrap cannot have void value");
     static_assert(!std::is_const<base_type>::value,
                   "y3c::wrap cannot have const value");
+
+    const std::string &type_name() const {
+        return internal::get_type_name<wrap>();
+    }
 
   protected:
     base_type base_;
@@ -57,7 +66,7 @@ class wrap {
     ~wrap() = default;
 
     template <typename... Args>
-    wrap(Args &&...args) : base_(std::forward<Args>(args)...), life_(&base_) {}
+    wrap(Args &&...args) : base_{std::forward<Args>(args)...}, life_(&base_) {}
     template <typename V>
     wrap &operator=(V &&args) {
         base_ = std::forward<V>(args);
@@ -73,6 +82,27 @@ class wrap {
 
     operator base_type &() noexcept { return this->base_; }
     operator const base_type &() const noexcept { return this->base_; }
+
+    template <typename T = base_type,
+              typename E = typename std::remove_extent<base_type>::type,
+              typename std::enable_if<std::is_array<T>::value,
+                                      std::nullptr_t>::type = nullptr,
+              typename = internal::skip_trace_tag>
+    wrap_auto<E> operator[](std::ptrdiff_t i) {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap_auto<E>(life_.observer().assert_ptr(&base_[i], func),
+                            life_.observer());
+    }
+    template <typename T = base_type,
+              typename E = typename std::remove_extent<base_type>::type,
+              typename std::enable_if<std::is_array<T>::value,
+                                      std::nullptr_t>::type = nullptr,
+              typename = internal::skip_trace_tag>
+    wrap_auto<const E> operator[](std::ptrdiff_t i) const {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap_auto<const E>(life_.observer().assert_ptr(&base_[i], func),
+                                  life_.observer());
+    }
 
     wrap<base_type *> operator&() {
         return wrap<base_type *>(&base_, life_.observer());
@@ -169,6 +199,9 @@ class wrap_auto : public wrap<typename std::remove_const<element_type>::type> {
  * キャストとy3c::unwrapでチェックが入るのは (今のところ) wrap_ref のみ。
  * * y3c::wrap<remove_const_t<T>> の左辺値からキャストできる
  * * `operator&` で y3c::wrap<T*> が得られる
+ * * Tが E[N] の形の場合、
+ *   * `operator[]` で y3c::wrap<E&> が得られる
+ *   * `y3c::wrap<E*> にキャストできる
  *
  * \sa wrap_ref, const_wrap_ref
  */
@@ -181,7 +214,11 @@ class wrap<element_type &> {
     element_type *ptr_;
     internal::life_observer observer_;
 
-    element_type *assert_ptr(const char *func,
+    const std::string &type_name() const {
+        return internal::get_type_name<wrap>();
+    }
+
+    element_type *assert_ptr(const std::string &func,
                              internal::skip_trace_tag = {}) const {
         return observer_.assert_ptr(ptr_, func);
     }
@@ -223,7 +260,8 @@ class wrap<element_type &> {
      */
     template <typename V, typename = internal::skip_trace_tag>
     wrap &operator=(V &&args) {
-        *assert_ptr("y3c::wrap_ref::operator=()") = std::forward<V>(args);
+        static std::string func = type_name() + "::operator=()";
+        *assert_ptr(func) = std::forward<V>(args);
         return *this;
     }
 
@@ -240,8 +278,10 @@ class wrap<element_type &> {
      */
     template <typename = internal::skip_trace_tag>
     wrap &operator=(const wrap &other) {
-        *assert_ptr("y3c::wrap_ref::operator=()") =
-            *other.assert_ptr("cast from y3c::wrap to reference");
+        static std::string func = type_name() + "::operator=()";
+        static std::string func2 =
+            "cast from " + other.type_name() + " to reference";
+        *assert_ptr(func) = *other.assert_ptr(func2);
         return *this;
     }
     /*!
@@ -251,8 +291,10 @@ class wrap<element_type &> {
     template <typename = internal::skip_trace_tag>
     wrap &operator=(wrap &&other) {
         if (this != std::addressof(other)) {
-            *assert_ptr("y3c::wrap_ref::operator=()") = std::move(
-                *other.assert_ptr("cast from y3c::wrap to reference"));
+            static std::string func = type_name() + "::operator=()";
+            static std::string func2 =
+                "cast from " + other.type_name() + " to reference";
+            *assert_ptr(func) = std::move(*other.assert_ptr(func2));
         }
         return *this;
     }
@@ -266,7 +308,18 @@ class wrap<element_type &> {
 
     template <typename = internal::skip_trace_tag>
     operator element_type &() {
-        return *assert_ptr("cast from y3c::wrap_ref to reference");
+        static std::string func2 = "cast from " + type_name() + " to reference";
+        return *assert_ptr(func2);
+    }
+
+    template <typename T = element_type,
+              typename E = typename std::remove_extent<element_type>::type,
+              typename std::enable_if<std::is_array<T>::value,
+                                      std::nullptr_t>::type = nullptr,
+              typename = internal::skip_trace_tag>
+    wrap_auto<E> operator[](std::ptrdiff_t i) {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap_auto<E>(&assert_ptr(func)[0][i], observer_);
     }
 
     wrap<element_type *> operator&() const noexcept {
@@ -277,7 +330,8 @@ class wrap<element_type &> {
 template <typename element_type>
 element_type &unwrap(const wrap<element_type &> &wrapper,
                      internal::skip_trace_tag) {
-    return *wrapper.assert_ptr("y3c::unwrap()");
+    static std::string func = "y3c::unwrap(" + wrapper.type_name() + ")";
+    return *wrapper.assert_ptr(func);
 }
 
 template <typename element_type>
@@ -306,7 +360,11 @@ class wrap<element_type *> {
     internal::life_observer observer_;
     internal::life life_;
 
-    element_type *assert_ptr(const char *func,
+    virtual const std::string &type_name() const {
+        return internal::get_type_name<wrap>();
+    }
+
+    element_type *assert_ptr(const std::string &func,
                              internal::skip_trace_tag = {}) const {
         return observer_.assert_ptr(ptr_, func);
     }
@@ -314,6 +372,26 @@ class wrap<element_type *> {
   public:
     wrap(element_type *ptr, internal::life_observer observer) noexcept
         : ptr_(ptr), observer_(observer), life_(&ptr_) {}
+
+    template <typename T, std::size_t N,
+              typename std::enable_if<!std::is_pointer<T>::value &&
+                                          !std::is_reference<T>::value,
+                                      std::nullptr_t>::type = nullptr>
+    wrap(wrap<T[N]> &array)
+        : ptr_(&array.base_[0]), observer_(array.life_.observer()),
+          life_(&ptr_) {}
+    template <typename T, std::size_t N, typename E = element_type,
+              typename std::enable_if<!std::is_pointer<T>::value &&
+                                          !std::is_reference<T>::value &&
+                                          std::is_const<E>::value,
+                                      std::nullptr_t>::type = nullptr>
+    wrap(const wrap<T[N]> &array)
+        : ptr_(&array.base_[0]), observer_(array.life_.observer()),
+          life_(&ptr_) {}
+
+    template <typename T, std::size_t N>
+    wrap(const wrap<T (&)[N]> &array)
+        : ptr_(&array.ptr_[0][0]), observer_(array.observer_), life_(&ptr_) {}
 
     wrap(std::nullptr_t = nullptr) noexcept
         : ptr_(nullptr), observer_(nullptr), life_(&ptr_) {}
@@ -325,7 +403,7 @@ class wrap<element_type *> {
         observer_ = other.observer_;
         return *this;
     }
-    ~wrap() = default;
+    virtual ~wrap() = default;
 
     template <typename T>
     wrap(const wrap<T *> &ref)
@@ -346,12 +424,13 @@ class wrap<element_type *> {
 
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator*() const {
-        return wrap_auto<element_type>(assert_ptr("y3c::wrap::operator*()"),
-                                       observer_);
+        std::string func = type_name() + "::operator*()";
+        return wrap_auto<element_type>(assert_ptr(func), observer_);
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
-        return assert_ptr("y3c::wrap::operator->()");
+        std::string func = type_name() + "::operator->()";
+        return assert_ptr(func);
     }
 
     wrap &operator++() {
@@ -387,8 +466,8 @@ class wrap<element_type *> {
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
-        return wrap_auto<element_type>(
-            (*this + n).assert_ptr("y3c::wrap::operator[]()"), observer_);
+        std::string func = type_name() + "::operator[]()";
+        return wrap_auto<element_type>((*this + n).assert_ptr(func), observer_);
     }
 
     operator element_type *() const noexcept { return ptr_; }
@@ -419,4 +498,4 @@ using ptr_const = const wrap<element_type *>;
 template <typename element_type>
 using const_ptr_const = const wrap<const element_type *>;
 
-Y3C_NS_END
+} // namespace y3c

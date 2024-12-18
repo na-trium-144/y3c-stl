@@ -8,29 +8,19 @@
 #include <stdexcept>
 #include <string>
 #include <memory>
+#include <unordered_map>
+#include <atomic>
 
-Y3C_NS_BEGIN
-
-/*!
- * 実際のところなにもしない。
- *
- * y3c-stlはほとんどがテンプレートクラスであるため、
- * 使い方によってはy3cライブラリにincludeやリンクしてもy3cの初期化がされない場合がある。
- *
- * y3cライブラリのテンプレートでない関数を何かしら1つ呼ぶことで
- * 確実にリンクされ初期化させることができるので、
- * こんなものを用意してみた。
- *
- */
-Y3C_DLL void Y3C_CALL link() noexcept;
-
+namespace y3c {
 namespace internal {
+inline namespace Y3C_NS_ABI {
+
+Y3C_DLL void Y3C_CALL link() noexcept;
 
 /*!
  * y3c::内部の関数がスタックトレースに表示されないようにするために、
  * 関数の引数型やテンプレートにこれを含めると、スタックトレースからそのフレームを除外してくれる
- * (`internal::skip_trace_tag = {}`, `template <typename =
- * internal::skip_trace_tag>` など)
+ * (`skip_trace_tag = {}`, `template <typename = skip_trace_tag>` など)
  *
  * handle_final_terminate_message() はtag無しでも除外する例外。
  *
@@ -38,11 +28,12 @@ namespace internal {
 struct skip_trace_tag {};
 
 enum class terminate_type {
-    exception = 0,
-    terminate = 1,
-    ub_out_of_range = 2,
-    ub_access_nullptr = 3,
-    ub_access_deleted = 4,
+    exception,
+    terminate,
+    internal,
+    ub_out_of_range,
+    ub_access_nullptr,
+    ub_access_deleted,
 };
 
 struct terminate_detail {
@@ -67,7 +58,7 @@ struct terminate_detail {
  */
 [[noreturn]] Y3C_DLL void Y3C_CALL handle_final_terminate_message() noexcept;
 /*!
- * 例外を表示して強制終了する
+ * \brief 例外を表示して強制終了する
  *
  * 内部ではstd::terminate()ではなくstd::abort()を呼んでいる
  *
@@ -75,17 +66,37 @@ struct terminate_detail {
 [[noreturn]] Y3C_DLL void Y3C_CALL do_terminate_with(terminate_detail &&detail);
 
 /*!
- * y3cの例外クラスのベース。
+ * \brief y3cの例外クラスのベース。
  *
- * スタックトレースや例外の詳細をコンストラクタでy3c内部のグローバル変数に保存し、
+ * スタックトレースや例外の詳細をコンストラクタでstatic変数に保存し、
  * what() は通常の例外と同様短いメッセージを返す。
  *
  */
-struct exception_base : terminate_detail {
+class exception_base {
+    int id;
+
+  protected:
+    std::string what;
+
+  public:
+    static Y3C_DLL std::atomic<int> last_exception_id;
+    static Y3C_DLL std::unordered_map<int, terminate_detail> exceptions;
+
     exception_base(const char *e_class, std::string &&func, std::string &&what,
                    skip_trace_tag = {})
-        : terminate_detail(terminate_type::exception, e_class, std::move(func),
-                           std::move(what)) {}
+        : id(++last_exception_id), what(what) {
+        exceptions.emplace(id,
+                           terminate_detail(terminate_type::exception, e_class,
+                                            std::move(func), std::move(what)));
+    }
+    exception_base(const exception_base &) = delete;
+    exception_base &operator=(const exception_base &) = delete;
+    exception_base(exception_base &&other)
+        : id(other.id), what(std::move(other.what)) {
+        other.id = -1;
+    }
+    exception_base &operator=(exception_base &&) = delete;
+    ~exception_base() { exceptions.erase(id); }
 };
 
 /*!
@@ -94,7 +105,7 @@ struct exception_base : terminate_detail {
  * これがtrueの場合代わりにthrowするようになる
  * (主にテスト用)
  *
- * 投げた例外がdll境界を越えるとたまにめんどくさいことになるので、
+ * 投げた例外がdll境界を越えるとMacOSでめんどくさいことになるので、
  * 例外はinline関数の中で投げる
  *
  */
@@ -130,7 +141,28 @@ class ub_access_deleted {};
     do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
                        what::access_deleted()});
 }
+[[noreturn]] inline void terminate_internal(std::string func, std::string what, skip_trace_tag = {}) {
+    if (throw_on_terminate) {
+        throw std::runtime_error(what);
+    }
+    do_terminate_with({terminate_type::internal, std::move(func), std::move(what)});
+}
+
+} // namespace Y3C_NS_ABI
 } // namespace internal
+
+/*!
+ * 実際のところなにもしない。
+ *
+ * y3c-stlはほとんどがテンプレートクラスであるため、
+ * 使い方によってはy3cライブラリにincludeやリンクしてもy3cの初期化がされない場合がある。
+ *
+ * y3cライブラリのテンプレートでない関数を何かしら1つ呼ぶことで
+ * 確実にリンクされ初期化させることができるので、
+ * こんなものを用意してみた。
+ *
+ */
+inline void link() { internal::link(); }
 
 /*!
  * std:: のexceptionをそれぞれ継承しており、
@@ -151,8 +183,8 @@ class out_of_range final : public std::out_of_range,
                                    internal::what::out_of_range(size, index)) {}
 
     const char *what() const noexcept override {
-        return this->internal::terminate_detail::what.c_str();
+        return this->internal::exception_base::what.c_str();
     }
 };
 
-Y3C_NS_END
+} // namespace y3c

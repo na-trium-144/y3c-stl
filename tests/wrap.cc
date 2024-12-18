@@ -64,6 +64,12 @@ TEST_CASE("wrap") {
             }
             delete a;
         }
+        SUBCASE("array") {
+            y3c::wrap<A[2]> a = {100, 200};
+            CHECK_EQ(unwrap(a[0]).val, 100);
+            CHECK_EQ(unwrap(a[1]).val, 200);
+            CHECK_THROWS_AS(unwrap(a[2]).val, y3c::internal::ub_out_of_range);
+        }
         SUBCASE("") {
             y3c::wrap<A> a(100);
             y3c::wrap<A> *b;
@@ -100,6 +106,18 @@ TEST_CASE("wrap") {
                 y3c::wrap_ref<A> r(b);
                 CHECK_EQ(unwrap(r).val, 100);
             }
+            SUBCASE("from array") {
+                y3c::wrap<A[2]> a = {100, 200};
+                y3c::wrap_ref<A> r(a[0]);
+                CHECK_EQ(unwrap(r).val, 100);
+            }
+        }
+        SUBCASE("array") {
+            y3c::wrap<A[2]> a = {100, 200};
+            y3c::wrap_ref<A[2]> r(a);
+            CHECK_EQ(unwrap(r[0]).val, 100);
+            CHECK_EQ(unwrap(r[1]).val, 200);
+            CHECK_THROWS_AS(unwrap(r[2]).val, y3c::internal::ub_out_of_range);
         }
         SUBCASE("") {
             y3c::wrap<A> *a = new y3c::wrap<A>(100);
@@ -207,8 +225,21 @@ TEST_CASE("wrap") {
                 CHECK_EQ(unwrap(p)->val, 100);
                 CHECK_EQ(unwrap(p), &unwrap(ar));
             }
+            SUBCASE("from array") {
+                y3c::wrap<A[2]> a = {100, 200};
+                y3c::ptr<A> p(a);
+                CHECK_EQ(unwrap(p)->val, 100);
+                CHECK_EQ(unwrap(p + 1)->val, 200);
+            }
+            SUBCASE("from array ref") {
+                y3c::wrap<A[2]> a = {100, 200};
+                y3c::wrap_ref<A[2]> r(a);
+                y3c::ptr<A> p(r);
+                CHECK_EQ(unwrap(p)->val, 100);
+                CHECK_EQ(unwrap(p + 1)->val, 200);
+            }
         }
-        SUBCASE("void"){
+        SUBCASE("void") {
             y3c::wrap<A> a;
             y3c::ptr<A> ap(&a);
             y3c::ptr<void> vp(&a);

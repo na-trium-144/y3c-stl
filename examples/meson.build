@@ -15,6 +15,9 @@ examples = [
   'terminate-throw-any',
   'terminate-throw-exception',
   'terminate-throw-string',
+  'wrap_array-ptr-local',
+  'wrap_array-ptr',
+  'wrap_array-range',
 ]
 foreach case : examples
   executable('y3c-example-' + case,

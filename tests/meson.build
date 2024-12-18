@@ -1,6 +1,7 @@
 test_cases = [
   'array',
   'shared_ptr',
+  'typename',
   'wrap',
 ]
 foreach case : test_cases

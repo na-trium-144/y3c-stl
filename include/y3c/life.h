@@ -7,7 +7,7 @@
 #endif
 #include <memory>
 
-Y3C_NS_BEGIN
+namespace y3c {
 namespace internal {
 class life_state {
     void *begin_, *end_;
@@ -56,7 +56,7 @@ class life_observer {
     ~life_observer() = default;
 
     template <typename element_type>
-    element_type *assert_ptr(element_type *ptr, const char *func,
+    element_type *assert_ptr(element_type *ptr, const std::string &func,
                              internal::skip_trace_tag = {}) const {
         // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
         // になる場合があるが、 その場合はnullptrアクセスエラーとしない
@@ -97,4 +97,4 @@ class life {
     life_observer observer() const { return life_observer(this->state_); }
 };
 } // namespace internal
-Y3C_NS_END
+} // namespace y3c

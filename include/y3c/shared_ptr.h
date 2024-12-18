@@ -1,9 +1,12 @@
 #pragma once
 #include "y3c/terminate.h"
 #include "y3c/wrap.h"
+#include "y3c/typename.h"
 #include <memory>
+#include <cassert>
 
-Y3C_NS_BEGIN
+namespace y3c {
+
 template <typename T>
 class shared_ptr;
 // template <typename T>
@@ -23,6 +26,10 @@ class shared_ptr {
     std::shared_ptr<T> base_;
     std::shared_ptr<internal::life> ptr_life_;
     internal::life life_;
+
+    const std::string &type_name() const {
+        return internal::get_type_name<shared_ptr>();
+    }
 
   public:
     shared_ptr(std::nullptr_t = nullptr) noexcept
@@ -118,8 +125,8 @@ class shared_ptr {
     template <typename = internal::skip_trace_tag>
     y3c::wrap_auto<T> operator*() const {
         if (!base_) {
-            y3c::internal::terminate_ub_access_nullptr(
-                "y3c::shared_ptr::operator*()");
+            static std::string func = type_name() + "::operator*()";
+            y3c::internal::terminate_ub_access_nullptr(func);
         }
         assert(ptr_life_);
         return y3c::wrap_auto<T>(base_.get(), ptr_life_->observer());
@@ -127,8 +134,8 @@ class shared_ptr {
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
         if (!base_) {
-            y3c::internal::terminate_ub_access_nullptr(
-                "y3c::shared_ptr::operator->()");
+            static std::string func = type_name() + "::operator->()";
+            y3c::internal::terminate_ub_access_nullptr(func);
         }
         assert(ptr_life_);
         return base_.get();
@@ -209,4 +216,4 @@ shared_ptr<T> make_shared(Args &&...args) {
     return shared_ptr<T>(std::make_shared<T>(std::forward<Args>(args)...));
 }
 
-Y3C_NS_END
+} // namespace y3c
