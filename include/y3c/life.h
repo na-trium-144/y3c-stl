@@ -56,7 +56,7 @@ class life_observer {
     ~life_observer() = default;
 
     template <typename element_type>
-    element_type *assert_ptr(element_type *ptr, const char *func,
+    element_type *assert_ptr(element_type *ptr, const std::string &func,
                              internal::skip_trace_tag = {}) const {
         // array<T, 0> の参照の場合 ptr_ = nullptr, alive = arrayの寿命
         // になる場合があるが、 その場合はnullptrアクセスエラーとしない

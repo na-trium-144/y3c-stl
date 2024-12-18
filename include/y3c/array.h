@@ -1,6 +1,7 @@
 #pragma once
 #include "y3c/terminate.h"
 #include "y3c/wrap.h"
+#include "y3c/typename.h"
 #include <array>
 
 namespace y3c {
@@ -16,9 +17,16 @@ const std::array<T, N> &unwrap(const array<T, N> &wrapper) noexcept;
 namespace internal {
 template <typename element_type>
 class array_iterator : public ptr<element_type> {
-    array_iterator(element_type *ptr_,
-                   internal::life_observer observer) noexcept
-        : ptr<element_type>(ptr_, observer) {}
+
+    const std::string *type_name_;
+    const std::string &type_name() const override {
+        // return internal::get_type_name<array_iterator>();
+        return *type_name_;
+    }
+
+    array_iterator(element_type *ptr_, internal::life_observer observer,
+                   const std::string *type_name) noexcept
+        : ptr<element_type>(ptr_, observer), type_name_(type_name) {}
 
   public:
     template <typename T, std::size_t N>
@@ -51,10 +59,10 @@ class array_iterator : public ptr<element_type> {
         return *this;
     }
     array_iterator operator+(std::ptrdiff_t n) const {
-        return array_iterator(this->ptr_ + n, this->observer_);
+        return array_iterator(this->ptr_ + n, this->observer_, type_name_);
     }
     array_iterator operator-(std::ptrdiff_t n) const {
-        return array_iterator(this->ptr_ - n, this->observer_);
+        return array_iterator(this->ptr_ - n, this->observer_, type_name_);
     }
 };
 } // namespace internal
@@ -71,6 +79,20 @@ template <typename T, std::size_t N>
 class array {
     std::array<T, N> base_;
     internal::life life_;
+
+    const std::string &type_name() const {
+        return internal::get_type_name<array>();
+    }
+    const std::string &iter_name() const {
+        static std::string name =
+            internal::get_type_name<array>() + "::iterator";
+        return name;
+    }
+    const std::string &const_iter_name() const {
+        static std::string name =
+            internal::get_type_name<array>() + "::const_iterator";
+        return name;
+    }
 
   public:
     array() : base_(), life_(&base_) {}
@@ -121,60 +143,62 @@ class array {
 
     wrap_auto<T> at(size_type n, internal::skip_trace_tag = {}) {
         if (n >= N) {
-            throw y3c::out_of_range("y3c::array::at()", N,
-                                    static_cast<std::ptrdiff_t>(n));
+            static std::string func = type_name() + "::at()";
+            throw y3c::out_of_range(func, N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->base_[n], this->life_.observer());
     }
     wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= N) {
-            throw y3c::out_of_range("y3c::array::at()", N,
-                                    static_cast<std::ptrdiff_t>(n));
+            static std::string func = type_name() + "::at()";
+            throw y3c::out_of_range(func, N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<const T>(&this->base_[n], this->life_.observer());
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<T> operator[](size_type n) {
         if (n >= N) {
+            static std::string func = type_name() + "::operator[]()";
             y3c::internal::terminate_ub_out_of_range(
-                "y3c::array::operator[]()", N, static_cast<std::ptrdiff_t>(n));
+                func, N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->base_[n], this->life_.observer());
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<const T> operator[](size_type n) const {
         if (n >= N) {
+            static std::string func = type_name() + "::operator[]()";
             y3c::internal::terminate_ub_out_of_range(
-                "y3c::array::operator[]()", N, static_cast<std::ptrdiff_t>(n));
+                func, N, static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<const T>(&this->base_[n], this->life_.observer());
     }
 
     wrap_auto<T> front(internal::skip_trace_tag = {}) {
         if (N == 0) {
-            y3c::internal::terminate_ub_out_of_range("y3c::array::front()", N,
-                                                     0);
+            static std::string func = type_name() + "::front()";
+            y3c::internal::terminate_ub_out_of_range(func, N, 0);
         }
         return wrap_auto<T>(&this->base_.front(), this->life_.observer());
     }
     wrap_auto<const T> front(internal::skip_trace_tag = {}) const {
         if (N == 0) {
-            y3c::internal::terminate_ub_out_of_range("y3c::array::front()", N,
-                                                     0);
+            static std::string func = type_name() + "::front()";
+            y3c::internal::terminate_ub_out_of_range(func, N, 0);
         }
         return wrap_auto<const T>(&this->base_.front(), this->life_.observer());
     }
     wrap_auto<T> back(internal::skip_trace_tag = {}) {
         if (N == 0) {
-            y3c::internal::terminate_ub_out_of_range("y3c::array::back()", N,
-                                                     0);
+            static std::string func = type_name() + "::back()";
+            y3c::internal::terminate_ub_out_of_range(func, N, 0);
         }
         return wrap_auto<T>(&this->base_.back(), this->life_.observer());
     }
     wrap_auto<const T> back(internal::skip_trace_tag = {}) const {
         if (N == 0) {
-            y3c::internal::terminate_ub_out_of_range("y3c::array::back()", N,
-                                                     0);
+            static std::string func = type_name() + "::back()";
+            y3c::internal::terminate_ub_out_of_range(func, N, 0);
         }
         return wrap_auto<const T>(&this->base_.back(), this->life_.observer());
     }
@@ -194,16 +218,18 @@ class array {
 
     iterator begin() {
         if (N == 0) {
-            return iterator(nullptr, this->life_.observer());
+            return iterator(nullptr, this->life_.observer(), &iter_name());
         }
-
-        return iterator(&this->base_.front(), this->life_.observer());
+        return iterator(&this->base_.front(), this->life_.observer(),
+                        &iter_name());
     }
     const_iterator begin() const {
         if (N == 0) {
-            return const_iterator(nullptr, this->life_.observer());
+            return const_iterator(nullptr, this->life_.observer(),
+                                  &const_iter_name());
         }
-        return const_iterator(&this->base_.front(), this->life_.observer());
+        return const_iterator(&this->base_.front(), this->life_.observer(),
+                              &const_iter_name());
     }
     const_iterator cbegin() const { return begin(); }
     iterator end() { return begin() + N; }
