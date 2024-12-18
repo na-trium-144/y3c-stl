@@ -3,7 +3,6 @@
 #include "y3c/wrap.h"
 #include "y3c/typename.h"
 #include <memory>
-#include <cassert>
 
 namespace y3c {
 
@@ -119,7 +118,7 @@ class shared_ptr {
         if (!base_) {
             return nullptr;
         }
-        assert(ptr_life_);
+        y3c_assert_internal(ptr_life_);
         return ptr<element_type>(base_.get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
@@ -128,7 +127,7 @@ class shared_ptr {
             static std::string func = type_name() + "::operator*()";
             y3c::internal::terminate_ub_access_nullptr(func);
         }
-        assert(ptr_life_);
+        y3c_assert_internal(ptr_life_);
         return y3c::wrap_auto<T>(base_.get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
@@ -137,7 +136,7 @@ class shared_ptr {
             static std::string func = type_name() + "::operator->()";
             y3c::internal::terminate_ub_access_nullptr(func);
         }
-        assert(ptr_life_);
+        y3c_assert_internal(ptr_life_);
         return base_.get();
     }
     // template <typename U = T>

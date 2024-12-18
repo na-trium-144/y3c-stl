@@ -64,12 +64,8 @@ const std::string &get_type_name() {
     static std::string name;
     if (name.empty()) {
         const std::string &t_name = type_name::wrapped_type_name_s<T>();
-        if (t_name.length() <
-            type_name::prefix_size() + type_name::suffix_size()) {
-            internal::terminate_internal(
-                "y3c::internal::get_type_name()",
-                "cannot find type name from signature: " + t_name);
-        }
+        y3c_assert_internal(t_name.length() > type_name::prefix_size() +
+                                                  type_name::suffix_size());
         name = t_name.substr(type_name::prefix_size(),
                              t_name.length() - type_name::prefix_size() -
                                  type_name::suffix_size());

@@ -141,12 +141,17 @@ class ub_access_deleted {};
     do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
                        what::access_deleted()});
 }
-[[noreturn]] inline void terminate_internal(std::string func, std::string what, skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw std::runtime_error(what);
-    }
-    do_terminate_with({terminate_type::internal, std::move(func), std::move(what)});
+[[noreturn]] inline void terminate_internal(std::string func, std::string what,
+                                            skip_trace_tag = {}) {
+    do_terminate_with(
+        {terminate_type::internal, std::move(func), std::move(what)});
 }
+
+#define y3c_assert_internal(cond)                                              \
+    if (!(cond)) {                                                             \
+        y3c::internal::terminate_internal(__func__,                            \
+                                          "asserion '" #cond "' failed");      \
+    }
 
 } // namespace Y3C_NS_ABI
 } // namespace internal
