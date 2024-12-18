@@ -88,7 +88,7 @@ class wrap {
               typename std::enable_if<std::is_array<T>::value,
                                       std::nullptr_t>::type = nullptr,
               typename = internal::skip_trace_tag>
-    wrap_auto<E> operator[](std::size_t i) {
+    wrap_auto<E> operator[](std::ptrdiff_t i) {
         static std::string func = type_name() + "::operator[]()";
         return wrap_auto<E>(life_.observer().assert_ptr(&base_[i], func),
                             life_.observer());
@@ -98,7 +98,7 @@ class wrap {
               typename std::enable_if<std::is_array<T>::value,
                                       std::nullptr_t>::type = nullptr,
               typename = internal::skip_trace_tag>
-    wrap_auto<const E> operator[](std::size_t i) const {
+    wrap_auto<const E> operator[](std::ptrdiff_t i) const {
         static std::string func = type_name() + "::operator[]()";
         return wrap_auto<const E>(life_.observer().assert_ptr(&base_[i], func),
                                   life_.observer());
@@ -317,7 +317,7 @@ class wrap<element_type &> {
               typename std::enable_if<std::is_array<T>::value,
                                       std::nullptr_t>::type = nullptr,
               typename = internal::skip_trace_tag>
-    wrap_auto<E> operator[](std::size_t i) {
+    wrap_auto<E> operator[](std::ptrdiff_t i) {
         static std::string func = type_name() + "::operator[]()";
         return wrap_auto<E>(&assert_ptr(func)[0][i], observer_);
     }
