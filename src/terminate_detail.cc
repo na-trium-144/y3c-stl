@@ -16,6 +16,9 @@ terminate_detail::terminate_detail(terminate_type type, const char *e_class, std
 bool throw_on_terminate =
     (std::set_terminate(handle_final_terminate_message), false);
 
+std::atomic<int> exception_base::last_exception_id;
+std::unordered_map<int, terminate_detail> exception_base::exceptions;
+
 } // namespace internal
 
 Y3C_NS_END

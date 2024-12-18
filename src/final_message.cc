@@ -98,12 +98,6 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
                              skip_trace_tag = {}) {
     try {
         std::rethrow_exception(current);
-    } catch (const y3c::internal::exception_base &e) {
-        print_y3c_exception(stream, e);
-        auto trace = std::static_pointer_cast<cpptrace::raw_trace>(e.raw_trace)
-                         ->resolve();
-        strip_and_print_trace(stream, trace);
-        return;
     } catch (const std::exception &e) {
         stream << "exception of type ";
         stream << rang::fg::cyan << "std::exception";
@@ -138,7 +132,17 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
     print_header(stream);
     auto current = std::current_exception();
     if (current) {
-        print_current_exception(stream, current);
+        if (!exception_base::exceptions.empty()) {
+            for (auto &detail : exception_base::exceptions) {
+                print_y3c_exception(stream, detail.second);
+                auto trace = std::static_pointer_cast<cpptrace::raw_trace>(
+                                 detail.second.raw_trace)
+                                 ->resolve();
+                strip_and_print_trace(stream, trace);
+            }
+        } else {
+            print_current_exception(stream, current);
+        }
     } else {
         stream << "terminate() called, but that's not from y3c-stl and "
                   "current_exception information is empty."

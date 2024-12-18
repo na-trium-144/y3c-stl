@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <string>
 #include <memory>
+#include <unordered_map>
+#include <atomic>
 
 Y3C_NS_BEGIN
 
@@ -77,15 +79,35 @@ struct terminate_detail {
 /*!
  * y3cの例外クラスのベース。
  *
- * スタックトレースや例外の詳細をコンストラクタでy3c内部のグローバル変数に保存し、
+ * スタックトレースや例外の詳細をコンストラクタでstatic変数に保存し、
  * what() は通常の例外と同様短いメッセージを返す。
  *
  */
-struct exception_base : terminate_detail {
+class exception_base {
+    int id;
+
+  protected:
+    std::string what;
+
+  public:
+    static Y3C_DLL std::atomic<int> last_exception_id;
+    static Y3C_DLL std::unordered_map<int, terminate_detail> exceptions;
+
     exception_base(const char *e_class, std::string &&func, std::string &&what,
                    skip_trace_tag = {})
-        : terminate_detail(terminate_type::exception, e_class, std::move(func),
-                           std::move(what)) {}
+        : id(++last_exception_id), what(what) {
+        exceptions.emplace(id,
+                           terminate_detail(terminate_type::exception, e_class,
+                                            std::move(func), std::move(what)));
+    }
+    exception_base(const exception_base &) = delete;
+    exception_base &operator=(const exception_base &) = delete;
+    exception_base(exception_base &&other)
+        : id(other.id), what(std::move(other.what)) {
+        other.id = -1;
+    }
+    exception_base &operator=(exception_base &&) = delete;
+    ~exception_base() { exceptions.erase(id); }
 };
 
 /*!
@@ -151,7 +173,7 @@ class out_of_range final : public std::out_of_range,
                                    internal::what::out_of_range(size, index)) {}
 
     const char *what() const noexcept override {
-        return this->internal::terminate_detail::what.c_str();
+        return this->internal::exception_base::what.c_str();
     }
 };
 
