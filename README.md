@@ -29,7 +29,7 @@ Abort trap: 6
 ```
 
 イテレータや参照、ポインタなどを雑に使っても大丈夫です。
-(生参照や生ポインタはさすがに対策できないのでそれらと同等の `y3c::wrap_ref<T>`, `y3c::ptr<T>` を用意しています)
+(生参照や生ポインタはさすがに対策できないのでそれらと同等の `y3c::wrap<T&>`, `y3c::wrap<T*>` を用意しています)
 ```cpp
 #include <y3c/array>
 #include <iostream>
@@ -142,7 +142,7 @@ executable('your_target', ..., dependencies: y3c_dep)
 ## 仕様
 
 * std:: 以下の各種クラスの代わりに y3c:: 以下のクラスで置き換えることで、よくある例外や未定義動作についていろいろな追加のチェックが実行時に行われます。
-    * さらに`int`などのクラスでない変数については `y3c::wrap<int>` 、参照 `int&` → `y3c::wrap_ref<int>`、 生ポインタ `int*` → `y3c::ptr<int>` で置き換えることで、nullptrや範囲外へのアクセス、また寿命が切れた変数へのアクセスかどうかをチェックすることができます。
+    * さらに`int`などのクラスでない変数については `y3c::wrap<int>` 、参照 `int&` → `y3c::wrap<int&>`、 生ポインタ `int*` → `y3c::wrap<int*>` で置き換えることで、nullptrや範囲外へのアクセス、また寿命が切れた変数へのアクセスかどうかをチェックすることができます。
     * いずれも `y3c::unwrap()` (または `unwrap()`) 関数を使うことで対応する std:: 以下のクラス、wrap元の型(の参照)に復元できます。
     (unwrap後はチェックが行われませんが)
 * 例外を投げるパターンの場合は (例えば `std::array::at()` → `std::out_of_range`)、
@@ -172,12 +172,12 @@ todo: doxygenのドキュメントを作りそれへのリンクにするとか
     * `y3c::link()`
     * `y3c::unwrap(y3c::wrap<T>)`
     * `y3c::wrap<T>` ← `T`
-    * `y3c::wrap_ref<T>` ← `T&`
-        * `y3c::const_wrap_ref<T>` ← `const T&`
-    * `y3c::ptr<T>` ← `T*`
-        * `y3c::const_ptr<T>` ← `const T*`
-        * `y3c::ptr_const<T>` ← `T* const`
-        * `y3c::const_ptr_const<T>` ← `const T* const`
+        * `y3c::wrap_ref<T>` = `y3c::wrap<T&>`
+        * `y3c::const_wrap_ref<T>` = `y3c::wrap<const T&>`
+        * `y3c::ptr<T>` = `y3c::wrap<T*>`
+        * `y3c::const_ptr<T>` = `y3c::wrap<const T*>`
+        * `y3c::ptr_const<T>` = `const y3c::wrap<T*>`
+        * `y3c::const_ptr_const<T>` = `const y3c::wrap<const T*>`
 * `#include <y3c/array>`
     * `y3c::array<T, N>` ← `std::array<T, N>`
 * `#include <y3c/memory>`
