@@ -4,126 +4,133 @@
 #include <memory>
 
 Y3C_NS_BEGIN
+template <typename T>
+class shared_ptr;
+// template <typename T>
+// std::shared_ptr<T> &unwrap(shared_ptr<T> &wrapper) noexcept;
+template <typename T>
+const std::shared_ptr<T> &unwrap(const shared_ptr<T> &wrapper) noexcept;
 
 /*!
- * * `*ptr` と `ptr->` 使用時にnullptrチェックを行う。
- * * `get()` は ptr<T> を返し、
+ * * `operator*` と `operator->` 使用時にnullptrチェックを行う。
+ * * `get()` が返すポインタはラップされたものであり、
  * 使用時にnullptrと参照先が生きているかのチェックができる。
  * * 初期化は std::make_shared<T> または y3c::make_shared<T> で行う。
  *
  */
 template <typename T>
-class shared_ptr : public wrap<std::shared_ptr<T>> {
-    using base_type = std::shared_ptr<T>;
+class shared_ptr {
+    std::shared_ptr<T> base_;
     std::shared_ptr<internal::life> ptr_life_;
+    internal::life life_;
 
   public:
     shared_ptr(std::nullptr_t = nullptr) noexcept
-        : wrap<std::shared_ptr<T>>(), ptr_life_() {}
+        : base_(nullptr), ptr_life_(nullptr), life_(&base_) {}
+    shared_ptr(const shared_ptr &other)
+        : base_(other.base_), ptr_life_(other.ptr_life_), life_(&base_) {}
+    shared_ptr &operator=(const shared_ptr &other) {
+        if (this != std::addressof(other)) {
+            base_ = other.base_;
+            ptr_life_ = other.ptr_life_;
+        }
+        return *this;
+    }
+    shared_ptr(shared_ptr &&other)
+        : base_(std::move(other.base_)), ptr_life_(std::move(other.ptr_life_)),
+          life_(&base_) {}
+    shared_ptr &operator=(shared_ptr &&other) {
+        if (this != std::addressof(other)) {
+            base_ = std::move(other.base_);
+            ptr_life_ = std::move(other.ptr_life_);
+        }
+        return *this;
+    }
     ~shared_ptr() = default;
+
     using element_type = T;
 
     template <typename U>
     shared_ptr(const std::shared_ptr<U> &ptr)
-        : wrap<std::shared_ptr<T>>(ptr),
-          ptr_life_(std::make_shared<internal::life>()) {}
+        : base_(ptr), ptr_life_(std::make_shared<internal::life>(base_.get())),
+          life_(&base_) {}
     template <typename U>
     shared_ptr &operator=(const std::shared_ptr<U> &ptr) {
-        this->wrap<std::shared_ptr<T>>::operator=(std::shared_ptr<T>(ptr));
-        ptr_life_ = std::make_shared<internal::life>();
+        base_ = ptr;
+        ptr_life_ = std::make_shared<internal::life>(base_.get());
         return *this;
     }
     template <typename U>
     shared_ptr(std::shared_ptr<U> &&ptr)
-        : wrap<std::shared_ptr<T>>(std::move(ptr)),
-          ptr_life_(std::make_shared<internal::life>()) {}
+        : base_(std::move(ptr)),
+          ptr_life_(std::make_shared<internal::life>(base_.get())),
+          life_(&base_) {}
     template <typename U>
     shared_ptr &operator=(std::shared_ptr<U> &&ptr) {
-        this->wrap<std::shared_ptr<T>>::operator=(
-            std::shared_ptr<T>(std::move(ptr)));
-        ptr_life_ = std::make_shared<internal::life>();
+        base_ = std::move(ptr);
+        ptr_life_ = std::make_shared<internal::life>(base_.get());
         return *this;
     }
 
     template <typename U>
-    shared_ptr(const shared_ptr<U> &ref)
-        : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(unwrap(ref))),
-          ptr_life_(ref.ptr_life_) {}
+    shared_ptr(const shared_ptr<U> &other)
+        : base_(other.base_), ptr_life_(other.ptr_life_), life_(&base_) {}
     template <typename U>
-    shared_ptr &operator=(const shared_ptr<U> &ref) {
-        this->wrap<std::shared_ptr<T>>::operator=(
-            std::shared_ptr<T>(unwrap(ref)));
-        ptr_life_ = ref.ptr_life_;
-        return *this;
-    }
-    shared_ptr(const shared_ptr &ref) = default;
-    shared_ptr &operator=(const shared_ptr &ref) {
-        if (this != std::addressof(ref)) {
-            this->wrap<std::shared_ptr<T>>::operator=(unwrap(ref));
-            ptr_life_ = ref.ptr_life_;
-        }
+    shared_ptr &operator=(const shared_ptr<U> &other) {
+        base_ = other.base_;
+        ptr_life_ = other.ptr_life_;
         return *this;
     }
     template <typename U>
-    shared_ptr(shared_ptr<U> &&ref)
-        : wrap<std::shared_ptr<T>>(std::shared_ptr<T>(unwrap(ref))),
-          ptr_life_(std::move(ref.ptr_life_)) {
-        ref.reset();
-    }
+    shared_ptr(shared_ptr<U> &&other)
+        : base_(std::move(other.base_)), ptr_life_(std::move(other.ptr_life_)),
+          life_(&base_) {}
     template <typename U>
-    shared_ptr &operator=(shared_ptr<U> &&ref) {
-        this->wrap<std::shared_ptr<T>>::operator=(
-            std::shared_ptr<T>(unwrap(ref)));
-        ptr_life_ = std::move(ref.ptr_life_);
-        ref.reset();
-        return *this;
-    }
-    shared_ptr(shared_ptr &&ref) = default;
-    shared_ptr &operator=(shared_ptr &&ref) {
-        if (this != std::addressof(ref)) {
-            this->wrap<std::shared_ptr<T>>::operator=(unwrap(ref));
-            ptr_life_ = std::move(ref.ptr_life_);
-            ref.reset();
-        }
+    shared_ptr &operator=(shared_ptr<U> &&other) {
+        base_ = std::move(other.base_);
+        ptr_life_ = std::move(other.ptr_life_);
         return *this;
     }
 
     template <typename U>
     friend class shared_ptr;
+    // friend std::shared_ptr<T> &y3c::unwrap(shared_ptr<T> &wrapper) noexcept;
+    friend const std::shared_ptr<T> &
+    y3c::unwrap(const shared_ptr<T> &wrapper) noexcept;
 
     void reset() noexcept {
-        this->unwrap().reset();
+        base_.reset();
         ptr_life_.reset();
     }
     void swap(shared_ptr &other) noexcept {
-        this->unwrap().swap(unwrap(other));
+        base_.swap(other.base_);
         ptr_life_.swap(other.ptr_life_);
     }
 
     ptr<element_type> get() const noexcept {
-        if (!this->unwrap()) {
+        if (!base_) {
             return nullptr;
         }
         assert(ptr_life_);
-        return ptr<element_type>(this->unwrap().get(), ptr_life_->observer());
+        return ptr<element_type>(base_.get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     y3c::wrap_auto<T> operator*() const {
-        if (!this->unwrap()) {
+        if (!base_) {
             y3c::internal::terminate_ub_access_nullptr(
                 "y3c::shared_ptr::operator*()");
         }
         assert(ptr_life_);
-        return y3c::wrap_auto<T>(this->unwrap().get(), ptr_life_->observer());
+        return y3c::wrap_auto<T>(base_.get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
-        if (!this->unwrap()) {
+        if (!base_) {
             y3c::internal::terminate_ub_access_nullptr(
                 "y3c::shared_ptr::operator->()");
         }
         assert(ptr_life_);
-        return this->unwrap().get();
+        return base_.get();
     }
     // template <typename U = T>
     // U &operator[](std::ptrdiff_t i) const {
@@ -131,14 +138,34 @@ class shared_ptr : public wrap<std::shared_ptr<T>> {
     //     return check_()[i];
     // }
 
-    long use_count() const noexcept { return this->unwrap().use_count(); }
-    explicit operator bool() const noexcept {
-        return static_cast<bool>(this->unwrap());
-    }
+    long use_count() const noexcept { return base_.use_count(); }
+    explicit operator bool() const noexcept { return static_cast<bool>(base_); }
     bool owner_before(const shared_ptr &arg) const {
-        return this->unwrap().owner_before(arg.base_);
+        return base_.owner_before(arg.base_);
+    }
+
+    operator wrap<shared_ptr &>() noexcept {
+        return wrap<shared_ptr &>(this, life_.observer());
+    }
+    operator wrap<const shared_ptr &>() const noexcept {
+        return wrap<const shared_ptr &>(this, life_.observer());
+    }
+    wrap<shared_ptr *> operator&() {
+        return wrap<shared_ptr *>(this, life_.observer());
+    }
+    wrap<const shared_ptr *> operator&() const {
+        return wrap<const shared_ptr *>(this, life_.observer());
     }
 };
+
+// template <typename T>
+// std::shared_ptr<T> &unwrap(shared_ptr<T> &wrapper) noexcept {
+//     return wrapper.base_;
+// }
+template <typename T>
+const std::shared_ptr<T> &unwrap(const shared_ptr<T> &wrapper) noexcept {
+    return wrapper.base_;
+}
 
 template <typename T>
 void swap(shared_ptr<T> &lhs, shared_ptr<T> &rhs) noexcept {

@@ -59,13 +59,11 @@ class array_iterator : public ptr<element_type> {
 } // namespace internal
 
 /*!
- * `at()`, `operator[]`, `front()`, `back()` で範囲外アクセスを検出する
- *
- * `at()`, `operator[]`, `front()`, `back()`, `data()`, `begin()`, `end()`
+ * * `at()`, `operator[]`, `front()`, `back()` で範囲外アクセスを検出する
+ * * `at()`, `operator[]`, `front()`, `back()`, `data()`, `begin()`, `end()`
  * などが返すポインタ、イテレータはラップされたものであり、
  * 使用時に範囲外でないかと参照先が生きているかのチェックができる。
- *
- * std::arrayと違って集成体初期化はできない
+ * * std::arrayと違って集成体初期化はできない
  * (できるようにする必要はあるのか?)
  */
 template <typename T, std::size_t N>
@@ -218,11 +216,17 @@ class array {
     void fill(const T &value) { this->base_.fill(value); }
     void swap(array &other) { this->base_.swap(unwrap(other)); }
 
-    wrap<array *> operator&() {
-        return wrap<array *>(&this, this->life_.observer());
+operator wrap<array &>() noexcept {
+        return wrap<array &>(this, life_.observer());
+    }
+    operator wrap<const array &>() const noexcept {
+        return wrap<const array &>(this, life_.observer());
+    }
+        wrap<array *> operator&() {
+        return wrap<array *>(this, life_.observer());
     }
     wrap<const array *> operator&() const {
-        return wrap<const array *>(&this, this->life_.observer());
+        return wrap<const array *>(this, life_.observer());
     }
 };
 

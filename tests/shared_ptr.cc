@@ -34,8 +34,7 @@ TEST_CASE_TEMPLATE("shared_ptr ctor", P, y3c::shared_ptr<A>, y3c::shared_ptr<B>,
             p = new y3c::shared_ptr<A>();
             *p = a;
         }
-        CHECK_EQ(unwrap(*p),
-                 std::shared_ptr<A>(std::shared_ptr<element_type>(a)));
+        CHECK_EQ(unwrap(*p).get(), a.get());
         CHECK_EQ(unwrap(*p)->val, 100);
     }
     SUBCASE("move") {
