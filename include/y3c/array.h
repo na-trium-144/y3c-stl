@@ -74,6 +74,9 @@ class array_iterator : public ptr<element_type> {
  * 使用時に範囲外でないかと参照先が生きているかのチェックができる。
  * * std::arrayと違って集成体初期化はできない
  * (できるようにする必要はあるのか?)
+ * 
+ * \todo reverse_iterator, const_reverse_iterator
+ * 
  */
 template <typename T, std::size_t N>
 class array {

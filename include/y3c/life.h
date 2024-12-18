@@ -1,10 +1,5 @@
 #pragma once
 #include "y3c/terminate.h"
-#ifdef Y3C_MESON
-#include "y3c-config.h"
-#else
-#include "y3c/y3c-config.h"
-#endif
 #include <memory>
 
 namespace y3c {
@@ -94,7 +89,64 @@ class life {
     life(life &&) = delete;
     life &operator=(life &&) = delete;
     ~life() { state_->destroy(); }
+
     life_observer observer() const { return life_observer(this->state_); }
 };
+
+/*!
+ * \brief 領域の割り当てと削除を管理するクラス
+ * 
+ */
+template <typename T>
+class allocator {
+    std::allocator<T> alloc_;
+    std::shared_ptr<std::unordered_map<void *, std::size_t>> size_map_;
+
+  public:
+    using value_type = T;
+    using pointer = T *;
+    using const_pointer = const T *;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+
+    allocator()
+        : alloc_(),
+          size_map_(
+              std::make_shared<std::unordered_map<void *, std::size_t>>()) {}
+    allocator(const allocator &other) = default;
+    allocator &operator=(const allocator &other) = default;
+    ~allocator() = default;
+
+    template <typename U>
+    allocator(const allocator<U> &other)
+        : alloc_(other.alloc_), size_map_(other.size_map_) {}
+
+    using is_always_equal = std::false_type;
+    friend bool operator==(const allocator<T> &lhs, const allocator<T> &rhs) {
+        return lhs.alloc_ == rhs.alloc_ && lhs.size_map_ == rhs.size_map_;
+    }
+    friend bool operator!=(const allocator<T> &lhs, const allocator<T> &rhs) {
+        return !(lhs == rhs);
+    }
+
+    pointer allocate(size_type n) {
+        pointer ptr = alloc_.allocate(n);
+        size_map_->emplace(ptr, n);
+        return ptr;
+    }
+    void deallocate(pointer ptr, size_type n) {
+        alloc_.deallocate(ptr, n);
+        size_map_->erase(ptr);
+    }
+    size_type max_size() const noexcept { return alloc_.max_size(); }
+
+    allocator select_on_container_copy_construction() const {
+        return allocator();
+    }
+    using propagate_on_container_copy_assignment = std::false_type;
+    using propagate_on_container_move_assignment = std::true_type;
+    using propagate_on_container_swap = std::true_type;
+};
+
 } // namespace internal
 } // namespace y3c
