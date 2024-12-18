@@ -114,9 +114,9 @@ class array {
     using const_pointer = const_ptr<T>;
     using value_type = T;
 
-    friend std::array<T, N> &y3c::unwrap(array<T, N> &wrapper) noexcept;
+    friend std::array<T, N> &y3c::unwrap<T, N>(array<T, N> &wrapper) noexcept;
     friend const std::array<T, N> &
-    y3c::unwrap(const array<T, N> &wrapper) noexcept;
+    y3c::unwrap<T, N>(const array<T, N> &wrapper) noexcept;
 
     wrap_auto<T> at(size_type n, internal::skip_trace_tag = {}) {
         if (n >= N) {
@@ -216,15 +216,13 @@ class array {
     void fill(const T &value) { this->base_.fill(value); }
     void swap(array &other) { this->base_.swap(unwrap(other)); }
 
-operator wrap<array &>() noexcept {
+    operator wrap<array &>() noexcept {
         return wrap<array &>(this, life_.observer());
     }
     operator wrap<const array &>() const noexcept {
         return wrap<const array &>(this, life_.observer());
     }
-        wrap<array *> operator&() {
-        return wrap<array *>(this, life_.observer());
-    }
+    wrap<array *> operator&() { return wrap<array *>(this, life_.observer()); }
     wrap<const array *> operator&() const {
         return wrap<const array *>(this, life_.observer());
     }

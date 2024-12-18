@@ -94,9 +94,10 @@ class shared_ptr {
 
     template <typename U>
     friend class shared_ptr;
-    // friend std::shared_ptr<T> &y3c::unwrap(shared_ptr<T> &wrapper) noexcept;
+    // friend std::shared_ptr<T> &y3c::unwrap<T>(shared_ptr<T> &wrapper)
+    // noexcept;
     friend const std::shared_ptr<T> &
-    y3c::unwrap(const shared_ptr<T> &wrapper) noexcept;
+    y3c::unwrap<T>(const shared_ptr<T> &wrapper) noexcept;
 
     void reset() noexcept {
         base_.reset();

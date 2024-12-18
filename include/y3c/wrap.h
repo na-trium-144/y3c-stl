@@ -66,16 +66,10 @@ class wrap {
 
     template <typename>
     friend class wrap;
-    template <typename T,
-              typename std::enable_if<!std::is_pointer<T>::value &&
-                                          !std::is_reference<T>::value,
-                                      std::nullptr_t>::type>
-    friend T &y3c::unwrap(wrap<T> &) noexcept;
-    template <typename T,
-              typename std::enable_if<!std::is_pointer<T>::value &&
-                                          !std::is_reference<T>::value,
-                                      std::nullptr_t>::type>
-    friend const T &y3c::unwrap(const wrap<T> &) noexcept;
+    friend base_type &
+    y3c::unwrap<base_type, nullptr>(wrap<base_type> &) noexcept;
+    friend const base_type &
+    y3c::unwrap<base_type, nullptr>(const wrap<base_type> &) noexcept;
 
     operator base_type &() noexcept { return this->base_; }
     operator const base_type &() const noexcept { return this->base_; }
@@ -267,8 +261,8 @@ class wrap<element_type &> {
     template <typename T>
     friend class wrap;
     friend class wrap_auto<element_type>;
-    friend element_type &y3c::unwrap(const wrap<element_type &> &,
-                                     internal::skip_trace_tag);
+    friend element_type &y3c::unwrap<element_type>(const wrap<element_type &> &,
+                                                   internal::skip_trace_tag);
 
     template <typename = internal::skip_trace_tag>
     operator element_type &() {
@@ -348,7 +342,7 @@ class wrap<element_type *> {
     template <typename T>
     friend class wrap_auto;
     friend element_type *
-    y3c::unwrap(const wrap<element_type *> &wrapper) noexcept;
+    y3c::unwrap<element_type>(const wrap<element_type *> &wrapper) noexcept;
 
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator*() const {
