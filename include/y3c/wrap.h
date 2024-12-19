@@ -355,12 +355,11 @@ element_type &unwrap(const wrap_auto<element_type> &wrapper,
  */
 template <typename element_type>
 class wrap<element_type *> {
-  protected:
     element_type *ptr_;
     internal::life_observer observer_;
     internal::life life_;
 
-    virtual const std::string &type_name() const {
+    const std::string &type_name() const {
         return internal::get_type_name<wrap>();
     }
 
@@ -403,17 +402,11 @@ class wrap<element_type *> {
         observer_ = other.observer_;
         return *this;
     }
-    virtual ~wrap() = default;
+    ~wrap() = default;
 
     template <typename T>
     wrap(const wrap<T *> &ref)
         : ptr_(ref.ptr_), observer_(ref.observer_), life_(&ptr_) {}
-    template <typename T>
-    wrap &operator=(const wrap<T> &ref) {
-        ptr_ = ref.ptr_;
-        observer_ = ref.observer_;
-        return *this;
-    }
 
     template <typename T>
     friend class wrap;
@@ -424,12 +417,12 @@ class wrap<element_type *> {
 
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator*() const {
-        std::string func = type_name() + "::operator*()";
+        static std::string func = type_name() + "::operator*()";
         return wrap_auto<element_type>(assert_ptr(func), observer_);
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
-        std::string func = type_name() + "::operator->()";
+        static std::string func = type_name() + "::operator->()";
         return assert_ptr(func);
     }
 
@@ -466,7 +459,7 @@ class wrap<element_type *> {
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
-        std::string func = type_name() + "::operator[]()";
+        static std::string func = type_name() + "::operator[]()";
         return wrap_auto<element_type>((*this + n).assert_ptr(func), observer_);
     }
 
