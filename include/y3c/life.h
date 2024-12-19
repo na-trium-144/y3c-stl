@@ -10,18 +10,26 @@
 namespace y3c {
 namespace internal {
 class life_state {
+    bool alive_;
     void *begin_, *end_;
 
   public:
-    life_state(void *begin, void *end) : begin_(begin), end_(end) {}
+    life_state(void *begin, void *end)
+        : alive_(true), begin_(begin), end_(end) {}
     life_state(const life_state &) = delete;
     life_state &operator=(const life_state &) = delete;
     life_state(life_state &&) = delete;
     life_state &operator=(life_state &&) = delete;
     ~life_state() = default;
-    void destroy() { begin_ = end_ = nullptr; }
-    bool alive() const { return begin_ && end_; }
+
+    friend class life;
+
+    void destroy() { alive_ = false; }
+    bool alive() const { return alive_; }
     bool in_range(const void *ptr) const { return begin_ <= ptr && ptr < end_; }
+    bool in_range(const void *begin, const void *end) const {
+        return this->begin_ <= begin && begin <= end && end <= this->end_;
+    }
     template <typename T>
     std::size_t size() const {
         return static_cast<T *>(end_) - static_cast<T *>(begin_);
@@ -72,6 +80,22 @@ class life_observer {
         }
         return ptr;
     }
+    template <typename element_type>
+    void assert_range(element_type *begin, element_type *end,
+                      const std::string &func,
+                      internal::skip_trace_tag = {}) const {
+        if (!state_) {
+            y3c::internal::terminate_ub_access_nullptr(func);
+        }
+        if (!state_->alive()) {
+            y3c::internal::terminate_ub_access_deleted(func);
+        }
+        if (!state_->in_range(begin, end)) {
+            y3c::internal::terminate_ub_out_of_range(
+                func, state_->size<element_type>(), state_->index_of(begin),
+                state_->index_of(end));
+        }
+    }
 
     friend class life;
 };
@@ -86,15 +110,38 @@ class life {
     std::shared_ptr<life_state> state_;
 
   public:
-    life(void *begin, void *end) : state_(new life_state(begin, end)) {}
+    explicit life(void *begin, void *end)
+        : state_(new life_state(begin, end)) {}
     template <typename T>
-    life(T *begin) : life(begin, begin + 1) {}
+    explicit life(T *begin) : life(begin, begin + 1) {}
     life(const life &) = delete;
     life &operator=(const life &) = delete;
     life(life &&) = delete;
     life &operator=(life &&) = delete;
     ~life() { state_->destroy(); }
+
     life_observer observer() const { return life_observer(this->state_); }
+    /*!
+     * 新しい範囲が以前の範囲と被っていれば範囲を更新し(observerは有効のまま)、
+     * まったく異なる範囲であればリセットする(以前のobserverは無効になる)
+     */
+    void update(void *begin, void *end) {
+        if ((begin <= state_->begin_ && state_->begin_ < end) ||
+            (begin < state_->end_ && state_->end_ <= end)) {
+            state_->begin_ = begin;
+            state_->end_ = end;
+        } else {
+            state_->destroy();
+            state_ = std::shared_ptr<life_state>(new life_state(begin, end));
+        }
+    }
+
+    bool operator==(const life_observer &obs) const {
+        return this->state_ == obs.state_;
+    }
+    bool operator!=(const life_observer &obs) const {
+        return this->state_ != obs.state_;
+    }
 };
 } // namespace internal
 } // namespace y3c

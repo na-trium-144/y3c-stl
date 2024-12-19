@@ -14,59 +14,6 @@ template <typename T, std::size_t N>
 const std::array<T, N> &unwrap(const array<T, N> &wrapper) noexcept;
 
 
-namespace internal {
-template <typename element_type>
-class array_iterator : public ptr<element_type> {
-
-    const std::string *type_name_;
-    const std::string &type_name() const override {
-        // return internal::get_type_name<array_iterator>();
-        return *type_name_;
-    }
-
-    array_iterator(element_type *ptr_, internal::life_observer observer,
-                   const std::string *type_name) noexcept
-        : ptr<element_type>(ptr_, observer), type_name_(type_name) {}
-
-  public:
-    template <typename T, std::size_t N>
-    friend class y3c::array;
-
-    array_iterator &operator++() {
-        ++this->ptr_;
-        return *this;
-    }
-    array_iterator operator++(int) {
-        array_iterator copy = *this;
-        ++this->ptr_;
-        return copy;
-    }
-    array_iterator &operator--() {
-        --this->ptr_;
-        return *this;
-    }
-    array_iterator operator--(int) {
-        array_iterator copy = *this;
-        --this->ptr_;
-        return copy;
-    }
-    array_iterator &operator+=(std::ptrdiff_t n) {
-        this->ptr_ += n;
-        return *this;
-    }
-    array_iterator &operator-=(std::ptrdiff_t n) {
-        this->ptr_ -= n;
-        return *this;
-    }
-    array_iterator operator+(std::ptrdiff_t n) const {
-        return array_iterator(this->ptr_ + n, this->observer_, type_name_);
-    }
-    array_iterator operator-(std::ptrdiff_t n) const {
-        return array_iterator(this->ptr_ - n, this->observer_, type_name_);
-    }
-};
-} // namespace internal
-
 /*!
  * * `at()`, `operator[]`, `front()`, `back()` で範囲外アクセスを検出する
  * * `at()`, `operator[]`, `front()`, `back()`, `data()`, `begin()`, `end()`
@@ -86,11 +33,6 @@ class array {
     const std::string &iter_name() const {
         static std::string name =
             internal::get_type_name<array>() + "::iterator";
-        return name;
-    }
-    const std::string &const_iter_name() const {
-        static std::string name =
-            internal::get_type_name<array>() + "::const_iterator";
         return name;
     }
 
@@ -127,8 +69,8 @@ class array {
 
     using reference = wrap_ref<T>;
     using const_reference = const_wrap_ref<T>;
-    using iterator = internal::array_iterator<T>;
-    using const_iterator = internal::array_iterator<const T>;
+    using iterator = internal::contiguous_iterator<T>;
+    using const_iterator = internal::contiguous_iterator<const T>;
     // using reverse_iterator = std::reverse_iterator<iterator>;
     // using const_reverse_iterator = std::reverse_iterator<const_iterator>;
     using size_type = std::size_t;
@@ -226,10 +168,10 @@ class array {
     const_iterator begin() const {
         if (N == 0) {
             return const_iterator(nullptr, this->life_.observer(),
-                                  &const_iter_name());
+                                  &iter_name());
         }
         return const_iterator(&this->base_.front(), this->life_.observer(),
-                              &const_iter_name());
+                              &iter_name());
     }
     const_iterator cbegin() const { return begin(); }
     iterator end() { return begin() + N; }

@@ -408,12 +408,6 @@ class wrap<element_type *> {
     template <typename T>
     wrap(const wrap<T *> &ref)
         : ptr_(ref.ptr_), observer_(ref.observer_), life_(&ptr_) {}
-    template <typename T>
-    wrap &operator=(const wrap<T> &ref) {
-        ptr_ = ref.ptr_;
-        observer_ = ref.observer_;
-        return *this;
-    }
 
     template <typename T>
     friend class wrap;
@@ -483,6 +477,70 @@ template <typename element_type>
 element_type *unwrap(const wrap<element_type *> &wrapper) noexcept {
     return wrapper.ptr_;
 }
+
+namespace internal {
+template <typename element_type>
+class contiguous_iterator : public wrap<element_type *> {
+
+    const std::string *type_name_;
+    const std::string &type_name() const override {
+        // return internal::get_type_name<contiguous_iterator>();
+        return *type_name_;
+    }
+
+  public:
+    contiguous_iterator(element_type *ptr_, internal::life_observer observer,
+                        const std::string *type_name) noexcept
+        : wrap<element_type *>(ptr_, observer), type_name_(type_name) {}
+
+    template <typename T, typename std::enable_if<
+                              std::is_same<const T, element_type>::value,
+                              std::nullptr_t>::type = nullptr>
+    contiguous_iterator(const contiguous_iterator<T> &other)
+        : wrap<element_type *>(other.ptr_, other.observer_),
+          type_name_(other.type_name_) {}
+
+    contiguous_iterator(const contiguous_iterator &) = default;
+    contiguous_iterator &operator=(const contiguous_iterator &) = default;
+    ~contiguous_iterator() override = default;
+
+    const life_observer &get_observer_() const { return this->observer_; }
+
+    contiguous_iterator &operator++() {
+        ++this->ptr_;
+        return *this;
+    }
+    contiguous_iterator operator++(int) {
+        contiguous_iterator copy = *this;
+        ++this->ptr_;
+        return copy;
+    }
+    contiguous_iterator &operator--() {
+        --this->ptr_;
+        return *this;
+    }
+    contiguous_iterator operator--(int) {
+        contiguous_iterator copy = *this;
+        --this->ptr_;
+        return copy;
+    }
+    contiguous_iterator &operator+=(std::ptrdiff_t n) {
+        this->ptr_ += n;
+        return *this;
+    }
+    contiguous_iterator &operator-=(std::ptrdiff_t n) {
+        this->ptr_ -= n;
+        return *this;
+    }
+    contiguous_iterator operator+(std::ptrdiff_t n) const {
+        return contiguous_iterator(this->ptr_ + n, this->observer_, type_name_);
+    }
+    contiguous_iterator operator-(std::ptrdiff_t n) const {
+        return contiguous_iterator(this->ptr_ - n, this->observer_, type_name_);
+    }
+};
+} // namespace internal
+
 
 template <typename element_type>
 using wrap_ref = wrap<element_type &>;
