@@ -33,6 +33,11 @@ class vector {
     const std::string &type_name() const {
         return internal::get_type_name<vector>();
     }
+    const std::string &iter_name() const {
+        static std::string name =
+            internal::get_type_name<vector>() + "::iterator";
+        return name;
+    }
 
   public:
     /*!
@@ -88,8 +93,8 @@ class vector {
     using const_reference = const_wrap_ref<T>;
     using pointer = ptr<T>;
     using const_pointer = const_ptr<T>;
-    // using iterator = internal::vector_iterator<T>;
-    // using const_iterator = internal::vector_iterator<const T>;
+    using iterator = internal::contiguous_iterator<T>;
+    using const_iterator = internal::contiguous_iterator<const T>;
 
     /*!
      * \brief コピー構築
@@ -225,6 +230,38 @@ class vector {
         update_elems_life();
     }
 
+    /*!
+     * \brief 要素の削除
+     */
+    iterator erase(const_iterator pos, internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::erase()";
+        if (elems_life_ != pos.get_observer_()) {
+            y3c::internal::terminate_wrong_iter(func);
+        }
+        pos.get_observer_().assert_ptr(unwrap(pos), func);
+        std::size_t index = unwrap(pos) - &base_[0];
+        base_.erase(base_.begin() + index);
+        update_elems_life();
+        return iterator(&base_[index], elems_life_->observer(), &iter_name());
+    }
+    /*!
+     * \brief 要素の削除
+     */
+    iterator erase(const_iterator begin, const_iterator end,
+                   internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::erase()";
+        if (elems_life_ != begin.get_observer_() ||
+            elems_life_ != end.get_observer_()) {
+            y3c::internal::terminate_wrong_iter(func);
+        }
+        begin.get_observer_().assert_range(unwrap(begin), unwrap(end), func);
+        std::size_t index_begin = unwrap(begin) - &base_[0];
+        std::size_t index_end = unwrap(end) - &base_[0];
+        base_.erase(base_.begin() + index_begin, base_.begin() + index_end);
+        update_elems_life();
+        return iterator(&base_[index_begin], elems_life_->observer(),
+                        &iter_name());
+    }
 };
 
 

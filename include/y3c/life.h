@@ -10,10 +10,12 @@
 namespace y3c {
 namespace internal {
 class life_state {
+    bool alive_;
     void *begin_, *end_;
 
   public:
-    life_state(void *begin, void *end) : begin_(begin), end_(end) {}
+    life_state(void *begin, void *end)
+        : alive_(true), begin_(begin), end_(end) {}
     life_state(const life_state &) = delete;
     life_state &operator=(const life_state &) = delete;
     life_state(life_state &&) = delete;
@@ -22,9 +24,12 @@ class life_state {
 
     friend class life;
 
-    void destroy() { begin_ = end_ = nullptr; }
-    bool alive() const { return begin_ && end_; }
+    void destroy() { alive_ = false; }
+    bool alive() const { return alive_; }
     bool in_range(const void *ptr) const { return begin_ <= ptr && ptr < end_; }
+    bool in_range(const void *begin, const void *end) const {
+        return this->begin_ <= begin && begin <= end && end <= this->end_;
+    }
     template <typename T>
     std::size_t size() const {
         return static_cast<T *>(end_) - static_cast<T *>(begin_);
@@ -75,6 +80,22 @@ class life_observer {
         }
         return ptr;
     }
+    template <typename element_type>
+    void assert_range(element_type *begin, element_type *end,
+                      const std::string &func,
+                      internal::skip_trace_tag = {}) const {
+        if (!state_) {
+            y3c::internal::terminate_ub_access_nullptr(func);
+        }
+        if (!state_->alive()) {
+            y3c::internal::terminate_ub_access_deleted(func);
+        }
+        if (!state_->in_range(begin, end)) {
+            y3c::internal::terminate_ub_out_of_range(
+                func, state_->size<element_type>(), state_->index_of(begin),
+                state_->index_of(end));
+        }
+    }
 
     friend class life;
 };
@@ -113,6 +134,13 @@ class life {
             state_->destroy();
             state_ = std::shared_ptr<life_state>(new life_state(begin, end));
         }
+    }
+
+    bool operator==(const life_observer &obs) const {
+        return this->state_ == obs.state_;
+    }
+    bool operator!=(const life_observer &obs) const {
+        return this->state_ != obs.state_;
     }
 };
 } // namespace internal
