@@ -27,6 +27,7 @@ const char *access_nullptr() {
 const char *wrong_iter() {
     return "this iterator does not point inside this container.";
 }
+const char *invalid_iter() { return "this iterator is invalidated."; }
 } // namespace what
 } // namespace Y3C_NS_ABI
 } // namespace internal

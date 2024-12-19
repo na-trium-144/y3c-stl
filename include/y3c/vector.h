@@ -20,6 +20,9 @@ class vector {
     std::unique_ptr<internal::life> elems_life_;
     internal::life life_;
 
+    /*!
+     * \brief ライフタイムを初期化
+     */
     void init_elems_life() {
         if (!base_.empty()) {
             elems_life_ = std::unique_ptr<internal::life>(
@@ -29,9 +32,15 @@ class vector {
                 new internal::life(nullptr, nullptr));
         }
     }
-    void update_elems_life() {
+    /*!
+     * \brief 範囲が更新されていた場合その分だけライフタイムを初期化
+     * \param invalidate_from 更新された範囲の先頭
+     * (nullptrでない場合、これより後の範囲を追加で無効化する)
+     */
+    void update_elems_life(const void *invalidate_from = nullptr) {
         if (!base_.empty()) {
-            elems_life_->update(&base_[0], &base_[0] + base_.size());
+            elems_life_->update(&base_[0], &base_[0] + base_.size(),
+                                invalidate_from);
         } else {
             elems_life_->update(nullptr, nullptr);
         }
@@ -44,6 +53,20 @@ class vector {
         static std::string name =
             internal::get_type_name<vector>() + "::iterator";
         return name;
+    }
+
+    std::size_t assert_iter(const internal::contiguous_iterator<const T> &pos,
+                            const std::string &func,
+                            internal::skip_trace_tag = {}) const {
+        if (elems_life_ != pos.get_observer_()) {
+            y3c::internal::terminate_ub_wrong_iter(func);
+        }
+        pos.get_observer_().assert_iter(pos, func);
+        if (base_.size() == 0) {
+            return 0;
+        } else {
+            return &unwrap(pos) - &base_[0];
+        }
     }
 
   public:
@@ -245,14 +268,11 @@ class vector {
      */
     iterator erase(const_iterator pos, internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::erase()";
-        if (elems_life_ != pos.get_observer_()) {
-            y3c::internal::terminate_ub_wrong_iter(func);
-        }
-        pos.get_observer_().assert_ptr(unwrap(pos), func);
-        std::size_t index = unwrap(pos) - &base_[0];
+        std::size_t index = assert_iter(pos, func);
         base_.erase(base_.begin() + index);
-        update_elems_life();
-        return iterator(&base_[index], elems_life_->observer(), &iter_name());
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
     }
     /*!
      * \brief 要素の削除
@@ -264,12 +284,12 @@ class vector {
             elems_life_ != end.get_observer_()) {
             y3c::internal::terminate_ub_wrong_iter(func);
         }
-        begin.get_observer_().assert_range(unwrap(begin), unwrap(end), func);
+        begin.get_observer_().assert_range(begin, end, func);
         std::size_t index_begin = unwrap(begin) - &base_[0];
         std::size_t index_end = unwrap(end) - &base_[0];
         base_.erase(base_.begin() + index_begin, base_.begin() + index_end);
-        update_elems_life();
-        return iterator(&base_[index_begin], elems_life_->observer(),
+        update_elems_life(&base_[0] + index_begin);
+        return iterator(&base_[0] + index_begin, elems_life_->observer(),
                         &iter_name());
     }
     /*!
@@ -303,6 +323,103 @@ class vector {
         base_.emplace_back(std::forward<Args>(args)...);
         update_elems_life();
         return last();
+    }
+
+    /*!
+     * \brief 要素の挿入
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、挿入位置以降が無効になる
+     */
+    iterator insert(const_iterator pos, const T &value,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter(pos, func);
+        base_.insert(base_.begin() + index, value);
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 要素の挿入
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、挿入位置以降が無効になる
+     */
+    iterator insert(const_iterator pos, T &&value,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter(pos, func);
+        base_.insert(base_.begin() + index, std::move(value));
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 要素の挿入
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、挿入位置以降が無効になる
+     */
+    iterator insert(const_iterator pos, size_type count, const T &value,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter(pos, func);
+        base_.insert(base_.begin() + index, count, std::move(value));
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 要素の挿入
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、挿入位置以降が無効になる
+     */
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t> = nullptr>
+    iterator insert(const_iterator pos, InputIt first, InputIt last,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter(pos, func);
+        base_.insert(base_.begin() + index, first, last);
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 要素の挿入
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、挿入位置以降が無効になる
+     */
+    iterator insert(const_iterator pos, std::initializer_list<T> ilist,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter(pos, func);
+        base_.insert(base_.begin() + index, ilist);
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 要素の挿入
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、挿入位置以降が無効になる
+     */
+    template <typename... Args, typename = internal::skip_trace_tag>
+    iterator emplace(const_iterator pos, Args &&...args) {
+        static std::string func = type_name() + "::emplace()";
+        std::size_t index = assert_iter(pos, func);
+        base_.emplace(base_.begin() + index, std::forward<Args>(args)...);
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_life_->observer(),
+                        &iter_name());
     }
 };
 

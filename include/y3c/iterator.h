@@ -3,6 +3,7 @@
 #include "y3c/life.h"
 #include "y3c/wrap.h"
 #include <memory>
+#include <unordered_set>
 
 namespace y3c {
 namespace internal {
@@ -11,22 +12,6 @@ class contiguous_iterator;
 
 template <typename element_type>
 element_type *unwrap(const contiguous_iterator<element_type> &wrapper) noexcept;
-
-class iterator_state {
-    bool valid_;
-    void *ptr_;
-
-  public:
-    explicit iterator_state(void *ptr) : valid_(true), ptr_(ptr) {}
-
-    bool valid() const { return valid_; }
-    void invalidate() { valid_ = false; }
-    void invalidate_out_of(const void *begin, const void *end) {
-        if (ptr_ < begin || end <= ptr_) {
-            invalidate();
-        }
-    }
-};
 
 /*!
  * \brief array, vector など各種コンテナのイテレータ
@@ -42,6 +27,7 @@ template <typename element_type>
 class contiguous_iterator {
     element_type *ptr_;
     internal::life_observer observer_;
+    std::shared_ptr<internal::life_validator> validator_;
     // internal::life life_;
 
     const std::string *type_name_;
@@ -50,28 +36,44 @@ class contiguous_iterator {
         return *type_name_;
     }
 
-    element_type *assert_ptr(const std::string &func,
-                             internal::skip_trace_tag = {}) const {
-        return observer_.assert_ptr(ptr_, func);
+    element_type *assert_iter(const std::string &func,
+                              internal::skip_trace_tag = {}) const {
+        return observer_.assert_iter(*this, func);
     }
 
   public:
     contiguous_iterator(element_type *ptr, internal::life_observer observer,
                         const std::string *type_name) noexcept
         : ptr_(ptr), observer_(observer),
+          validator_(observer.push_validator(
+              std::make_shared<life_validator>(ptr /* always valid */))),
           /*life_(&ptr),*/ type_name_(type_name) {}
 
     template <typename T, typename std::enable_if<
                               std::is_same<const T, element_type>::value,
                               std::nullptr_t>::type = nullptr>
     contiguous_iterator(const contiguous_iterator<T> &other)
-        : ptr_(other.ptr_), observer_(other.observer_), /*life_(&ptr_),*/
+        : ptr_(other.ptr_), observer_(other.observer_),
+          validator_(observer_.push_validator(std::make_shared<life_validator>(
+              *other.validator_))), /*life_(&ptr_),*/
           type_name_(other.type_name_) {}
 
-    contiguous_iterator(const contiguous_iterator &) = default;
-    contiguous_iterator &operator=(const contiguous_iterator &) = default;
+    contiguous_iterator(const contiguous_iterator &other)
+        : ptr_(other.ptr_), observer_(other.observer_),
+          validator_(observer_.push_validator(std::make_shared<life_validator>(
+              *other.validator_))), /*life_(&ptr_),*/
+          type_name_(other.type_name_) {}
+    contiguous_iterator &operator=(const contiguous_iterator &other) {
+        ptr_ = other.ptr_;
+        observer_ = other.observer_;
+        *validator_ = observer_.push_validator(
+            std::make_shared<life_validator>(*other.validator_));
+        type_name_ = other.type_name_;
+        return *this;
+    }
     ~contiguous_iterator() = default;
 
+    friend class life_observer;
     const life_observer &get_observer_() const { return this->observer_; }
     friend element_type *y3c::internal::unwrap<>(
         const contiguous_iterator<element_type> &wrapper) noexcept;
@@ -85,12 +87,12 @@ class contiguous_iterator {
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator*() const {
         std::string func = type_name() + "::operator*()";
-        return wrap_auto<element_type>(assert_ptr(func), observer_);
+        return wrap_auto<element_type>(assert_iter(func), observer_);
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
         std::string func = type_name() + "::operator->()";
-        return assert_ptr(func);
+        return assert_iter(func);
     }
 
     contiguous_iterator &operator++() {
@@ -132,7 +134,8 @@ class contiguous_iterator {
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
         static std::string func = type_name() + "::operator[]()";
-        return wrap_auto<element_type>((*this + n).assert_ptr(func), observer_);
+        return wrap_auto<element_type>((*this + n).assert_iter(func),
+                                       observer_);
     }
 
     contiguous_iterator *operator&() = delete;
