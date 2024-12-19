@@ -19,6 +19,9 @@ class life_state {
     life_state(life_state &&) = delete;
     life_state &operator=(life_state &&) = delete;
     ~life_state() = default;
+
+    friend class life;
+
     void destroy() { begin_ = end_ = nullptr; }
     bool alive() const { return begin_ && end_; }
     bool in_range(const void *ptr) const { return begin_ <= ptr && ptr < end_; }
@@ -86,15 +89,31 @@ class life {
     std::shared_ptr<life_state> state_;
 
   public:
-    life(void *begin, void *end) : state_(new life_state(begin, end)) {}
+    explicit life(void *begin, void *end)
+        : state_(new life_state(begin, end)) {}
     template <typename T>
-    life(T *begin) : life(begin, begin + 1) {}
+    explicit life(T *begin) : life(begin, begin + 1) {}
     life(const life &) = delete;
     life &operator=(const life &) = delete;
     life(life &&) = delete;
     life &operator=(life &&) = delete;
     ~life() { state_->destroy(); }
+
     life_observer observer() const { return life_observer(this->state_); }
+    /*!
+     * 新しい範囲が以前の範囲と被っていれば範囲を更新し(observerは有効のまま)、
+     * まったく異なる範囲であればリセットする(以前のobserverは無効になる)
+     */
+    void update(void *begin, void *end) {
+        if ((begin <= state_->begin_ && state_->begin_ < end) ||
+            (begin < state_->end_ && state_->end_ <= end)) {
+            state_->begin_ = begin;
+            state_->end_ = end;
+        } else {
+            state_->destroy();
+            state_ = std::shared_ptr<life_state>(new life_state(begin, end));
+        }
+    }
 };
 } // namespace internal
 } // namespace y3c
