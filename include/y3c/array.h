@@ -2,6 +2,7 @@
 #include "y3c/terminate.h"
 #include "y3c/wrap.h"
 #include "y3c/typename.h"
+#include "y3c/iterator.h"
 #include <array>
 
 namespace y3c {

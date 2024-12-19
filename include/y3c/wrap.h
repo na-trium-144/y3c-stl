@@ -355,12 +355,11 @@ element_type &unwrap(const wrap_auto<element_type> &wrapper,
  */
 template <typename element_type>
 class wrap<element_type *> {
-  protected:
     element_type *ptr_;
     internal::life_observer observer_;
     internal::life life_;
 
-    virtual const std::string &type_name() const {
+    const std::string &type_name() const {
         return internal::get_type_name<wrap>();
     }
 
@@ -403,7 +402,7 @@ class wrap<element_type *> {
         observer_ = other.observer_;
         return *this;
     }
-    virtual ~wrap() = default;
+    ~wrap() = default;
 
     template <typename T>
     wrap(const wrap<T *> &ref)
@@ -418,12 +417,12 @@ class wrap<element_type *> {
 
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator*() const {
-        std::string func = type_name() + "::operator*()";
+        static std::string func = type_name() + "::operator*()";
         return wrap_auto<element_type>(assert_ptr(func), observer_);
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
-        std::string func = type_name() + "::operator->()";
+        static std::string func = type_name() + "::operator->()";
         return assert_ptr(func);
     }
 
@@ -460,7 +459,7 @@ class wrap<element_type *> {
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
-        std::string func = type_name() + "::operator[]()";
+        static std::string func = type_name() + "::operator[]()";
         return wrap_auto<element_type>((*this + n).assert_ptr(func), observer_);
     }
 
@@ -477,70 +476,6 @@ template <typename element_type>
 element_type *unwrap(const wrap<element_type *> &wrapper) noexcept {
     return wrapper.ptr_;
 }
-
-namespace internal {
-template <typename element_type>
-class contiguous_iterator : public wrap<element_type *> {
-
-    const std::string *type_name_;
-    const std::string &type_name() const override {
-        // return internal::get_type_name<contiguous_iterator>();
-        return *type_name_;
-    }
-
-  public:
-    contiguous_iterator(element_type *ptr_, internal::life_observer observer,
-                        const std::string *type_name) noexcept
-        : wrap<element_type *>(ptr_, observer), type_name_(type_name) {}
-
-    template <typename T, typename std::enable_if<
-                              std::is_same<const T, element_type>::value,
-                              std::nullptr_t>::type = nullptr>
-    contiguous_iterator(const contiguous_iterator<T> &other)
-        : wrap<element_type *>(other.ptr_, other.observer_),
-          type_name_(other.type_name_) {}
-
-    contiguous_iterator(const contiguous_iterator &) = default;
-    contiguous_iterator &operator=(const contiguous_iterator &) = default;
-    ~contiguous_iterator() override = default;
-
-    const life_observer &get_observer_() const { return this->observer_; }
-
-    contiguous_iterator &operator++() {
-        ++this->ptr_;
-        return *this;
-    }
-    contiguous_iterator operator++(int) {
-        contiguous_iterator copy = *this;
-        ++this->ptr_;
-        return copy;
-    }
-    contiguous_iterator &operator--() {
-        --this->ptr_;
-        return *this;
-    }
-    contiguous_iterator operator--(int) {
-        contiguous_iterator copy = *this;
-        --this->ptr_;
-        return copy;
-    }
-    contiguous_iterator &operator+=(std::ptrdiff_t n) {
-        this->ptr_ += n;
-        return *this;
-    }
-    contiguous_iterator &operator-=(std::ptrdiff_t n) {
-        this->ptr_ -= n;
-        return *this;
-    }
-    contiguous_iterator operator+(std::ptrdiff_t n) const {
-        return contiguous_iterator(this->ptr_ + n, this->observer_, type_name_);
-    }
-    contiguous_iterator operator-(std::ptrdiff_t n) const {
-        return contiguous_iterator(this->ptr_ - n, this->observer_, type_name_);
-    }
-};
-} // namespace internal
-
 
 template <typename element_type>
 using wrap_ref = wrap<element_type &>;

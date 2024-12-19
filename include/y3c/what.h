@@ -17,8 +17,12 @@ inline namespace Y3C_NS_ABI {
 namespace what {
 Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size,
                                           std::ptrdiff_t index);
+Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size,
+                                          std::ptrdiff_t begin,
+                                          std::ptrdiff_t end);
 Y3C_DLL const char *Y3C_CALL access_nullptr();
 Y3C_DLL const char *Y3C_CALL access_deleted();
+Y3C_DLL const char *Y3C_CALL wrong_iter();
 } // namespace what
 } // namespace Y3C_NS_ABI
 } // namespace internal

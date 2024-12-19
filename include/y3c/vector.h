@@ -2,11 +2,18 @@
 #include "y3c/terminate.h"
 #include "y3c/wrap.h"
 #include "y3c/typename.h"
+#include "y3c/iterator.h"
 #include <vector>
 #include <memory>
 
 namespace y3c {
 
+/*!
+ * \todo
+ * * std::length_error
+ * * iteratorの無効化
+ *
+ */
 template <typename T>
 class vector {
     std::vector<T> base_;
@@ -232,11 +239,14 @@ class vector {
 
     /*!
      * \brief 要素の削除
+     *
+     * 削除した位置以降を指していたイテレータは無効になる
+     *
      */
     iterator erase(const_iterator pos, internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::erase()";
         if (elems_life_ != pos.get_observer_()) {
-            y3c::internal::terminate_wrong_iter(func);
+            y3c::internal::terminate_ub_wrong_iter(func);
         }
         pos.get_observer_().assert_ptr(unwrap(pos), func);
         std::size_t index = unwrap(pos) - &base_[0];
@@ -252,7 +262,7 @@ class vector {
         static std::string func = type_name() + "::erase()";
         if (elems_life_ != begin.get_observer_() ||
             elems_life_ != end.get_observer_()) {
-            y3c::internal::terminate_wrong_iter(func);
+            y3c::internal::terminate_ub_wrong_iter(func);
         }
         begin.get_observer_().assert_range(unwrap(begin), unwrap(end), func);
         std::size_t index_begin = unwrap(begin) - &base_[0];
@@ -261,6 +271,38 @@ class vector {
         update_elems_life();
         return iterator(&base_[index_begin], elems_life_->observer(),
                         &iter_name());
+    }
+    /*!
+     * \brief 要素の追加
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、end()を指していたもののみ無効になる
+     */
+    void push_back(const T &value) {
+        base_.push_back(value);
+        update_elems_life();
+    }
+    /*!
+     * \brief 要素の追加
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、end()を指していたもののみ無効になる
+     */
+    void push_back(T &&value) {
+        base_.push_back(std::move(value));
+        update_elems_life();
+    }
+    /*!
+     * \brief 要素の追加
+     *
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、end()を指していたもののみ無効になる
+     */
+    template <typename... Args>
+    reference emplace_back(Args &&...args) {
+        base_.emplace_back(std::forward<Args>(args)...);
+        update_elems_life();
+        return last();
     }
 };
 
