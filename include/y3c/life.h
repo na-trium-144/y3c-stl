@@ -1,10 +1,5 @@
 #pragma once
 #include "y3c/terminate.h"
-#ifdef Y3C_MESON
-#include "y3c-config.h"
-#else
-#include "y3c/y3c-config.h"
-#endif
 #include <memory>
 #include <vector>
 
@@ -111,6 +106,8 @@ class life_observer {
         state_->push_validator(v);
         return v;
     }
+    const void *begin() const { return state_->begin(); }
+    const void *end() const { return state_->end(); }
     template <typename element_type>
     element_type *assert_ptr(element_type *ptr, const std::string &func,
                              internal::skip_trace_tag = {}) const {

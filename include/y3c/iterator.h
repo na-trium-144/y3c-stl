@@ -3,7 +3,6 @@
 #include "y3c/life.h"
 #include "y3c/wrap.h"
 #include <memory>
-#include <unordered_set>
 
 namespace y3c {
 namespace internal {
@@ -40,6 +39,16 @@ class contiguous_iterator {
                               internal::skip_trace_tag = {}) const {
         return observer_.assert_iter(*this, func);
     }
+    void update_iter(const std::string &func,
+                     internal::skip_trace_tag = {}) const {
+        validator_->ptr_ = this->ptr_;
+        if (ptr_ > observer_.end()) {
+            internal::terminate_ub_iter_after_end(func);
+        }
+        if (ptr_ < observer_.begin()) {
+            internal::terminate_ub_iter_before_begin(func);
+        }
+    }
 
   public:
     contiguous_iterator(element_type *ptr, internal::life_observer observer,
@@ -48,6 +57,15 @@ class contiguous_iterator {
           validator_(observer.push_validator(
               std::make_shared<life_validator>(ptr /* always valid */))),
           /*life_(&ptr),*/ type_name_(type_name) {}
+    contiguous_iterator(element_type *ptr, internal::life_observer observer,
+                        const std::string *type_name, const std::string &func,
+                        internal::skip_trace_tag = {}) noexcept
+        : ptr_(ptr), observer_(observer),
+          validator_(observer.push_validator(
+              std::make_shared<life_validator>(ptr /* always valid */))),
+          /*life_(&ptr),*/ type_name_(type_name) {
+        update_iter(func);
+    }
 
     template <typename T, typename std::enable_if<
                               std::is_same<const T, element_type>::value,
@@ -95,37 +113,53 @@ class contiguous_iterator {
         return assert_iter(func);
     }
 
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator &operator++() {
         ++this->ptr_;
+        update_iter(type_name() + "::operator++()");
         return *this;
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator operator++(int) {
         contiguous_iterator copy = *this;
         ++this->ptr_;
+        update_iter(type_name() + "::operator++()");
         return copy;
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator &operator--() {
         --this->ptr_;
+        update_iter(type_name() + "::operator--()");
         return *this;
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator operator--(int) {
         contiguous_iterator copy = *this;
         --this->ptr_;
+        update_iter(type_name() + "::operator--()");
         return copy;
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator &operator+=(std::ptrdiff_t n) {
         this->ptr_ += n;
+        update_iter(type_name() + "::operator+=()");
         return *this;
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator &operator-=(std::ptrdiff_t n) {
         this->ptr_ -= n;
+        update_iter(type_name() + "::operator-=()");
         return *this;
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator operator+(std::ptrdiff_t n) const {
-        return contiguous_iterator(this->ptr_ + n, this->observer_, type_name_);
+        return contiguous_iterator(this->ptr_ + n, this->observer_, type_name_,
+                                   type_name() + "::operator+()");
     }
+    template <typename = internal::skip_trace_tag>
     contiguous_iterator operator-(std::ptrdiff_t n) const {
-        return contiguous_iterator(this->ptr_ - n, this->observer_, type_name_);
+        return contiguous_iterator(this->ptr_ - n, this->observer_, type_name_,
+                                   type_name() + "::operator-()");
     }
 
     std::ptrdiff_t operator-(const contiguous_iterator &other) const {
@@ -163,7 +197,7 @@ class contiguous_iterator {
     }
     friend bool operator>=(const contiguous_iterator &lhs,
                            const contiguous_iterator &rhs) {
-        return lhs.ptr_ >= rhs.ptr;
+        return lhs.ptr_ >= rhs.ptr_;
     }
 };
 

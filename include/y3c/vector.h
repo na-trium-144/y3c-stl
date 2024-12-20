@@ -11,7 +11,6 @@ namespace y3c {
 /*!
  * \todo
  * * std::length_error
- * * iteratorの無効化
  *
  */
 template <typename T>
@@ -421,7 +420,136 @@ class vector {
         return iterator(&base_[0] + index, elems_life_->observer(),
                         &iter_name());
     }
-};
 
+    /*!
+     * \brief サイズを変更
+     * 
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、削除された要素とend()を指すもののみ無効になる
+     */
+    void resize(size_type count){
+        base_.resize(count);
+        update_elems_life();
+    }
+    /*!
+     * \brief サイズを変更
+     * 
+     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * そうでない場合、削除された要素とend()を指すもののみ無効になる
+     */
+    void resize(size_type count, const T& value){
+        base_.resize(count, value);
+        update_elems_life();
+    }
+
+    /*!
+     * \brief 末尾の要素を削除
+     * 
+     * 最後の要素とend()を指すイテレータは無効になる
+     * 
+     */
+    void pop_back(internal::skip_trace_tag = {}) {
+        if(base_.empty()){
+            static std::string func = type_name() + "::pop_back()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, -1);
+        }
+        base_.pop_back();
+        update_elems_life();
+    }
+
+    wrap_auto<T> at(size_type n, internal::skip_trace_tag = {}) {
+        if (n >= base_.size()) {
+            static std::string func = type_name() + "::at()";
+            throw y3c::out_of_range(func, base_.size(), static_cast<std::ptrdiff_t>(n));
+        }
+        return wrap_auto<T>(&this->base_[n], this->life_.observer());
+    }
+    wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
+        if (n >= base_.size()) {
+            static std::string func = type_name() + "::at()";
+            throw y3c::out_of_range(func, base_.size(), static_cast<std::ptrdiff_t>(n));
+        }
+        return wrap_auto<const T>(&this->base_[n], this->life_.observer());
+    }
+    template <typename = internal::skip_trace_tag>
+    wrap_auto<T> operator[](size_type n) {
+        if (n >= base_.size()) {
+            static std::string func = type_name() + "::operator[]()";
+            y3c::internal::terminate_ub_out_of_range(
+                func, base_.size(), static_cast<std::ptrdiff_t>(n));
+        }
+        return wrap_auto<T>(&this->base_[n], this->life_.observer());
+    }
+    template <typename = internal::skip_trace_tag>
+    wrap_auto<const T> operator[](size_type n) const {
+        if (n >= base_.size()) {
+            static std::string func = type_name() + "::operator[]()";
+            y3c::internal::terminate_ub_out_of_range(
+                func, base_.size(), static_cast<std::ptrdiff_t>(n));
+        }
+        return wrap_auto<const T>(&this->base_[n], this->life_.observer());
+    }
+    wrap_auto<T> front(internal::skip_trace_tag = {}) {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::front()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, 0);
+        }
+        return wrap_auto<T>(&base_.front(), elems_life_->observer());
+    }
+    wrap_auto<const T> front(internal::skip_trace_tag = {}) const {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::front()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, 0);
+        }
+        return wrap_auto<const T>(&base_.front(), elems_life_->observer());
+    }
+    wrap_auto<T> back(internal::skip_trace_tag = {}) {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::back()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, -1);
+        }
+        return wrap_auto<T>(&base_.back(), elems_life_->observer());
+    }
+    wrap_auto<const T> back(internal::skip_trace_tag = {}) const {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::back()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, -1);
+        }
+        return wrap_auto<const T>(&base_.back(), elems_life_->observer());
+    }
+
+    pointer data() {
+        if (base_.empty()) {
+            return pointer(nullptr, this->life_.observer());
+        }
+        return pointer(&this->base_[0], this->life_.observer());
+    }
+    const_pointer data() const {
+        if (base_.empty()) {
+            return const_pointer(nullptr, this->life_.observer());
+        }
+        return const_pointer(&this->base_[0], this->life_.observer());
+    }
+
+    iterator begin() {
+        if (base_.empty()) {
+            return iterator(nullptr, this->life_.observer(), &iter_name());
+        }
+        return iterator(&this->base_.front(), this->life_.observer(),
+                        &iter_name());
+    }
+    const_iterator begin() const {
+        if (base_.empty()) {
+            return const_iterator(nullptr, this->life_.observer(),
+                                  &iter_name());
+        }
+        return const_iterator(&this->base_.front(), this->life_.observer(),
+                              &iter_name());
+    }
+    const_iterator cbegin() const { return begin(); }
+    iterator end() { return begin() + base_.size(); }
+    const_iterator end() const { return begin() + base_.size(); }
+    const_iterator cend() const { return begin() + base_.size(); }
+};
 
 } // namespace y3c

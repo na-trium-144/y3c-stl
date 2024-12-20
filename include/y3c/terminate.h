@@ -36,6 +36,8 @@ enum class terminate_type {
     ub_access_deleted,
     ub_wrong_iter,
     ub_invalid_iter,
+    ub_iter_after_end,
+    ub_iter_before_begin,
 };
 
 struct terminate_detail {
@@ -113,65 +115,26 @@ class exception_base {
  */
 extern Y3C_DLL bool throw_on_terminate;
 
-class ub_out_of_range {};
-class ub_access_nullptr {};
-class ub_access_deleted {};
-class ub_wrong_iter {};
-class ub_invalid_iter {};
+#define define_terminate_func(ub_name)                                      \
+    class ub_name {};\
+    template <typename... Args, typename = skip_trace_tag>                     \
+    [[noreturn]] void terminate_##ub_name(std::string func, Args &&...args) {  \
+        if (throw_on_terminate) {                                              \
+            throw ub_name();                                                   \
+        }                                                                      \
+        do_terminate_with({terminate_type::ub_name, std::move(func),           \
+                           what::ub_name(std::forward<Args>(args)...)});       \
+    }
 
-[[noreturn]] inline void terminate_ub_out_of_range(std::string func,
-                                                   std::size_t size,
-                                                   std::ptrdiff_t index,
-                                                   skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw ub_out_of_range();
-    }
-    do_terminate_with({terminate_type::ub_out_of_range, std::move(func),
-                       what::out_of_range(size, index)});
-}
-[[noreturn]] inline void terminate_ub_out_of_range(std::string func,
-                                                   std::size_t size,
-                                                   std::ptrdiff_t begin,
-                                                   std::ptrdiff_t end,
-                                                   skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw ub_out_of_range();
-    }
-    do_terminate_with({terminate_type::ub_out_of_range, std::move(func),
-                       what::out_of_range(size, begin, end)});
-}
-[[noreturn]] inline void terminate_ub_access_nullptr(std::string func,
-                                                     skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw ub_access_nullptr();
-    }
-    do_terminate_with({terminate_type::ub_access_nullptr, std::move(func),
-                       what::access_nullptr()});
-}
-[[noreturn]] inline void terminate_ub_access_deleted(std::string func,
-                                                     skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw ub_access_deleted();
-    }
-    do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
-                       what::access_deleted()});
-}
-[[noreturn]] inline void terminate_ub_wrong_iter(std::string func,
-                                                 skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw ub_wrong_iter();
-    }
-    do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
-                       what::wrong_iter()});
-}
-[[noreturn]] inline void terminate_ub_invalid_iter(std::string func,
-                                                   skip_trace_tag = {}) {
-    if (throw_on_terminate) {
-        throw ub_invalid_iter();
-    }
-    do_terminate_with({terminate_type::ub_access_deleted, std::move(func),
-                       what::invalid_iter()});
-}
+define_terminate_func(ub_out_of_range);
+define_terminate_func(ub_access_nullptr);
+define_terminate_func(ub_access_deleted);
+define_terminate_func(ub_wrong_iter);
+define_terminate_func(ub_invalid_iter);
+define_terminate_func(ub_iter_after_end);
+define_terminate_func(ub_iter_before_begin);
+
+#undef define_terminate_func
 
 [[noreturn]] inline void terminate_internal(std::string func, std::string what,
                                             skip_trace_tag = {}) {

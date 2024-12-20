@@ -134,14 +134,14 @@ class array {
     wrap_auto<T> back(internal::skip_trace_tag = {}) {
         if (N == 0) {
             static std::string func = type_name() + "::back()";
-            y3c::internal::terminate_ub_out_of_range(func, N, 0);
+            y3c::internal::terminate_ub_out_of_range(func, N, -1);
         }
         return wrap_auto<T>(&this->base_.back(), this->life_.observer());
     }
     wrap_auto<const T> back(internal::skip_trace_tag = {}) const {
         if (N == 0) {
             static std::string func = type_name() + "::back()";
-            y3c::internal::terminate_ub_out_of_range(func, N, 0);
+            y3c::internal::terminate_ub_out_of_range(func, N, -1);
         }
         return wrap_auto<const T>(&this->base_.back(), this->life_.observer());
     }
