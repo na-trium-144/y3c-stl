@@ -8,6 +8,14 @@
 
 namespace y3c {
 
+template <typename T>
+class vector;
+
+template <typename T>
+const std::vector<T> &unwrap(const vector<T> &wrapper) noexcept {
+    return wrapper.base_;
+}
+
 /*!
  * \todo
  * * std::length_error
@@ -114,6 +122,8 @@ class vector {
         return *this;
     }
     ~vector() = default;
+
+    friend const std::vector<T> &y3c::unwrap(const vector<T> &) noexcept;
 
     using value_type = T;
     using size_type = std::size_t;
@@ -318,10 +328,10 @@ class vector {
      * そうでない場合、end()を指していたもののみ無効になる
      */
     template <typename... Args>
-    reference emplace_back(Args &&...args) {
+    wrap_auto<T> emplace_back(Args &&...args) {
         base_.emplace_back(std::forward<Args>(args)...);
         update_elems_life();
-        return last();
+        return back();
     }
 
     /*!
@@ -423,33 +433,33 @@ class vector {
 
     /*!
      * \brief サイズを変更
-     * 
+     *
      * 再割り当てが発生した場合、既存のイテレータは無効になる
      * そうでない場合、削除された要素とend()を指すもののみ無効になる
      */
-    void resize(size_type count){
+    void resize(size_type count) {
         base_.resize(count);
         update_elems_life();
     }
     /*!
      * \brief サイズを変更
-     * 
+     *
      * 再割り当てが発生した場合、既存のイテレータは無効になる
      * そうでない場合、削除された要素とend()を指すもののみ無効になる
      */
-    void resize(size_type count, const T& value){
+    void resize(size_type count, const T &value) {
         base_.resize(count, value);
         update_elems_life();
     }
 
     /*!
      * \brief 末尾の要素を削除
-     * 
+     *
      * 最後の要素とend()を指すイテレータは無効になる
-     * 
+     *
      */
     void pop_back(internal::skip_trace_tag = {}) {
-        if(base_.empty()){
+        if (base_.empty()) {
             static std::string func = type_name() + "::pop_back()";
             y3c::internal::terminate_ub_out_of_range(func, 0, -1);
         }
@@ -460,14 +470,16 @@ class vector {
     wrap_auto<T> at(size_type n, internal::skip_trace_tag = {}) {
         if (n >= base_.size()) {
             static std::string func = type_name() + "::at()";
-            throw y3c::out_of_range(func, base_.size(), static_cast<std::ptrdiff_t>(n));
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<T>(&this->base_[n], this->life_.observer());
     }
     wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= base_.size()) {
             static std::string func = type_name() + "::at()";
-            throw y3c::out_of_range(func, base_.size(), static_cast<std::ptrdiff_t>(n));
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(n));
         }
         return wrap_auto<const T>(&this->base_[n], this->life_.observer());
     }
@@ -550,6 +562,43 @@ class vector {
     iterator end() { return begin() + base_.size(); }
     const_iterator end() const { return begin() + base_.size(); }
     const_iterator cend() const { return begin() + base_.size(); }
+
+    bool empty() const { return base_.empty(); }
+    size_type size() const { return base_.size(); }
+    size_type max_size() const { return base_.max_size(); }
+    size_type capacity() const { return base_.capacity(); }
+
+    void swap(vector &other) {
+        base_.swap(other.base_);
+        elems_life_.swap(other.elems_life_);
+        update_elems_life(&base_[0] + base_.size());
+        other.update_elems_life(&other.base_[0] + other.base_.size());
+    }
+
+    friend bool operator==(const vector &lhs, const vector &rhs) {
+        return lhs.base_ == rhs.base_;
+    }
+    friend bool operator!=(const vector &lhs, const vector &rhs) {
+        return lhs.base_ != rhs.base_;
+    }
+    friend bool operator<(const vector &lhs, const vector &rhs) {
+        return lhs.base_ < rhs.base_;
+    }
+    friend bool operator<=(const vector &lhs, const vector &rhs) {
+        return lhs.base_ <= rhs.base_;
+    }
+    friend bool operator>(const vector &lhs, const vector &rhs) {
+        return lhs.base_ > rhs.base_;
+    }
+    friend bool operator>=(const vector &lhs, const vector &rhs) {
+        return lhs.base_ >= rhs.base_;
+    }
 };
+
+template <typename T>
+void swap(vector<T> &lhs, vector<T> &rhs) {
+    lhs.swap(rhs);
+}
+
 
 } // namespace y3c
