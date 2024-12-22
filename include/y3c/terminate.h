@@ -115,8 +115,8 @@ class exception_base {
  */
 extern Y3C_DLL bool throw_on_terminate;
 
-#define define_terminate_func(ub_name)                                      \
-    class ub_name {};\
+#define define_terminate_func(ub_name)                                         \
+    class ub_name {};                                                          \
     template <typename... Args, typename = skip_trace_tag>                     \
     [[noreturn]] void terminate_##ub_name(std::string func, Args &&...args) {  \
         if (throw_on_terminate) {                                              \
@@ -179,8 +179,9 @@ class out_of_range final : public std::out_of_range,
     out_of_range(std::string func, std::size_t size, std::ptrdiff_t index,
                  internal::skip_trace_tag = {})
         : std::out_of_range(""),
-          internal::exception_base("y3c::out_of_range", std::move(func),
-                                   internal::what::out_of_range(size, index)) {}
+          internal::exception_base(
+              "y3c::out_of_range", std::move(func),
+              internal::what::ub_out_of_range(size, index)) {}
 
     const char *what() const noexcept override {
         return this->internal::exception_base::what.c_str();

@@ -62,9 +62,6 @@ class life_state {
     }
     bool alive() const { return alive_; }
     bool in_range(const void *ptr) const { return begin_ <= ptr && ptr < end_; }
-    bool in_range_including_end(const void *ptr) const {
-        return begin_ <= ptr && ptr <= end_;
-    }
     bool in_range(const void *begin, const void *end) const {
         return this->begin_ <= begin && begin <= end && end <= this->end_;
     }
@@ -139,7 +136,7 @@ class life_observer {
         if (!iter.validator_->valid_) {
             y3c::internal::terminate_ub_invalid_iter(func);
         }
-        if (!state_->in_range_including_end(iter.ptr_)) {
+        if (!state_->in_range(iter.ptr_)) {
             y3c::internal::terminate_ub_out_of_range(
                 func, state_->size<element_type>(),
                 state_->index_of(iter.ptr_));
