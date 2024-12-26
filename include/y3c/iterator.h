@@ -18,7 +18,7 @@ element_type *unwrap(const contiguous_iterator<element_type> &wrapper) noexcept;
  * * `operator*`, `operator->`, `operator[]`
  * 時にnullptrチェックと範囲外アクセスチェックをする
  * 使用時にnullptrでないかと範囲外でないかのチェックを行う。
- * * また `operator*`, `operator[]` が返す参照はラップ済み (y3c::wrap_auto)
+ * * また `operator*`, `operator[]` が返す参照はラップ済み (y3c::wrap<T&>)
  * * `operator&` は未実装 (要るのか?)
  *
  */
@@ -105,13 +105,13 @@ class contiguous_iterator {
     using difference_type = std::ptrdiff_t;
     using value_type = element_type;
     using pointer = element_type *;
-    using reference = wrap_auto<element_type>;
+    using reference = wrap_ref<element_type>;
     using iterator_category = std::random_access_iterator_tag;
 
     template <typename = internal::skip_trace_tag>
-    wrap_auto<element_type> operator*() const {
+    reference operator*() const {
         std::string func = type_name() + "::operator*()";
-        return wrap_auto<element_type>(assert_iter(func), observer_);
+        return reference(assert_iter(func), observer_);
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
@@ -174,13 +174,13 @@ class contiguous_iterator {
         return ptr_ - other.ptr_;
     }
     template <typename = internal::skip_trace_tag>
-    wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
+    reference operator[](std::ptrdiff_t n) const {
         static std::string func = type_name() + "::operator[]()";
-        return wrap_auto<element_type>(
-            contiguous_iterator(this->ptr_ + n, this->observer_, type_name_,
-                                this->validator_->valid_, func)
-                .assert_iter(func),
-            observer_);
+        return reference(contiguous_iterator(this->ptr_ + n, this->observer_,
+                                             type_name_,
+                                             this->validator_->valid_, func)
+                             .assert_iter(func),
+                         observer_);
     }
 
     contiguous_iterator *operator&() = delete;

@@ -121,14 +121,14 @@ class shared_ptr {
         y3c_assert_internal(ptr_life_);
         return ptr<element_type>(base_.get(), ptr_life_->observer());
     }
-    template <typename = internal::skip_trace_tag>
-    y3c::wrap_auto<T> operator*() const {
+    template <typename E = element_type, typename = internal::skip_trace_tag>
+    y3c::wrap_ref<E> operator*() const {
         if (!base_) {
             static std::string func = type_name() + "::operator*()";
             y3c::internal::terminate_ub_access_nullptr(func);
         }
         y3c_assert_internal(ptr_life_);
-        return y3c::wrap_auto<T>(base_.get(), ptr_life_->observer());
+        return y3c::wrap_ref<E>(base_.get(), ptr_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {

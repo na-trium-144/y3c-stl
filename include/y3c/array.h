@@ -102,70 +102,68 @@ class array {
     friend const std::array<T, N> &
     y3c::unwrap<T, N>(const array<T, N> &wrapper) noexcept;
 
-    wrap_auto<T> at(size_type n, internal::skip_trace_tag = {}) {
+    reference at(size_type n, internal::skip_trace_tag = {}) {
         if (n >= N) {
             static std::string func = type_name() + "::at()";
             throw y3c::out_of_range(func, N, static_cast<std::ptrdiff_t>(n));
         }
-        return wrap_auto<T>(&this->base_[n], this->elems_life_.observer());
+        return reference(&this->base_[n], this->elems_life_.observer());
     }
-    wrap_auto<const T> at(size_type n, internal::skip_trace_tag = {}) const {
+    const_reference at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= N) {
             static std::string func = type_name() + "::at()";
             throw y3c::out_of_range(func, N, static_cast<std::ptrdiff_t>(n));
         }
-        return wrap_auto<const T>(&this->base_[n],
-                                  this->elems_life_.observer());
+        return const_reference(&this->base_[n], this->elems_life_.observer());
     }
     template <typename = internal::skip_trace_tag>
-    wrap_auto<T> operator[](size_type n) {
+    reference operator[](size_type n) {
         if (n >= N) {
             static std::string func = type_name() + "::operator[]()";
             y3c::internal::terminate_ub_out_of_range(
                 func, N, static_cast<std::ptrdiff_t>(n));
         }
-        return wrap_auto<T>(&this->base_[n], this->elems_life_.observer());
+        return reference(&this->base_[n], this->elems_life_.observer());
     }
     template <typename = internal::skip_trace_tag>
-    wrap_auto<const T> operator[](size_type n) const {
+    const_reference operator[](size_type n) const {
         if (n >= N) {
             static std::string func = type_name() + "::operator[]()";
             y3c::internal::terminate_ub_out_of_range(
                 func, N, static_cast<std::ptrdiff_t>(n));
         }
-        return wrap_auto<const T>(&this->base_[n],
-                                  this->elems_life_.observer());
+        return const_reference(&this->base_[n], this->elems_life_.observer());
     }
 
-    wrap_auto<T> front(internal::skip_trace_tag = {}) {
+    reference front(internal::skip_trace_tag = {}) {
         if (N == 0) {
             static std::string func = type_name() + "::front()";
             y3c::internal::terminate_ub_out_of_range(func, N, 0);
         }
-        return wrap_auto<T>(&this->base_.front(), this->elems_life_.observer());
+        return reference(&this->base_.front(), this->elems_life_.observer());
     }
-    wrap_auto<const T> front(internal::skip_trace_tag = {}) const {
+    const_reference front(internal::skip_trace_tag = {}) const {
         if (N == 0) {
             static std::string func = type_name() + "::front()";
             y3c::internal::terminate_ub_out_of_range(func, N, 0);
         }
-        return wrap_auto<const T>(&this->base_.front(),
-                                  this->elems_life_.observer());
+        return const_reference(&this->base_.front(),
+                               this->elems_life_.observer());
     }
-    wrap_auto<T> back(internal::skip_trace_tag = {}) {
+    reference back(internal::skip_trace_tag = {}) {
         if (N == 0) {
             static std::string func = type_name() + "::back()";
             y3c::internal::terminate_ub_out_of_range(func, N, -1);
         }
-        return wrap_auto<T>(&this->base_.back(), this->elems_life_.observer());
+        return reference(&this->base_.back(), this->elems_life_.observer());
     }
-    wrap_auto<const T> back(internal::skip_trace_tag = {}) const {
+    const_reference back(internal::skip_trace_tag = {}) const {
         if (N == 0) {
             static std::string func = type_name() + "::back()";
             y3c::internal::terminate_ub_out_of_range(func, N, -1);
         }
-        return wrap_auto<const T>(&this->base_.back(),
-                                  this->elems_life_.observer());
+        return const_reference(&this->base_.back(),
+                               this->elems_life_.observer());
     }
 
     pointer data() {
