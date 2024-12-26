@@ -9,10 +9,10 @@ template <typename element_type>
 class contiguous_iterator;
 
 struct life_validator {
-    bool valid_;
     const void *ptr_;
+    bool valid_;
 
-    explicit life_validator(const void *ptr) : valid_(true), ptr_(ptr) {}
+    explicit life_validator(const void *ptr, bool valid = true) : ptr_(ptr), valid_(valid) {}
 };
 class life_state {
     bool alive_;
@@ -201,12 +201,12 @@ class life {
      */
     void update(const void *begin, const void *end,
                 const void *invalidate_from = nullptr) {
-        if ((begin <= state_->begin() && state_->begin() < end) ||
-            (begin < state_->end() && state_->end() <= end)) {
-            state_->update_range(begin, end);
-        } else {
+        if ((begin < state_->begin() && end <= state_->begin()) ||
+            (begin >= state_->end() && end > state_->end())) {
             state_->destroy();
             state_ = std::shared_ptr<life_state>(new life_state(begin, end));
+        } else {
+            state_->update_range(begin, end, invalidate_from);
         }
     }
 

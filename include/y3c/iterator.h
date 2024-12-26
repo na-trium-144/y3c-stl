@@ -42,6 +42,12 @@ class contiguous_iterator {
     void update_iter(const std::string &func,
                      internal::skip_trace_tag = {}) const {
         validator_->ptr_ = this->ptr_;
+        if (!validator_->valid_) {
+            // assert_iterではdeletedの場合deletedメッセージが優先されるが、
+            // ここではdeletedの場合にもinvalid iterのメッセージで止まる。
+            // あとコンストラクタで新しいvalidatorを作った後ここに来るというルートは若干無駄があるという問題もある
+            y3c::internal::terminate_ub_invalid_iter(func);
+        }
         if (ptr_ > observer_.end()) {
             internal::terminate_ub_iter_after_end(func);
         }
@@ -58,11 +64,11 @@ class contiguous_iterator {
               std::make_shared<life_validator>(ptr /* always valid */))),
           /*life_(&ptr),*/ type_name_(type_name) {}
     contiguous_iterator(element_type *ptr, internal::life_observer observer,
-                        const std::string *type_name, const std::string &func,
-                        internal::skip_trace_tag = {}) noexcept
+                        const std::string *type_name, bool valid,
+                        const std::string &func, internal::skip_trace_tag = {})
         : ptr_(ptr), observer_(observer),
           validator_(observer.push_validator(
-              std::make_shared<life_validator>(ptr /* always valid */))),
+              std::make_shared<life_validator>(ptr, valid))),
           /*life_(&ptr),*/ type_name_(type_name) {
         update_iter(func);
     }
@@ -154,22 +160,27 @@ class contiguous_iterator {
     template <typename = internal::skip_trace_tag>
     contiguous_iterator operator+(std::ptrdiff_t n) const {
         return contiguous_iterator(this->ptr_ + n, this->observer_, type_name_,
+                                   this->validator_->valid_,
                                    type_name() + "::operator+()");
     }
     template <typename = internal::skip_trace_tag>
     contiguous_iterator operator-(std::ptrdiff_t n) const {
         return contiguous_iterator(this->ptr_ - n, this->observer_, type_name_,
+                                   this->validator_->valid_,
                                    type_name() + "::operator-()");
     }
 
-    std::ptrdiff_t operator-(const contiguous_iterator &other) const {
+    std::ptrdiff_t operator-(const contiguous_iterator &other) const noexcept {
         return ptr_ - other.ptr_;
     }
     template <typename = internal::skip_trace_tag>
     wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
         static std::string func = type_name() + "::operator[]()";
-        return wrap_auto<element_type>((*this + n).assert_iter(func),
-                                       observer_);
+        return wrap_auto<element_type>(
+            contiguous_iterator(this->ptr_ + n, this->observer_, type_name_,
+                                this->validator_->valid_, func)
+                .assert_iter(func),
+            observer_);
     }
 
     contiguous_iterator *operator&() = delete;

@@ -302,6 +302,7 @@ TEST_CASE("wrap") {
             SUBCASE("delete") {
                 delete a;
                 a = nullptr;
+                CHECK_THROWS_AS(*p, y3c::internal::ub_access_deleted);
                 CHECK_THROWS_AS(p->val, y3c::internal::ub_access_deleted);
             }
             SUBCASE("remains on") {

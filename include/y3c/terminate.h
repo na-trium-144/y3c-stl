@@ -116,7 +116,11 @@ class exception_base {
 extern Y3C_DLL bool throw_on_terminate;
 
 #define define_terminate_func(ub_name)                                         \
-    class ub_name {};                                                          \
+    class ub_name : public std::exception {                                    \
+      public:                                                                  \
+        ub_name() = default;                                                   \
+        const char *what() const noexcept override { return #ub_name; }        \
+    };                                                                         \
     template <typename... Args, typename = skip_trace_tag>                     \
     [[noreturn]] void terminate_##ub_name(std::string func, Args &&...args) {  \
         if (throw_on_terminate) {                                              \
