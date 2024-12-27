@@ -13,7 +13,6 @@
 
 namespace y3c {
 namespace internal {
-inline namespace Y3C_NS_ABI {
 
 Y3C_DLL void Y3C_CALL link() noexcept;
 
@@ -153,7 +152,6 @@ class ub_access_deleted {};
                                           "asserion '" #cond "' failed");      \
     }
 
-} // namespace Y3C_NS_ABI
 } // namespace internal
 
 /*!

@@ -19,6 +19,8 @@ examples = [
   'wrap_array-ptr',
   'wrap_array-range',
 ]
+examples_dox = 'examples.dox.in'
+dox_i = 0
 foreach case : examples
   executable('y3c-example-' + case,
     case + '.cc',
@@ -26,4 +28,12 @@ foreach case : examples
       y3c_dep,
     ],
   )
+  examples_dox = configure_file(
+    input: examples_dox,
+    output: 'examples.dox.' + dox_i.to_string(),
+    configuration: configuration_data({
+      'line': '//! \example ' + case + '.cc\n@line@',
+    }),
+  )
+  dox_i += 1
 endforeach

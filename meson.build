@@ -1,5 +1,5 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.1.0',
+  version: '0.2.0',
   meson_version: '>=0.56',
   default_options: [
     'cpp_std=c++11',
@@ -12,17 +12,14 @@ cxx = meson.get_compiler('cpp')
 py = find_program('python3')
 cmake = import('cmake')
 
-y3c_abi_major = meson.project_version().split('.')[0]
-y3c_abi_minor = meson.project_version().split('.')[1]
+y3c_soversion = '0.2'
 
 assert(
   get_option('default_library') == 'shared' or get_option('default_library') == 'static',
-  'building both shared and static webcface libraries is currently not supported',
+  'building both shared and static y3c libraries is currently not supported',
 )
 summary('Library', get_option('default_library'))
-conf_data = configuration_data({
-  'Y3C_ABI_MAJOR': y3c_abi_major,
-})
+conf_data = configuration_data()
 conf_data.set10('Y3C_SHARED', get_option('default_library') == 'shared')
 y3c_system_visibility = false
 y3c_system_dllexport = false
@@ -40,7 +37,6 @@ elif host_machine.system() == 'windows'
   if cxx.get_argument_syntax() == 'msvc'
     summary('System', 'windows msvc ' + host_machine.cpu_family())
     y3c_system_add_debug = true
-    magick_vs = true
     add_project_arguments('/utf-8', language: 'cpp')
   else
     summary('System', 'windows mingw')
@@ -130,11 +126,11 @@ y3c_lib = library(y3c_lib_name,
     rang_dep,
   ],
   version: meson.project_version(),
-  soversion: y3c_abi_major,
-  darwin_versions: [
-    y3c_abi_major + '.' + y3c_abi_minor,
-    meson.project_version(),
-  ],
+  soversion: y3c_soversion,
+  # darwin_versions: [
+  #   y3c_abi_major + '.' + y3c_abi_minor,
+  #   meson.project_version(),
+  # ],
   gnu_symbol_visibility: 'inlineshidden',
   install: true,
 )
@@ -154,7 +150,7 @@ import('pkgconfig').generate(
 )
 meson.override_dependency('y3c', y3c_dep)
 if get_option('default_library') == 'shared'
-  # sharedライブラリの場合のみ、webcface.pc から Requires.private の行を削除
+  # sharedライブラリの場合のみ、y3c.pc から Requires.private の行を削除
   meson.add_install_script(py,
     meson.project_source_root() / 'remove_private_requires.py',
   )
@@ -165,7 +161,7 @@ if get_option('default_library') == 'shared'
     name: 'y3c',
     version: meson.project_version(),
     compatibility: 'SameMajorVersion',
-    install_dir: get_option('libdir') / 'cmake' / 'y3c-' + y3c_abi_major,
+    install_dir: get_option('libdir') / 'cmake' / 'y3c', # 'y3c-' + y3c_abi_major,
   )
   conf_data = configuration_data({
     'prefix': get_option('prefix'),
@@ -173,14 +169,14 @@ if get_option('default_library') == 'shared'
     'includedir': get_option('includedir'),
     'y3c_lib_debug': y3c_lib_name_debug,
     'y3c_lib_release': y3c_lib_name_release,
-    'y3c_abi_major': y3c_abi_major,
+    'y3c_soversion': y3c_soversion,
     'y3c_version_str': meson.project_version(),
   })
   cmake.configure_package_config_file(
     name: 'y3c',
     input: 'y3c-config.cmake.in',
     configuration: conf_data,
-    install_dir: get_option('libdir') / 'cmake' / 'y3c-' + y3c_abi_major,
+    install_dir: get_option('libdir') / 'cmake' / 'y3c', # 'y3c-' + y3c_abi_major,
   )
 endif
 
@@ -192,3 +188,11 @@ endif
 
 subdir('tests')
 subdir('examples')
+
+configure_file(
+  input: examples_dox,
+  output: 'examples.dox',
+  configuration: configuration_data({
+    'line': '',
+  }),
+)
