@@ -4,6 +4,7 @@ test_cases = [
   'shared_ptr',
   'terminate',
   'typename',
+  'vector',
   'wrap',
 ]
 test_args = cxx.get_supported_arguments(

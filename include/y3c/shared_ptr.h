@@ -32,9 +32,9 @@ class shared_ptr {
 
   public:
     shared_ptr(std::nullptr_t = nullptr) noexcept
-        : base_(nullptr), ptr_life_(nullptr), life_(&base_) {}
+        : base_(nullptr), ptr_life_(nullptr), life_(this) {}
     shared_ptr(const shared_ptr &other)
-        : base_(other.base_), ptr_life_(other.ptr_life_), life_(&base_) {}
+        : base_(other.base_), ptr_life_(other.ptr_life_), life_(this) {}
     shared_ptr &operator=(const shared_ptr &other) {
         if (this != std::addressof(other)) {
             base_ = other.base_;
@@ -44,7 +44,7 @@ class shared_ptr {
     }
     shared_ptr(shared_ptr &&other)
         : base_(std::move(other.base_)), ptr_life_(std::move(other.ptr_life_)),
-          life_(&base_) {}
+          life_(this) {}
     shared_ptr &operator=(shared_ptr &&other) {
         if (this != std::addressof(other)) {
             base_ = std::move(other.base_);
@@ -59,7 +59,7 @@ class shared_ptr {
     template <typename U>
     shared_ptr(const std::shared_ptr<U> &ptr)
         : base_(ptr), ptr_life_(std::make_shared<internal::life>(base_.get())),
-          life_(&base_) {}
+          life_(this) {}
     template <typename U>
     shared_ptr &operator=(const std::shared_ptr<U> &ptr) {
         base_ = ptr;
@@ -70,7 +70,7 @@ class shared_ptr {
     shared_ptr(std::shared_ptr<U> &&ptr)
         : base_(std::move(ptr)),
           ptr_life_(std::make_shared<internal::life>(base_.get())),
-          life_(&base_) {}
+          life_(this) {}
     template <typename U>
     shared_ptr &operator=(std::shared_ptr<U> &&ptr) {
         base_ = std::move(ptr);
@@ -80,7 +80,7 @@ class shared_ptr {
 
     template <typename U>
     shared_ptr(const shared_ptr<U> &other)
-        : base_(other.base_), ptr_life_(other.ptr_life_), life_(&base_) {}
+        : base_(other.base_), ptr_life_(other.ptr_life_), life_(this) {}
     template <typename U>
     shared_ptr &operator=(const shared_ptr<U> &other) {
         base_ = other.base_;
@@ -90,7 +90,7 @@ class shared_ptr {
     template <typename U>
     shared_ptr(shared_ptr<U> &&other)
         : base_(std::move(other.base_)), ptr_life_(std::move(other.ptr_life_)),
-          life_(&base_) {}
+          life_(this) {}
     template <typename U>
     shared_ptr &operator=(shared_ptr<U> &&other) {
         base_ = std::move(other.base_);
@@ -151,14 +151,8 @@ class shared_ptr {
         return base_.owner_before(arg.base_);
     }
 
-    operator wrap<shared_ptr &>() noexcept {
-        return wrap<shared_ptr &>(this, life_.observer());
-    }
     operator wrap<const shared_ptr &>() const noexcept {
         return wrap<const shared_ptr &>(this, life_.observer());
-    }
-    wrap<shared_ptr *> operator&() {
-        return wrap<shared_ptr *>(this, life_.observer());
     }
     wrap<const shared_ptr *> operator&() const {
         return wrap<const shared_ptr *>(this, life_.observer());

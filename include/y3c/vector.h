@@ -65,14 +65,28 @@ class vector {
     std::size_t assert_iter(const internal::contiguous_iterator<const T> &pos,
                             const std::string &func,
                             internal::skip_trace_tag = {}) const {
-        if (elems_life_ != pos.get_observer_()) {
+        if (*elems_life_ != pos.get_observer_()) {
             y3c::internal::terminate_ub_wrong_iter(func);
         }
         pos.get_observer_().assert_iter(pos, func);
         if (base_.size() == 0) {
             return 0;
         } else {
-            return &unwrap(pos) - &base_[0];
+            return y3c::internal::unwrap(pos) - &base_[0];
+        }
+    }
+    std::size_t
+    assert_iter_including_end(const internal::contiguous_iterator<const T> &pos,
+                              const std::string &func,
+                              internal::skip_trace_tag = {}) const {
+        if (*elems_life_ != pos.get_observer_()) {
+            y3c::internal::terminate_ub_wrong_iter(func);
+        }
+        pos.get_observer_().assert_iter_including_end(pos, func);
+        if (base_.size() == 0) {
+            return 0;
+        } else {
+            return y3c::internal::unwrap(pos) - &base_[0];
         }
     }
 
@@ -80,11 +94,11 @@ class vector {
     /*!
      * \brief サイズ0のvectorを作成する
      */
-    vector() : base_(), life_(&base_) { init_elems_life(); }
+    vector() : base_(), life_(this) { init_elems_life(); }
     /*!
      * \brief 新しい領域にコピー構築
      */
-    vector(const vector &other) : base_(other.base_), life_(&base_) {
+    vector(const vector &other) : base_(other.base_), life_(this) {
         init_elems_life();
     }
     /*!
@@ -96,7 +110,7 @@ class vector {
      */
     vector(vector &&other)
         : base_(std::move(other.base_)),
-          elems_life_(std::move(other.elems_life_)), life_(&base_) {}
+          elems_life_(std::move(other.elems_life_)), life_(this) {}
     /*!
      * \brief すべての要素をコピー
      *
@@ -123,7 +137,7 @@ class vector {
     }
     ~vector() = default;
 
-    friend const std::vector<T> &y3c::unwrap(const vector<T> &) noexcept;
+    friend const std::vector<T> &y3c::unwrap<>(const vector<T> &) noexcept;
 
     using value_type = T;
     using size_type = std::size_t;
@@ -138,14 +152,14 @@ class vector {
     /*!
      * \brief コピー構築
      */
-    vector(const std::vector<T> &other) : base_(other), life_(&base_) {
+    vector(const std::vector<T> &other) : base_(other), life_(this) {
         init_elems_life();
     }
     /*!
      * \brief ムーブ構築
      */
     vector(const std::vector<T> &&other)
-        : base_(std::move(other)), life_(&base_) {
+        : base_(std::move(other)), life_(this) {
         init_elems_life();
     }
     /*!
@@ -172,27 +186,26 @@ class vector {
     /*!
      * \brief サイズ指定して初期化
      */
-    explicit vector(size_type count) : base_(count), life_(&base_) {
+    explicit vector(size_type count) : base_(count), life_(this) {
         init_elems_life();
     }
     /*!
      * \brief サイズと値を指定して初期化
      */
-    vector(size_type count, const T &value)
-        : base_(count, value), life_(&base_) {
+    vector(size_type count, const T &value) : base_(count, value), life_(this) {
         init_elems_life();
     }
     /*!
      * \brief イテレータで初期化
      */
     template <typename InputIt>
-    vector(InputIt first, InputIt last) : base_(first, last), life_(&base_) {
+    vector(InputIt first, InputIt last) : base_(first, last), life_(this) {
         init_elems_life();
     }
     /*!
      * \brief std::initializer_listで初期化
      */
-    vector(std::initializer_list<T> init) : base_(init), life_(&base_) {
+    vector(std::initializer_list<T> init) : base_(init), life_(this) {
         init_elems_life();
     }
     /*!
@@ -289,13 +302,13 @@ class vector {
     iterator erase(const_iterator begin, const_iterator end,
                    internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::erase()";
-        if (elems_life_ != begin.get_observer_() ||
-            elems_life_ != end.get_observer_()) {
+        if (*elems_life_ != begin.get_observer_() ||
+            *elems_life_ != end.get_observer_()) {
             y3c::internal::terminate_ub_wrong_iter(func);
         }
-        begin.get_observer_().assert_range(begin, end, func);
-        std::size_t index_begin = unwrap(begin) - &base_[0];
-        std::size_t index_end = unwrap(end) - &base_[0];
+        begin.get_observer_().assert_range_iter(begin, end, func);
+        std::size_t index_begin = y3c::internal::unwrap(begin) - &base_[0];
+        std::size_t index_end = y3c::internal::unwrap(end) - &base_[0];
         base_.erase(base_.begin() + index_begin, base_.begin() + index_end);
         update_elems_life(&base_[0] + index_begin);
         return iterator(&base_[0] + index_begin, elems_life_->observer(),
@@ -343,7 +356,7 @@ class vector {
     iterator insert(const_iterator pos, const T &value,
                     internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
-        std::size_t index = assert_iter(pos, func);
+        std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, value);
         update_elems_life(&base_[0] + index);
         return iterator(&base_[0] + index, elems_life_->observer(),
@@ -358,7 +371,7 @@ class vector {
     iterator insert(const_iterator pos, T &&value,
                     internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
-        std::size_t index = assert_iter(pos, func);
+        std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, std::move(value));
         update_elems_life(&base_[0] + index);
         return iterator(&base_[0] + index, elems_life_->observer(),
@@ -373,7 +386,7 @@ class vector {
     iterator insert(const_iterator pos, size_type count, const T &value,
                     internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
-        std::size_t index = assert_iter(pos, func);
+        std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, count, std::move(value));
         update_elems_life(&base_[0] + index);
         return iterator(&base_[0] + index, elems_life_->observer(),
@@ -390,11 +403,11 @@ class vector {
                   std::is_convertible<
                       typename std::iterator_traits<InputIt>::reference,
                       value_type>::value,
-                  std::nullptr_t> = nullptr>
+                  std::nullptr_t>::type = nullptr>
     iterator insert(const_iterator pos, InputIt first, InputIt last,
                     internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
-        std::size_t index = assert_iter(pos, func);
+        std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, first, last);
         update_elems_life(&base_[0] + index);
         return iterator(&base_[0] + index, elems_life_->observer(),
@@ -409,7 +422,7 @@ class vector {
     iterator insert(const_iterator pos, std::initializer_list<T> ilist,
                     internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
-        std::size_t index = assert_iter(pos, func);
+        std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, ilist);
         update_elems_life(&base_[0] + index);
         return iterator(&base_[0] + index, elems_life_->observer(),
@@ -424,7 +437,7 @@ class vector {
     template <typename... Args, typename = internal::skip_trace_tag>
     iterator emplace(const_iterator pos, Args &&...args) {
         static std::string func = type_name() + "::emplace()";
-        std::size_t index = assert_iter(pos, func);
+        std::size_t index = assert_iter_including_end(pos, func);
         base_.emplace(base_.begin() + index, std::forward<Args>(args)...);
         update_elems_life(&base_[0] + index);
         return iterator(&base_[0] + index, elems_life_->observer(),
@@ -473,7 +486,7 @@ class vector {
             throw y3c::out_of_range(func, base_.size(),
                                     static_cast<std::ptrdiff_t>(n));
         }
-        return reference(&this->base_[n], this->life_.observer());
+        return reference(&this->base_[n], elems_life_->observer());
     }
     const_reference at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= base_.size()) {
@@ -481,7 +494,7 @@ class vector {
             throw y3c::out_of_range(func, base_.size(),
                                     static_cast<std::ptrdiff_t>(n));
         }
-        return const_reference(&this->base_[n], this->life_.observer());
+        return const_reference(&this->base_[n], elems_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     reference operator[](size_type n) {
@@ -490,7 +503,7 @@ class vector {
             y3c::internal::terminate_ub_out_of_range(
                 func, base_.size(), static_cast<std::ptrdiff_t>(n));
         }
-        return reference(&this->base_[n], this->life_.observer());
+        return reference(&this->base_[n], elems_life_->observer());
     }
     template <typename = internal::skip_trace_tag>
     const_reference operator[](size_type n) const {
@@ -499,7 +512,7 @@ class vector {
             y3c::internal::terminate_ub_out_of_range(
                 func, base_.size(), static_cast<std::ptrdiff_t>(n));
         }
-        return const_reference(&this->base_[n], this->life_.observer());
+        return const_reference(&this->base_[n], elems_life_->observer());
     }
     reference front(internal::skip_trace_tag = {}) {
         if (base_.empty()) {
@@ -532,30 +545,30 @@ class vector {
 
     pointer data() {
         if (base_.empty()) {
-            return pointer(nullptr, this->life_.observer());
+            return pointer(nullptr, elems_life_->observer());
         }
-        return pointer(&this->base_[0], this->life_.observer());
+        return pointer(&this->base_[0], elems_life_->observer());
     }
     const_pointer data() const {
         if (base_.empty()) {
-            return const_pointer(nullptr, this->life_.observer());
+            return const_pointer(nullptr, elems_life_->observer());
         }
-        return const_pointer(&this->base_[0], this->life_.observer());
+        return const_pointer(&this->base_[0], elems_life_->observer());
     }
 
     iterator begin() {
         if (base_.empty()) {
-            return iterator(nullptr, this->life_.observer(), &iter_name());
+            return iterator(nullptr, elems_life_->observer(), &iter_name());
         }
-        return iterator(&this->base_.front(), this->life_.observer(),
+        return iterator(&this->base_.front(), elems_life_->observer(),
                         &iter_name());
     }
     const_iterator begin() const {
         if (base_.empty()) {
-            return const_iterator(nullptr, this->life_.observer(),
+            return const_iterator(nullptr, elems_life_->observer(),
                                   &iter_name());
         }
-        return const_iterator(&this->base_.front(), this->life_.observer(),
+        return const_iterator(&this->base_.front(), elems_life_->observer(),
                               &iter_name());
     }
     const_iterator cbegin() const { return begin(); }
@@ -575,23 +588,11 @@ class vector {
         other.update_elems_life(&other.base_[0] + other.base_.size());
     }
 
-    friend bool operator==(const vector &lhs, const vector &rhs) {
-        return lhs.base_ == rhs.base_;
+    operator wrap<const vector &>() const noexcept {
+        return wrap<const vector &>(this, life_.observer());
     }
-    friend bool operator!=(const vector &lhs, const vector &rhs) {
-        return lhs.base_ != rhs.base_;
-    }
-    friend bool operator<(const vector &lhs, const vector &rhs) {
-        return lhs.base_ < rhs.base_;
-    }
-    friend bool operator<=(const vector &lhs, const vector &rhs) {
-        return lhs.base_ <= rhs.base_;
-    }
-    friend bool operator>(const vector &lhs, const vector &rhs) {
-        return lhs.base_ > rhs.base_;
-    }
-    friend bool operator>=(const vector &lhs, const vector &rhs) {
-        return lhs.base_ >= rhs.base_;
+    wrap<const vector *> operator&() const {
+        return wrap<const vector *>(this, life_.observer());
     }
 };
 
@@ -600,5 +601,29 @@ void swap(vector<T> &lhs, vector<T> &rhs) {
     lhs.swap(rhs);
 }
 
+template <typename T>
+bool operator==(const vector<T> &lhs, const vector<T> &rhs) {
+    return unwrap(lhs) == unwrap(rhs);
+}
+template <typename T>
+bool operator!=(const vector<T> &lhs, const vector<T> &rhs) {
+    return unwrap(lhs) != unwrap(rhs);
+}
+template <typename T>
+bool operator<(const vector<T> &lhs, const vector<T> &rhs) {
+    return unwrap(lhs) < unwrap(rhs);
+}
+template <typename T>
+bool operator<=(const vector<T> &lhs, const vector<T> &rhs) {
+    return unwrap(lhs) <= unwrap(rhs);
+}
+template <typename T>
+bool operator>(const vector<T> &lhs, const vector<T> &rhs) {
+    return unwrap(lhs) > unwrap(rhs);
+}
+template <typename T>
+bool operator>=(const vector<T> &lhs, const vector<T> &rhs) {
+    return unwrap(lhs) >= unwrap(rhs);
+}
 
 } // namespace y3c

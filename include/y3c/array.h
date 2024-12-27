@@ -42,11 +42,11 @@ class array {
     array()
         : base_(), elems_life_(N == 0 ? nullptr : &base_[0],
                                N == 0 ? nullptr : &base_[0] + N),
-          life_(&base_) {}
+          life_(this) {}
     array(const array &other)
         : base_(other.base_), elems_life_(N == 0 ? nullptr : &base_[0],
                                           N == 0 ? nullptr : &base_[0] + N),
-          life_(&base_) {}
+          life_(this) {}
     array &operator=(const array &other) {
         this->base_ = other.base_;
         return *this;
@@ -55,7 +55,7 @@ class array {
         : base_(std::move(other.base_)),
           elems_life_(N == 0 ? nullptr : &base_[0],
                       N == 0 ? nullptr : &base_[0] + N),
-          life_(&base_) {}
+          life_(this) {}
     array &operator=(array &&other) {
         if (this != std::addressof(other)) {
             this->base_ = std::move(other.base_);
@@ -71,12 +71,12 @@ class array {
     array(const std::array<T, N> &elems)
         : base_(elems), elems_life_(N == 0 ? nullptr : &base_[0],
                                     N == 0 ? nullptr : &base_[0] + N),
-          life_(&base_) {}
+          life_(this) {}
     array(std::array<T, N> &&elems)
         : base_(std::move(elems)),
           elems_life_(N == 0 ? nullptr : &base_[0],
                       N == 0 ? nullptr : &base_[0] + N),
-          life_(&base_) {}
+          life_(this) {}
     array &operator=(const std::array<T, N> &elems) {
         this->base_ = elems;
         return *this;
