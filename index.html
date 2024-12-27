@@ -257,29 +257,33 @@ Meson</h2>
 <p>ただしいずれもチェックされる条件として生ポインタや参照の代わりに <code><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">y3c::ptr</a></code>, <code><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a></code> などを使用することに加えて、 アクセスする対象も <a class="el" href="namespacey3c.html">y3c</a>:: のクラスまたは <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a></code> でラップされている必要があります</p>
 <h2><a class="anchor" id="autotoc_md9"></a>
 実装済みの関数、クラス一覧</h2>
-<p>todo: doxygenのドキュメントを作りそれへのリンクにするとか</p>
+<p>リンクはDoxygenによるドキュメントへのリンクです。</p>
 <ul>
 <li><code>#include &lt;y3c/wrap&gt;</code> (y3c独自のユーティリティ関数、STLのクラスに属さないものなど)<ul>
-<li><code><a class="el" href="namespacey3c.html#add81b8c3e9205e26147cc19be6b48f04">y3c::link()</a></code></li>
-<li><code><a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">y3c::unwrap</a>(<a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T&gt;)</code></li>
-<li><code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T&gt;</code> ← <code>T</code><ul>
-<li><code><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a>&lt;T&gt;</code> = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T&amp;&gt;</code></li>
-<li><code><a class="el" href="namespacey3c.html#a90c9c84653f992005af2e858c109662f">y3c::const_wrap_ref</a>&lt;T&gt;</code> = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;const T&amp;&gt;</code></li>
-<li><code><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">y3c::ptr</a>&lt;T&gt;</code> = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T*&gt;</code></li>
-<li><code><a class="el" href="namespacey3c.html#a29b0e1bca1128a09dead2be9381f3b4d">y3c::const_ptr</a>&lt;T&gt;</code> = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;const T*&gt;</code></li>
-<li><code><a class="el" href="namespacey3c.html#a6af8d7ddbbe3fde45d075651c5dd8783">y3c::ptr_const</a>&lt;T&gt;</code> = <code>const <a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T*&gt;</code></li>
-<li><code><a class="el" href="namespacey3c.html#aa83c8274b30672e3baf3c314c8dd2519">y3c::const_ptr_const</a>&lt;T&gt;</code> = <code>const <a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;const T*&gt;</code></li>
+<li><a class="el" href="namespacey3c.html#add81b8c3e9205e26147cc19be6b48f04">y3c::link()</a></li>
+<li><a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">y3c::unwrap</a>(<a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T&gt;)</li>
+<li><a href="https://na-trium-144.github.io/y3c-stl/classy3c_1_1wrap.html">y3c::wrap&lt;T&gt;</a> ← <code>T</code></li>
+<li><a href="https://na-trium-144.github.io/y3c-stl/classy3c_1_1wrap_3_01element__type_01_6_01_4.html">y3c::wrap&lt;T&amp;&gt;</a> ← <code>T&amp;</code><ul>
+<li><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a>&lt;T&gt; = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T&amp;&gt;</code></li>
+<li><a class="el" href="namespacey3c.html#a90c9c84653f992005af2e858c109662f">y3c::const_wrap_ref</a>&lt;T&gt; = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;const T&amp;&gt;</code></li>
+</ul>
+</li>
+<li><a href="https://na-trium-144.github.io/y3c-stl/classy3c_1_1wrap_3_01element__type_01_5_01_4.html">y3c::wrap&lt;T*&gt;</a> ← <code>T*</code><ul>
+<li><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">y3c::ptr</a>&lt;T&gt; = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T*&gt;</code></li>
+<li><a class="el" href="namespacey3c.html#a29b0e1bca1128a09dead2be9381f3b4d">y3c::const_ptr</a>&lt;T&gt; = <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;const T*&gt;</code></li>
+<li><a class="el" href="namespacey3c.html#a6af8d7ddbbe3fde45d075651c5dd8783">y3c::ptr_const</a>&lt;T&gt; = <code>const <a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;T*&gt;</code></li>
+<li><a class="el" href="namespacey3c.html#aa83c8274b30672e3baf3c314c8dd2519">y3c::const_ptr_const</a>&lt;T&gt; = <code>const <a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a>&lt;const T*&gt;</code></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><code>#include &lt;y3c/array&gt;</code><ul>
-<li><code><a class="el" href="classy3c_1_1array.html">y3c::array</a>&lt;T, N&gt;</code> ← <code>std::array&lt;T, N&gt;</code></li>
+<li><a href="https://na-trium-144.github.io/y3c-stl/classy3c_1_1array.html">y3c::array&lt;T, N&gt;</a> ← <code>std::array&lt;T, N&gt;</code></li>
 </ul>
 </li>
 <li><code>#include &lt;y3c/memory&gt;</code><ul>
-<li><code><a class="el" href="classy3c_1_1shared__ptr.html">y3c::shared_ptr</a>&lt;T&gt;</code> ← <code>std::shared_ptr&lt;T&gt;</code><ul>
-<li><code><a class="el" href="namespacey3c.html#a40c9d3b2eb997025880ea1e76d4fb53b">y3c::make_shared</a>&lt;T&gt;()</code> ← <code>std::make_shared&lt;T&gt;()</code></li>
+<li><a href="https://na-trium-144.github.io/y3c-stl/classy3c_1_1shared__ptr.html">y3c::shared_ptr&lt;T&gt;</a> ← <code>std::shared_ptr&lt;T&gt;</code><ul>
+<li><a class="el" href="namespacey3c.html#a40c9d3b2eb997025880ea1e76d4fb53b">y3c::make_shared</a>&lt;T&gt;() ← <code>std::make_shared&lt;T&gt;()</code></li>
 </ul>
 </li>
 </ul>
@@ -295,7 +299,7 @@ Meson</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 27 2024 17:42:45 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Fri Dec 27 2024 18:04:37 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>
