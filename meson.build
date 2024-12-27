@@ -188,3 +188,11 @@ endif
 
 subdir('tests')
 subdir('examples')
+
+configure_file(
+  input: examples_dox,
+  output: 'examples.dox',
+  configuration: configuration_data({
+    'line': '',
+  }),
+)
