@@ -3,7 +3,6 @@
 
 namespace y3c {
 namespace internal {
-inline namespace Y3C_NS_ABI {
 
 void link() noexcept {}
 
@@ -22,6 +21,5 @@ bool throw_on_terminate =
 std::atomic<int> exception_base::last_exception_id;
 std::unordered_map<int, terminate_detail> exception_base::exceptions;
 
-} // namespace Y3C_NS_ABI
 } // namespace internal
 } // namespace y3c
