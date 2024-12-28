@@ -35,7 +35,7 @@ Stack trace (most recent call first):
 
 ## インストール
 
-Meson (>=0.56) をインストールしてください。
+Meson (>=1.1) をインストールしてください。
 
 * Ubuntu: `pip install meson` または `sudo apt install meson`
 * MacOS: `brew install meson`
