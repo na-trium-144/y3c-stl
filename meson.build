@@ -1,6 +1,6 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.3.0',
-  meson_version: '>=0.56',
+  version: '0.3.1',
+  meson_version: '>=1.1',
   default_options: [
     'cpp_std=c++11',
     'libdwarf:default_library=static',
@@ -81,22 +81,26 @@ y3c_config_dep = declare_dependency(
   compile_args: ['-DY3C_MESON'],
 )
 
-cpptrace_dep = dependency('cpptrace')
-rang_dep = dependency('rang')
-
-doctest_dep = dependency('doctest', required: false)
-if doctest_dep.found()
-  if cxx.has_header('doctest/doctest.h', dependencies: doctest_dep)
-    doctest_dep = declare_dependency(
-      dependencies: doctest_dep,
-      compile_args: ['-DY3C_DOCTEST_NESTED_HEADER'],
-    )
+if get_option('tests')
+  doctest_dep = dependency('doctest', required: false)
+  if doctest_dep.found()
+    if cxx.has_header('doctest/doctest.h', dependencies: doctest_dep)
+      doctest_dep = declare_dependency(
+        dependencies: doctest_dep,
+        compile_args: ['-DY3C_DOCTEST_NESTED_HEADER'],
+      )
+    endif
+  else
+    doctest_dep = dependency('doctest', required: true)
+    # subprojectのdoctestのヘッダーはネストしていない
   endif
 else
-  doctest_dep = dependency('doctest', required: true)
-  # subprojectのdoctestのヘッダーはネストしていない
+  doctest_dep = disabler()
+  meson.override_dependency('doctest', dependency('', required: false))
 endif
 
+cpptrace_dep = dependency('cpptrace')
+rang_dep = dependency('rang')
 
 y3c_inc = include_directories('include')
 y3c_src = [
