@@ -1,5 +1,6 @@
 #include "y3c/terminate.h"
 #include <cpptrace/basic.hpp>
+#include <cpptrace/utils.hpp>
 #include <rang.hpp>
 #include <iostream>
 #include <ostream>
@@ -26,7 +27,8 @@ void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
                   "debug symbols enabled.)"
                << rang::style::reset << std::endl;
     } else {
-        trace.print_with_snippets(stream);
+        trace.print_with_snippets(stream,
+                                  cpptrace::isatty(cpptrace::stderr_fileno));
     }
 }
 
@@ -144,7 +146,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
 }
 [[noreturn]] void handle_final_terminate_message() noexcept {
     auto &stream = std::cerr;
-    rang::setControlMode(rang::control::Force);
+    rang::setControlMode(cpptrace::isatty(cpptrace::stderr_fileno)
+                             ? rang::control::Force
+                             : rang::control::Off);
     print_header(stream);
     auto current = std::current_exception();
     if (current) {
@@ -172,7 +176,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
 
 [[noreturn]] void do_terminate_with(terminate_detail &&detail) {
     auto &stream = std::cerr;
-    rang::setControlMode(rang::control::Force);
+    rang::setControlMode(cpptrace::isatty(cpptrace::stderr_fileno)
+                             ? rang::control::Force
+                             : rang::control::Off);
     print_header(stream);
     print_y3c_exception(stream, detail);
     auto trace = std::static_pointer_cast<cpptrace::raw_trace>(detail.raw_trace)

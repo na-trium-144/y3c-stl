@@ -24,6 +24,9 @@ jobs:
       run: pip install meson || pip install --break-system-packages meson
     - name: Setup Meson
       run: meson setup build
+    - name: Compile
+      run: meson compile -C build
+    - run: python3 ./run_examples.py build
     - name: Generate Documentation
       run: |
         mkdir -p build/doxygen
