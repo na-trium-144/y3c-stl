@@ -80,11 +80,26 @@ void print_y3c_exception(std::ostream &stream, const terminate_detail &e) {
     case terminate_type::internal:
         stream << rang::style::bold << "internal error of y3c-stl itself";
         break;
-    case terminate_type::ub_out_of_range:
-    case terminate_type::ub_access_nullptr:
-    case terminate_type::ub_access_deleted:
-        stream << rang::style::bold << "undefined behavior detected";
-        break;
+
+#define define_ub_message(ub_name)                                             \
+    case terminate_type::ub_name: {                                            \
+        stream << rang::style::bold << "undefined behavior detected";          \
+        stream << rang::style::reset << " (";                                  \
+        stream << rang::fg::cyan << #ub_name;                                  \
+        stream << rang::fg::reset << ")";                                      \
+        break;                                                                 \
+    }
+
+        define_ub_message(ub_out_of_range);
+        define_ub_message(ub_access_nullptr);
+        define_ub_message(ub_access_deleted);
+        define_ub_message(ub_wrong_iter);
+        define_ub_message(ub_invalid_iter);
+        define_ub_message(ub_iter_after_end);
+        define_ub_message(ub_iter_before_begin);
+
+#undef define_ub_message
+
     default:
         stream << rang::style::italic << rang::fg::red
                << "error: invalid terminate type " << static_cast<int>(e.type);
