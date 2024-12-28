@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['out_5fof_5frange_0',['out_of_range',['../classy3c_1_1out__of__range.html',1,'y3c']]]
+  ['exception_5fbase_0',['exception_base',['../classy3c_1_1internal_1_1exception__base.html',1,'y3c::internal']]]
 ];

@@ -124,12 +124,12 @@ $(document).ready(function(){initNavTree('classy3c_1_1internal_1_1life__state.ht
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="life_8h_source.html">y3c/life.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="install_2include_2y3c_2life_8h_source.html">/home/runner/work/y3c-stl/y3c-stl/install/include/y3c/life.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac15e871da5013c0cc8dc04b280d785c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#ac15e871da5013c0cc8dc04b280d785c7">life_state</a> (void *begin, void *end)</td></tr>
-<tr class="separator:ac15e871da5013c0cc8dc04b280d785c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a745d85cb480b64b0e6cb2e5e29b0a89a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a745d85cb480b64b0e6cb2e5e29b0a89a">life_state</a> (const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a61ec2b52f45db38158d40353eb42eadc">begin</a>, const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a5aac3a59996a80d798d568ca162b0422">end</a>)</td></tr>
+<tr class="separator:a745d85cb480b64b0e6cb2e5e29b0a89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c8656a910ca86435dd8a43ba02afa68"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a4c8656a910ca86435dd8a43ba02afa68">life_state</a> (const <a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;)=delete</td></tr>
 <tr class="separator:a4c8656a910ca86435dd8a43ba02afa68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac266e7c84f17643335601c9da7ec7acd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#ac266e7c84f17643335601c9da7ec7acd">operator=</a> (const <a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;)=delete</td></tr>
@@ -142,10 +142,58 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0f2a1cff6daae22a69e41dd641b88011"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a80b6032f86a56bec74609034b3246f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a3a80b6032f86a56bec74609034b3246f">destroy</a> ()</td></tr>
 <tr class="separator:a3a80b6032f86a56bec74609034b3246f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61ec2b52f45db38158d40353eb42eadc"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a61ec2b52f45db38158d40353eb42eadc">begin</a> () const</td></tr>
+<tr class="separator:a61ec2b52f45db38158d40353eb42eadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aac3a59996a80d798d568ca162b0422"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a5aac3a59996a80d798d568ca162b0422">end</a> () const</td></tr>
+<tr class="separator:a5aac3a59996a80d798d568ca162b0422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2152ac7aebc4340c8cfe0058d3dbb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a5f2152ac7aebc4340c8cfe0058d3dbb0">push_validator</a> (const std::shared_ptr&lt; <a class="el" href="structy3c_1_1internal_1_1life__validator.html">life_validator</a> &gt; &amp;v)</td></tr>
+<tr class="separator:a5f2152ac7aebc4340c8cfe0058d3dbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd704971435825b7288f5f99f891efb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#abd704971435825b7288f5f99f891efb8">update_range</a> (const void *new_begin, const void *new_end, const void *invalidate_from=nullptr)</td></tr>
+<tr class="separator:abd704971435825b7288f5f99f891efb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affde26caf85fd202f9b57119b12135fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#affde26caf85fd202f9b57119b12135fc">alive</a> () const</td></tr>
 <tr class="separator:affde26caf85fd202f9b57119b12135fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa3d4db9c5e53c99e87006707992e9a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#afa3d4db9c5e53c99e87006707992e9a8">in_range</a> (const void *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>) const</td></tr>
 <tr class="separator:afa3d4db9c5e53c99e87006707992e9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae79fc7ae5b290b11dcbe417f8d0b2a44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#ae79fc7ae5b290b11dcbe417f8d0b2a44">in_range_including_end</a> (const void *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>) const</td></tr>
+<tr class="separator:ae79fc7ae5b290b11dcbe417f8d0b2a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98b81f55f43e2229ce91dc26098c03b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a98b81f55f43e2229ce91dc26098c03b5">in_range</a> (const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a61ec2b52f45db38158d40353eb42eadc">begin</a>, const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a5aac3a59996a80d798d568ca162b0422">end</a>) const</td></tr>
+<tr class="separator:a98b81f55f43e2229ce91dc26098c03b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea9d253439e227dac922ecde258b4a2d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aea9d253439e227dac922ecde258b4a2d"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#aea9d253439e227dac922ecde258b4a2d">size</a> () const</td></tr>
+<tr class="separator:aea9d253439e227dac922ecde258b4a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0442ecda1cc23d58921bcac56d41fdfe"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a0442ecda1cc23d58921bcac56d41fdfe"><td class="memTemplItemLeft" align="right" valign="top">std::ptrdiff_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a0442ecda1cc23d58921bcac56d41fdfe">index_of</a> (T *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>) const</td></tr>
+<tr class="separator:a0442ecda1cc23d58921bcac56d41fdfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a745d85cb480b64b0e6cb2e5e29b0a89a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a745d85cb480b64b0e6cb2e5e29b0a89a">life_state</a> (const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a61ec2b52f45db38158d40353eb42eadc">begin</a>, const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a5aac3a59996a80d798d568ca162b0422">end</a>)</td></tr>
+<tr class="separator:a745d85cb480b64b0e6cb2e5e29b0a89a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c8656a910ca86435dd8a43ba02afa68"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a4c8656a910ca86435dd8a43ba02afa68">life_state</a> (const <a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;)=delete</td></tr>
+<tr class="separator:a4c8656a910ca86435dd8a43ba02afa68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac266e7c84f17643335601c9da7ec7acd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#ac266e7c84f17643335601c9da7ec7acd">operator=</a> (const <a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;)=delete</td></tr>
+<tr class="separator:ac266e7c84f17643335601c9da7ec7acd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1500885af32f8bf3cbba06df33d6643"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#af1500885af32f8bf3cbba06df33d6643">life_state</a> (<a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:af1500885af32f8bf3cbba06df33d6643"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd7a19e009138b3a6cb7ce0828c69465"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#acd7a19e009138b3a6cb7ce0828c69465">operator=</a> (<a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:acd7a19e009138b3a6cb7ce0828c69465"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f2a1cff6daae22a69e41dd641b88011"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a0f2a1cff6daae22a69e41dd641b88011">~life_state</a> ()=default</td></tr>
+<tr class="separator:a0f2a1cff6daae22a69e41dd641b88011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a80b6032f86a56bec74609034b3246f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a3a80b6032f86a56bec74609034b3246f">destroy</a> ()</td></tr>
+<tr class="separator:a3a80b6032f86a56bec74609034b3246f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61ec2b52f45db38158d40353eb42eadc"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a61ec2b52f45db38158d40353eb42eadc">begin</a> () const</td></tr>
+<tr class="separator:a61ec2b52f45db38158d40353eb42eadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aac3a59996a80d798d568ca162b0422"><td class="memItemLeft" align="right" valign="top">const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a5aac3a59996a80d798d568ca162b0422">end</a> () const</td></tr>
+<tr class="separator:a5aac3a59996a80d798d568ca162b0422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2152ac7aebc4340c8cfe0058d3dbb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a5f2152ac7aebc4340c8cfe0058d3dbb0">push_validator</a> (const std::shared_ptr&lt; <a class="el" href="structy3c_1_1internal_1_1life__validator.html">life_validator</a> &gt; &amp;v)</td></tr>
+<tr class="separator:a5f2152ac7aebc4340c8cfe0058d3dbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd704971435825b7288f5f99f891efb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#abd704971435825b7288f5f99f891efb8">update_range</a> (const void *new_begin, const void *new_end, const void *invalidate_from=nullptr)</td></tr>
+<tr class="separator:abd704971435825b7288f5f99f891efb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affde26caf85fd202f9b57119b12135fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#affde26caf85fd202f9b57119b12135fc">alive</a> () const</td></tr>
+<tr class="separator:affde26caf85fd202f9b57119b12135fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa3d4db9c5e53c99e87006707992e9a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#afa3d4db9c5e53c99e87006707992e9a8">in_range</a> (const void *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>) const</td></tr>
+<tr class="separator:afa3d4db9c5e53c99e87006707992e9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae79fc7ae5b290b11dcbe417f8d0b2a44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#ae79fc7ae5b290b11dcbe417f8d0b2a44">in_range_including_end</a> (const void *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>) const</td></tr>
+<tr class="separator:ae79fc7ae5b290b11dcbe417f8d0b2a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98b81f55f43e2229ce91dc26098c03b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#a98b81f55f43e2229ce91dc26098c03b5">in_range</a> (const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a61ec2b52f45db38158d40353eb42eadc">begin</a>, const void *<a class="el" href="classy3c_1_1internal_1_1life__state.html#a5aac3a59996a80d798d568ca162b0422">end</a>) const</td></tr>
+<tr class="separator:a98b81f55f43e2229ce91dc26098c03b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea9d253439e227dac922ecde258b4a2d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aea9d253439e227dac922ecde258b4a2d"><td class="memTemplItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html#aea9d253439e227dac922ecde258b4a2d">size</a> () const</td></tr>
 <tr class="separator:aea9d253439e227dac922ecde258b4a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,8 +202,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0442ecda1cc23d58921bcac56d41fdfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac15e871da5013c0cc8dc04b280d785c7" name="ac15e871da5013c0cc8dc04b280d785c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac15e871da5013c0cc8dc04b280d785c7">&#9670;&#160;</a></span>life_state() <span class="overload">[1/3]</span></h2>
+<a id="a745d85cb480b64b0e6cb2e5e29b0a89a" name="a745d85cb480b64b0e6cb2e5e29b0a89a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a745d85cb480b64b0e6cb2e5e29b0a89a">&#9670;&#160;</a></span>life_state() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,13 +214,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> </td>
           <td>(</td>
-          <td class="paramtype">void *&#160;</td>
+          <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>begin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void *&#160;</td>
+          <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>end</em>&#160;</td>
         </tr>
         <tr>
@@ -191,7 +239,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4c8656a910ca86435dd8a43ba02afa68" name="a4c8656a910ca86435dd8a43ba02afa68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c8656a910ca86435dd8a43ba02afa68">&#9670;&#160;</a></span>life_state() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c8656a910ca86435dd8a43ba02afa68">&#9670;&#160;</a></span>life_state() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +265,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="af1500885af32f8bf3cbba06df33d6643" name="af1500885af32f8bf3cbba06df33d6643"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1500885af32f8bf3cbba06df33d6643">&#9670;&#160;</a></span>life_state() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af1500885af32f8bf3cbba06df33d6643">&#9670;&#160;</a></span>life_state() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +291,120 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0f2a1cff6daae22a69e41dd641b88011" name="a0f2a1cff6daae22a69e41dd641b88011"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f2a1cff6daae22a69e41dd641b88011">&#9670;&#160;</a></span>~life_state()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f2a1cff6daae22a69e41dd641b88011">&#9670;&#160;</a></span>~life_state() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">~<a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a745d85cb480b64b0e6cb2e5e29b0a89a" name="a745d85cb480b64b0e6cb2e5e29b0a89a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a745d85cb480b64b0e6cb2e5e29b0a89a">&#9670;&#160;</a></span>life_state() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4c8656a910ca86435dd8a43ba02afa68" name="a4c8656a910ca86435dd8a43ba02afa68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c8656a910ca86435dd8a43ba02afa68">&#9670;&#160;</a></span>life_state() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1500885af32f8bf3cbba06df33d6643" name="af1500885af32f8bf3cbba06df33d6643"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1500885af32f8bf3cbba06df33d6643">&#9670;&#160;</a></span>life_state() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f2a1cff6daae22a69e41dd641b88011" name="a0f2a1cff6daae22a69e41dd641b88011"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f2a1cff6daae22a69e41dd641b88011">&#9670;&#160;</a></span>~life_state() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +430,7 @@ Public Member Functions</h2></td></tr>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="affde26caf85fd202f9b57119b12135fc" name="affde26caf85fd202f9b57119b12135fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affde26caf85fd202f9b57119b12135fc">&#9670;&#160;</a></span>alive()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#affde26caf85fd202f9b57119b12135fc">&#9670;&#160;</a></span>alive() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -293,8 +454,83 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="affde26caf85fd202f9b57119b12135fc" name="affde26caf85fd202f9b57119b12135fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affde26caf85fd202f9b57119b12135fc">&#9670;&#160;</a></span>alive() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool alive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a61ec2b52f45db38158d40353eb42eadc" name="a61ec2b52f45db38158d40353eb42eadc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61ec2b52f45db38158d40353eb42eadc">&#9670;&#160;</a></span>begin() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void * begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a61ec2b52f45db38158d40353eb42eadc" name="a61ec2b52f45db38158d40353eb42eadc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61ec2b52f45db38158d40353eb42eadc">&#9670;&#160;</a></span>begin() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void * begin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3a80b6032f86a56bec74609034b3246f" name="a3a80b6032f86a56bec74609034b3246f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a80b6032f86a56bec74609034b3246f">&#9670;&#160;</a></span>destroy()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a80b6032f86a56bec74609034b3246f">&#9670;&#160;</a></span>destroy() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,8 +554,155 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a3a80b6032f86a56bec74609034b3246f" name="a3a80b6032f86a56bec74609034b3246f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a80b6032f86a56bec74609034b3246f">&#9670;&#160;</a></span>destroy() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void destroy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5aac3a59996a80d798d568ca162b0422" name="a5aac3a59996a80d798d568ca162b0422"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aac3a59996a80d798d568ca162b0422">&#9670;&#160;</a></span>end() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void * end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5aac3a59996a80d798d568ca162b0422" name="a5aac3a59996a80d798d568ca162b0422"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aac3a59996a80d798d568ca162b0422">&#9670;&#160;</a></span>end() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const void * end </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98b81f55f43e2229ce91dc26098c03b5" name="a98b81f55f43e2229ce91dc26098c03b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98b81f55f43e2229ce91dc26098c03b5">&#9670;&#160;</a></span>in_range() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool in_range </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a98b81f55f43e2229ce91dc26098c03b5" name="a98b81f55f43e2229ce91dc26098c03b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98b81f55f43e2229ce91dc26098c03b5">&#9670;&#160;</a></span>in_range() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool in_range </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afa3d4db9c5e53c99e87006707992e9a8" name="afa3d4db9c5e53c99e87006707992e9a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa3d4db9c5e53c99e87006707992e9a8">&#9670;&#160;</a></span>in_range()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afa3d4db9c5e53c99e87006707992e9a8">&#9670;&#160;</a></span>in_range() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -344,8 +727,114 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="afa3d4db9c5e53c99e87006707992e9a8" name="afa3d4db9c5e53c99e87006707992e9a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa3d4db9c5e53c99e87006707992e9a8">&#9670;&#160;</a></span>in_range() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool in_range </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae79fc7ae5b290b11dcbe417f8d0b2a44" name="ae79fc7ae5b290b11dcbe417f8d0b2a44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae79fc7ae5b290b11dcbe417f8d0b2a44">&#9670;&#160;</a></span>in_range_including_end() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool in_range_including_end </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae79fc7ae5b290b11dcbe417f8d0b2a44" name="ae79fc7ae5b290b11dcbe417f8d0b2a44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae79fc7ae5b290b11dcbe417f8d0b2a44">&#9670;&#160;</a></span>in_range_including_end() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool in_range_including_end </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0442ecda1cc23d58921bcac56d41fdfe" name="a0442ecda1cc23d58921bcac56d41fdfe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0442ecda1cc23d58921bcac56d41fdfe">&#9670;&#160;</a></span>index_of()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0442ecda1cc23d58921bcac56d41fdfe">&#9670;&#160;</a></span>index_of() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ptrdiff_t index_of </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0442ecda1cc23d58921bcac56d41fdfe" name="a0442ecda1cc23d58921bcac56d41fdfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0442ecda1cc23d58921bcac56d41fdfe">&#9670;&#160;</a></span>index_of() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -373,7 +862,33 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="ac266e7c84f17643335601c9da7ec7acd" name="ac266e7c84f17643335601c9da7ec7acd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac266e7c84f17643335601c9da7ec7acd">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac266e7c84f17643335601c9da7ec7acd">&#9670;&#160;</a></span>operator=() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac266e7c84f17643335601c9da7ec7acd" name="ac266e7c84f17643335601c9da7ec7acd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac266e7c84f17643335601c9da7ec7acd">&#9670;&#160;</a></span>operator=() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -399,7 +914,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="acd7a19e009138b3a6cb7ce0828c69465" name="acd7a19e009138b3a6cb7ce0828c69465"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd7a19e009138b3a6cb7ce0828c69465">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acd7a19e009138b3a6cb7ce0828c69465">&#9670;&#160;</a></span>operator=() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -424,8 +939,86 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="acd7a19e009138b3a6cb7ce0828c69465" name="acd7a19e009138b3a6cb7ce0828c69465"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd7a19e009138b3a6cb7ce0828c69465">&#9670;&#160;</a></span>operator=() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f2152ac7aebc4340c8cfe0058d3dbb0" name="a5f2152ac7aebc4340c8cfe0058d3dbb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f2152ac7aebc4340c8cfe0058d3dbb0">&#9670;&#160;</a></span>push_validator() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void push_validator </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="structy3c_1_1internal_1_1life__validator.html">life_validator</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f2152ac7aebc4340c8cfe0058d3dbb0" name="a5f2152ac7aebc4340c8cfe0058d3dbb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f2152ac7aebc4340c8cfe0058d3dbb0">&#9670;&#160;</a></span>push_validator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void push_validator </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; <a class="el" href="structy3c_1_1internal_1_1life__validator.html">life_validator</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aea9d253439e227dac922ecde258b4a2d" name="aea9d253439e227dac922ecde258b4a2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea9d253439e227dac922ecde258b4a2d">&#9670;&#160;</a></span>size()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aea9d253439e227dac922ecde258b4a2d">&#9670;&#160;</a></span>size() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -451,8 +1044,119 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="aea9d253439e227dac922ecde258b4a2d" name="aea9d253439e227dac922ecde258b4a2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea9d253439e227dac922ecde258b4a2d">&#9670;&#160;</a></span>size() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd704971435825b7288f5f99f891efb8" name="abd704971435825b7288f5f99f891efb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd704971435825b7288f5f99f891efb8">&#9670;&#160;</a></span>update_range() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void update_range </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>new_begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>new_end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>invalidate_from</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd704971435825b7288f5f99f891efb8" name="abd704971435825b7288f5f99f891efb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd704971435825b7288f5f99f891efb8">&#9670;&#160;</a></span>update_range() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void update_range </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>new_begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>new_end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>invalidate_from</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/y3c/<a class="el" href="life_8h_source.html">life.h</a></li>
+<li>install/include/y3c/<a class="el" href="install_2include_2y3c_2life_8h_source.html">life.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -460,7 +1164,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacey3c.html">y3c</a></li><li class="navelem"><a class="el" href="namespacey3c_1_1internal.html">internal</a></li><li class="navelem"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a></li>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

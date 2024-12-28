@@ -120,6 +120,19 @@ $(document).ready(function(){initNavTree('shared_ptr-ref_8cc-example.html',''); 
   <div class="headertitle"><div class="title">shared_ptr-ref.cc</div></div>
 </div><!--header-->
 <div class="contents">
+<blockquote class="doxtable">
+<p>&zwj;example output: </p><div class="fragment"><div class="line">100</div>
+<div class="line"><a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl terminated: undefined behavior detected (ub_access_deleted)</div>
+<div class="line">  at cast from <a id="_a0" name="_a0"></a><a class="code hl_class" href="classy3c_1_1wrap.html">y3c::wrap&lt;int&amp;&gt;</a> to reference: attempted to access the deleted value.</div>
+<div class="line">Stack trace (most recent call first):</div>
+<div class="line">#0 0x000055c4e1561722 in main at /home/runner/work/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/build/../examples/shared_ptr-ref.cc:9:18</div>
+<div class="line">       7:     std::cout &lt;&lt; ref &lt;&lt; std::endl;</div>
+<div class="line">       8:     a.reset();</div>
+<div class="line">       9:     std::cout &lt;&lt; ref &lt;&lt; std::endl;</div>
+<div class="line">      10: }</div>
+<div class="ttc" id="aclassy3c_1_1wrap_html"><div class="ttname"><a href="classy3c_1_1wrap.html">y3c::wrap</a></div><div class="ttdoc">値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス</div><div class="ttdef"><b>Definition</b> wrap.h:26</div></div>
+<div class="ttc" id="anamespacey3c_html"><div class="ttname"><a href="namespacey3c.html">y3c</a></div><div class="ttdef"><b>Definition</b> array.h:8</div></div>
+</div><!-- fragment --> </blockquote>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;y3c/memory&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
@@ -130,15 +143,15 @@ $(document).ready(function(){initNavTree('shared_ptr-ref_8cc-example.html',''); 
 <div class="line">    a.<a id="a2" name="a2"></a><a class="code hl_function" href="classy3c_1_1shared__ptr.html#a20194325f0380eb3bbc6bc6c8b2697d9">reset</a>();</div>
 <div class="line">    std::cout &lt;&lt; ref &lt;&lt; std::endl;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassy3c_1_1shared__ptr_html"><div class="ttname"><a href="classy3c_1_1shared__ptr.html">y3c::shared_ptr</a></div><div class="ttdef"><b>Definition</b> shared_ptr.h:24</div></div>
-<div class="ttc" id="aclassy3c_1_1shared__ptr_html_a20194325f0380eb3bbc6bc6c8b2697d9"><div class="ttname"><a href="classy3c_1_1shared__ptr.html#a20194325f0380eb3bbc6bc6c8b2697d9">y3c::shared_ptr::reset</a></div><div class="ttdeci">void reset() noexcept</div><div class="ttdef"><b>Definition</b> shared_ptr.h:108</div></div>
-<div class="ttc" id="aclassy3c_1_1wrap_3_01element__type_01_6_01_4_html"><div class="ttname"><a href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html">y3c::wrap&lt; element_type &amp; &gt;</a></div><div class="ttdoc">参照型wrap: element_type型のデータへの参照を持つクラス</div><div class="ttdef"><b>Definition</b> wrap.h:209</div></div>
+<div class="ttc" id="aclassy3c_1_1shared__ptr_html"><div class="ttname"><a href="classy3c_1_1shared__ptr.html">y3c::shared_ptr</a></div><div class="ttdoc">所有権を共有するスマートポインタ (std::shared_ptr)</div><div class="ttdef"><b>Definition</b> shared_ptr.h:28</div></div>
+<div class="ttc" id="aclassy3c_1_1shared__ptr_html_a20194325f0380eb3bbc6bc6c8b2697d9"><div class="ttname"><a href="classy3c_1_1shared__ptr.html#a20194325f0380eb3bbc6bc6c8b2697d9">y3c::shared_ptr::reset</a></div><div class="ttdeci">void reset() noexcept</div><div class="ttdoc">所有権を放棄</div><div class="ttdef"><b>Definition</b> shared_ptr.h:152</div></div>
+<div class="ttc" id="aclassy3c_1_1wrap_3_01element__type_01_6_01_4_html"><div class="ttname"><a href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html">y3c::wrap&lt; element_type &amp; &gt;</a></div><div class="ttdoc">参照型wrap: element_type型のデータへの参照を持つクラス</div><div class="ttdef"><b>Definition</b> wrap.h:168</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

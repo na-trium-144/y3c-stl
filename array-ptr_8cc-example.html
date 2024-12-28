@@ -120,6 +120,18 @@ $(document).ready(function(){initNavTree('array-ptr_8cc-example.html',''); initR
   <div class="headertitle"><div class="title">array-ptr.cc</div></div>
 </div><!--header-->
 <div class="contents">
+<blockquote class="doxtable">
+<p>&zwj;example output: </p><div class="fragment"><div class="line"><a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl terminated: undefined behavior detected (ub_out_of_range)</div>
+<div class="line">  at <a id="_a0" name="_a0"></a><a class="code hl_class" href="classy3c_1_1wrap.html">y3c::wrap&lt;int*&gt;::operator*</a>(): attempted to access index 13, that is outside the bounds of size 5.</div>
+<div class="line">Stack trace (most recent call first):</div>
+<div class="line">#0 0x0000556410bc66c3 in main at /home/runner/work/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/build/../examples/array-ptr.cc:8:18</div>
+<div class="line">       6:     <a class="code hl_namespace" href="namespacey3c.html">y3c</a>::ptr&lt;int&gt; p = &amp;a[3];</div>
+<div class="line">       7:     p += 10;</div>
+<div class="line">       8:     std::cout &lt;&lt; *p &lt;&lt; std::endl;</div>
+<div class="line">       9: }</div>
+<div class="ttc" id="aclassy3c_1_1wrap_html"><div class="ttname"><a href="classy3c_1_1wrap.html">y3c::wrap</a></div><div class="ttdoc">値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス</div><div class="ttdef"><b>Definition</b> wrap.h:26</div></div>
+<div class="ttc" id="anamespacey3c_html"><div class="ttname"><a href="namespacey3c.html">y3c</a></div><div class="ttdef"><b>Definition</b> array.h:8</div></div>
+</div><!-- fragment --> </blockquote>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;y3c/array&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"> </div>
@@ -129,14 +141,14 @@ $(document).ready(function(){initNavTree('array-ptr_8cc-example.html',''); initR
 <div class="line">    p += 10;</div>
 <div class="line">    std::cout &lt;&lt; *p &lt;&lt; std::endl;</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassy3c_1_1array_html"><div class="ttname"><a href="classy3c_1_1array.html">y3c::array</a></div><div class="ttdef"><b>Definition</b> array.h:79</div></div>
-<div class="ttc" id="aclassy3c_1_1wrap_3_01element__type_01_5_01_4_html"><div class="ttname"><a href="classy3c_1_1wrap_3_01element__type_01_5_01_4.html">y3c::wrap&lt; element_type * &gt;</a></div><div class="ttdoc">ポインタ型wrap: element_type型のデータへのポインタと、 このポインタ自体の生存状態を管理するクラス</div><div class="ttdef"><b>Definition</b> wrap.h:357</div></div>
+<div class="ttc" id="aclassy3c_1_1array_html"><div class="ttname"><a href="classy3c_1_1array.html">y3c::array</a></div><div class="ttdoc">固定長配列 (std::array)</div><div class="ttdef"><b>Definition</b> array.h:20</div></div>
+<div class="ttc" id="aclassy3c_1_1wrap_3_01element__type_01_5_01_4_html"><div class="ttname"><a href="classy3c_1_1wrap_3_01element__type_01_5_01_4.html">y3c::wrap&lt; element_type * &gt;</a></div><div class="ttdoc">ポインタ型wrap: element_type型のデータへのポインタと、 このポインタ自体の生存状態を管理するクラス</div><div class="ttdef"><b>Definition</b> wrap.h:318</div></div>
 </div><!-- fragment --> </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

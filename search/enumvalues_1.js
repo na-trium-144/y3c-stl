@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['internal_0',['internal',['../namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40',1,'y3c::internal']]]
+  ['exception_0',['exception',['../namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1',1,'y3c::internal::exception'],['../namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1',1,'y3c::internal::exception'],['../namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1',1,'y3c::internal::exception'],['../namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1',1,'y3c::internal::exception']]]
 ];

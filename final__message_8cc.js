@@ -1,5 +1,6 @@
 var final__message_8cc =
 [
+    [ "define_ub_message", "final__message_8cc.html#a369731faf8a7a8716b87616c00476148", null ],
     [ "do_terminate_with", "final__message_8cc.html#a4a283ed9adf4fef345c3457b4c24f5f1", null ],
     [ "handle_final_terminate_message", "final__message_8cc.html#ae8f35ff14030deb970a9e069b90ae8c9", null ],
     [ "print_current_exception", "final__message_8cc.html#a9cb231c4fe1e079b3c6c28145bcc75bc", null ],

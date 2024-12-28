@@ -136,7 +136,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1array__iterator.html">array_iterator</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">array, vector など各種コンテナのイテレータ  <a href="classy3c_1_1internal_1_1contiguous__iterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1exception__base.html">exception_base</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">y3cの例外クラスのベース。  <a href="classy3c_1_1internal_1_1exception__base.html#details">More...</a><br /></td></tr>
@@ -149,6 +150,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1life__state.html">life_state</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structy3c_1_1internal_1_1life__validator.html">life_validator</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structy3c_1_1internal_1_1terminate__detail.html">terminate_detail</a></td></tr>
@@ -157,7 +160,15 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1ub__access__nullptr.html">ub_access_nullptr</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1ub__invalid__iter.html">ub_invalid_iter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1ub__iter__after__end.html">ub_iter_after_end</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1ub__iter__before__begin.html">ub_iter_before_begin</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1ub__out__of__range.html">ub_out_of_range</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1internal_1_1ub__wrong__iter.html">ub_wrong_iter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -170,12 +181,78 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4">ub_access_nullptr</a>
 , <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118">ub_access_deleted</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51">ub_wrong_iter</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb">ub_invalid_iter</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186">ub_iter_after_end</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f">ub_iter_before_begin</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1">exception</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259">terminate</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40">internal</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571">ub_out_of_range</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4">ub_access_nullptr</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118">ub_access_deleted</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51">ub_wrong_iter</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb">ub_invalid_iter</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186">ub_iter_after_end</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f">ub_iter_before_begin</a>
+<br />
+ }</td></tr>
+<tr class="separator:adaeeb1b5a170efe84ef5fd703dc1e658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaeeb1b5a170efe84ef5fd703dc1e658"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658">terminate_type</a> { <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1">exception</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259">terminate</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40">internal</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571">ub_out_of_range</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4">ub_access_nullptr</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118">ub_access_deleted</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51">ub_wrong_iter</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb">ub_invalid_iter</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186">ub_iter_after_end</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f">ub_iter_before_begin</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1">exception</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259">terminate</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40">internal</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571">ub_out_of_range</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4">ub_access_nullptr</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118">ub_access_deleted</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51">ub_wrong_iter</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb">ub_invalid_iter</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186">ub_iter_after_end</a>
+, <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f">ub_iter_before_begin</a>
 <br />
  }</td></tr>
 <tr class="separator:adaeeb1b5a170efe84ef5fd703dc1e658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a1f5c13ec5dc2376dfb420c49d225c045"><td class="memTemplParams" colspan="2">template&lt;typename element_type &gt; </td></tr>
+<tr class="memitem:a1f5c13ec5dc2376dfb420c49d225c045"><td class="memTemplItemLeft" align="right" valign="top">element_type *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a1f5c13ec5dc2376dfb420c49d225c045">unwrap</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; element_type &gt; &amp;wrapper) noexcept</td></tr>
+<tr class="separator:a1f5c13ec5dc2376dfb420c49d225c045"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab30c1635f4eb446b214db4546d384409"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab30c1635f4eb446b214db4546d384409"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#ab30c1635f4eb446b214db4546d384409">operator==</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:ab30c1635f4eb446b214db4546d384409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a534b5269ddd237000733c5f04edb6d01"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a534b5269ddd237000733c5f04edb6d01"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a534b5269ddd237000733c5f04edb6d01">operator!=</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a534b5269ddd237000733c5f04edb6d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdc09764cfb7934b8be7fecf2d39e907"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:acdc09764cfb7934b8be7fecf2d39e907"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#acdc09764cfb7934b8be7fecf2d39e907">operator&lt;</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:acdc09764cfb7934b8be7fecf2d39e907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23557488eb7220c0addf2731ac16998c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a23557488eb7220c0addf2731ac16998c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a23557488eb7220c0addf2731ac16998c">operator&gt;</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a23557488eb7220c0addf2731ac16998c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c91857cf0ba7cd69a7fd3e9ce7fe965"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a9c91857cf0ba7cd69a7fd3e9ce7fe965"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a9c91857cf0ba7cd69a7fd3e9ce7fe965">operator&lt;=</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a9c91857cf0ba7cd69a7fd3e9ce7fe965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dea902817689bb70b9a9a8f325fc8dc"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6dea902817689bb70b9a9a8f325fc8dc"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a6dea902817689bb70b9a9a8f325fc8dc">operator&gt;=</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a6dea902817689bb70b9a9a8f325fc8dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0af53202e2edf7a12fce856aaa2ddfd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a0af53202e2edf7a12fce856aaa2ddfd0">link</a> () noexcept</td></tr>
 <tr class="separator:a0af53202e2edf7a12fce856aaa2ddfd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8f35ff14030deb970a9e069b90ae8c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#ae8f35ff14030deb970a9e069b90ae8c9">handle_final_terminate_message</a> () noexcept</td></tr>
@@ -183,12 +260,27 @@ Functions</h2></td></tr>
 <tr class="memitem:a4a283ed9adf4fef345c3457b4c24f5f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a4a283ed9adf4fef345c3457b4c24f5f1">do_terminate_with</a> (<a class="el" href="structy3c_1_1internal_1_1terminate__detail.html">terminate_detail</a> &amp;&amp;detail)</td></tr>
 <tr class="memdesc:a4a283ed9adf4fef345c3457b4c24f5f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">例外を表示して強制終了する  <br /></td></tr>
 <tr class="separator:a4a283ed9adf4fef345c3457b4c24f5f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8fdd449ae21416c62898fb188a8904"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#acf8fdd449ae21416c62898fb188a8904">terminate_ub_out_of_range</a> (std::string func, std::size_t size, std::ptrdiff_t index, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>={})</td></tr>
-<tr class="separator:acf8fdd449ae21416c62898fb188a8904"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32196bd5189136f168d1928232bb8ffd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a32196bd5189136f168d1928232bb8ffd">terminate_ub_access_nullptr</a> (std::string func, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>={})</td></tr>
-<tr class="separator:a32196bd5189136f168d1928232bb8ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acaa22b48eecd0412650327014804dbec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#acaa22b48eecd0412650327014804dbec">terminate_ub_access_deleted</a> (std::string func, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>={})</td></tr>
-<tr class="separator:acaa22b48eecd0412650327014804dbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91977c392af693984d6f281f763a1823"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:a91977c392af693984d6f281f763a1823"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a91977c392af693984d6f281f763a1823">terminate_ub_out_of_range</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:a91977c392af693984d6f281f763a1823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29a8717a5f20161651294a182550f291"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:a29a8717a5f20161651294a182550f291"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a29a8717a5f20161651294a182550f291">terminate_ub_access_nullptr</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:a29a8717a5f20161651294a182550f291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadd4efb47f2931bf7ec955b3dda1b39d"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:aadd4efb47f2931bf7ec955b3dda1b39d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#aadd4efb47f2931bf7ec955b3dda1b39d">terminate_ub_access_deleted</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:aadd4efb47f2931bf7ec955b3dda1b39d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e2e32d3649fe9da830dc886cb5e3ffb"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:a1e2e32d3649fe9da830dc886cb5e3ffb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a1e2e32d3649fe9da830dc886cb5e3ffb">terminate_ub_wrong_iter</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:a1e2e32d3649fe9da830dc886cb5e3ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7fa8c805694be33dd49e38354e73c1a"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:ac7fa8c805694be33dd49e38354e73c1a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#ac7fa8c805694be33dd49e38354e73c1a">terminate_ub_invalid_iter</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:ac7fa8c805694be33dd49e38354e73c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6678fd0e1f2f7231111a7fa16af25868"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:a6678fd0e1f2f7231111a7fa16af25868"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a6678fd0e1f2f7231111a7fa16af25868">terminate_ub_iter_after_end</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:a6678fd0e1f2f7231111a7fa16af25868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be3aade19805bfc3d6896e8111f8e8b"><td class="memTemplParams" colspan="2">template&lt;typename... Args, typename  = skip_trace_tag&gt; </td></tr>
+<tr class="memitem:a5be3aade19805bfc3d6896e8111f8e8b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#a5be3aade19805bfc3d6896e8111f8e8b">terminate_ub_iter_before_begin</a> (std::string func, Args &amp;&amp;...args)</td></tr>
+<tr class="separator:a5be3aade19805bfc3d6896e8111f8e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5def9162471bd1dc4f0f8198e90c9b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html#ab5def9162471bd1dc4f0f8198e90c9b7">terminate_internal</a> (std::string func, std::string what, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>={})</td></tr>
 <tr class="separator:ab5def9162471bd1dc4f0f8198e90c9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d3ee0814ac8af7b1a9c3724bd0a78f1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
@@ -214,7 +306,7 @@ Variables</h2></td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="adaeeb1b5a170efe84ef5fd703dc1e658" name="adaeeb1b5a170efe84ef5fd703dc1e658"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adaeeb1b5a170efe84ef5fd703dc1e658">&#9670;&#160;</a></span>terminate_type</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adaeeb1b5a170efe84ef5fd703dc1e658">&#9670;&#160;</a></span>terminate_type <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,6 +331,64 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571" name="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571"></a>ub_out_of_range&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4" name="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4"></a>ub_access_nullptr&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118" name="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118"></a>ub_access_deleted&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51" name="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51"></a>ub_wrong_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb" name="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb"></a>ub_invalid_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186" name="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186"></a>ub_iter_after_end&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f" name="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f"></a>ub_iter_before_begin&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1" name="adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1"></a>exception&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259" name="adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259"></a>terminate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40" name="adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40"></a>internal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571" name="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571"></a>ub_out_of_range&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4" name="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4"></a>ub_access_nullptr&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118" name="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118"></a>ub_access_deleted&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51" name="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51"></a>ub_wrong_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb" name="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb"></a>ub_invalid_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186" name="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186"></a>ub_iter_after_end&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f" name="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f"></a>ub_iter_before_begin&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="adaeeb1b5a170efe84ef5fd703dc1e658" name="adaeeb1b5a170efe84ef5fd703dc1e658"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaeeb1b5a170efe84ef5fd703dc1e658">&#9670;&#160;</a></span>terminate_type <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="namespacey3c_1_1internal.html#adaeeb1b5a170efe84ef5fd703dc1e658">terminate_type</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1" name="adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1"></a>exception&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259" name="adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259"></a>terminate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40" name="adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40"></a>internal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571" name="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571"></a>ub_out_of_range&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4" name="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4"></a>ub_access_nullptr&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118" name="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118"></a>ub_access_deleted&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51" name="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51"></a>ub_wrong_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb" name="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb"></a>ub_invalid_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186" name="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186"></a>ub_iter_after_end&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f" name="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f"></a>ub_iter_before_begin&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1" name="adaeeb1b5a170efe84ef5fd703dc1e658a42552b1f133f9f8eb406d4f306ea9fd1"></a>exception&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259" name="adaeeb1b5a170efe84ef5fd703dc1e658a1459e53d3fbaa95cebaf90860dd7a259"></a>terminate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40" name="adaeeb1b5a170efe84ef5fd703dc1e658ad1efad72dc5b17dc66a46767c32fff40"></a>internal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571" name="adaeeb1b5a170efe84ef5fd703dc1e658ab6d0a6edd2feab056905fab1a08c1571"></a>ub_out_of_range&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4" name="adaeeb1b5a170efe84ef5fd703dc1e658a278fd046f75f1a4db3a51b16287e1cd4"></a>ub_access_nullptr&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118" name="adaeeb1b5a170efe84ef5fd703dc1e658ad8d285dff8a112b9e59b408d916a4118"></a>ub_access_deleted&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51" name="adaeeb1b5a170efe84ef5fd703dc1e658af069140d11e954919fb25b0f0bc48a51"></a>ub_wrong_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb" name="adaeeb1b5a170efe84ef5fd703dc1e658ae7dfd75704ecac9ed889d1b2c1c86acb"></a>ub_invalid_iter&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186" name="adaeeb1b5a170efe84ef5fd703dc1e658a0ad30eb2c899d9c9346f4776f068e186"></a>ub_iter_after_end&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f" name="adaeeb1b5a170efe84ef5fd703dc1e658a52f4c2773347aaff79d1a67cdc7c090f"></a>ub_iter_before_begin&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -331,6 +481,186 @@ template&lt;typename T &gt; </div>
 <span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a534b5269ddd237000733c5f04edb6d01" name="a534b5269ddd237000733c5f04edb6d01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a534b5269ddd237000733c5f04edb6d01">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acdc09764cfb7934b8be7fecf2d39e907" name="acdc09764cfb7934b8be7fecf2d39e907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdc09764cfb7934b8be7fecf2d39e907">&#9670;&#160;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c91857cf0ba7cd69a7fd3e9ce7fe965" name="a9c91857cf0ba7cd69a7fd3e9ce7fe965"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c91857cf0ba7cd69a7fd3e9ce7fe965">&#9670;&#160;</a></span>operator&lt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab30c1635f4eb446b214db4546d384409" name="ab30c1635f4eb446b214db4546d384409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab30c1635f4eb446b214db4546d384409">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23557488eb7220c0addf2731ac16998c" name="a23557488eb7220c0addf2731ac16998c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23557488eb7220c0addf2731ac16998c">&#9670;&#160;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6dea902817689bb70b9a9a8f325fc8dc" name="a6dea902817689bb70b9a9a8f325fc8dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dea902817689bb70b9a9a8f325fc8dc">&#9670;&#160;</a></span>operator&gt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -543,14 +873,13 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="acaa22b48eecd0412650327014804dbec" name="acaa22b48eecd0412650327014804dbec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acaa22b48eecd0412650327014804dbec">&#9670;&#160;</a></span>terminate_ub_access_deleted()</h2>
+<a id="aadd4efb47f2931bf7ec955b3dda1b39d" name="aadd4efb47f2931bf7ec955b3dda1b39d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadd4efb47f2931bf7ec955b3dda1b39d">&#9670;&#160;</a></span>terminate_ub_access_deleted()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void terminate_ub_access_deleted </td>
@@ -561,8 +890,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>&#160;</td>
-          <td class="paramname"> = <code>{}</code>&#160;</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -570,23 +899,17 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a32196bd5189136f168d1928232bb8ffd" name="a32196bd5189136f168d1928232bb8ffd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32196bd5189136f168d1928232bb8ffd">&#9670;&#160;</a></span>terminate_ub_access_nullptr()</h2>
+<a id="a29a8717a5f20161651294a182550f291" name="a29a8717a5f20161651294a182550f291"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29a8717a5f20161651294a182550f291">&#9670;&#160;</a></span>terminate_ub_access_nullptr()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void terminate_ub_access_nullptr </td>
@@ -597,8 +920,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>&#160;</td>
-          <td class="paramname"> = <code>{}</code>&#160;</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -606,23 +929,107 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="acf8fdd449ae21416c62898fb188a8904" name="acf8fdd449ae21416c62898fb188a8904"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf8fdd449ae21416c62898fb188a8904">&#9670;&#160;</a></span>terminate_ub_out_of_range()</h2>
+<a id="ac7fa8c805694be33dd49e38354e73c1a" name="ac7fa8c805694be33dd49e38354e73c1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7fa8c805694be33dd49e38354e73c1a">&#9670;&#160;</a></span>terminate_ub_invalid_iter()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void terminate_ub_invalid_iter </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6678fd0e1f2f7231111a7fa16af25868" name="a6678fd0e1f2f7231111a7fa16af25868"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6678fd0e1f2f7231111a7fa16af25868">&#9670;&#160;</a></span>terminate_ub_iter_after_end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void terminate_ub_iter_after_end </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5be3aade19805bfc3d6896e8111f8e8b" name="a5be3aade19805bfc3d6896e8111f8e8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5be3aade19805bfc3d6896e8111f8e8b">&#9670;&#160;</a></span>terminate_ub_iter_before_begin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void terminate_ub_iter_before_begin </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a91977c392af693984d6f281f763a1823" name="a91977c392af693984d6f281f763a1823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91977c392af693984d6f281f763a1823">&#9670;&#160;</a></span>terminate_ub_out_of_range()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void terminate_ub_out_of_range </td>
@@ -633,20 +1040,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ptrdiff_t&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">skip_trace_tag</a>&#160;</td>
-          <td class="paramname"> = <code>{}</code>&#160;</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -654,9 +1049,62 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e2e32d3649fe9da830dc886cb5e3ffb" name="a1e2e32d3649fe9da830dc886cb5e3ffb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e2e32d3649fe9da830dc886cb5e3ffb">&#9670;&#160;</a></span>terminate_ub_wrong_iter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Args, typename  = skip_trace_tag&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void terminate_ub_wrong_iter </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1f5c13ec5dc2376dfb420c49d225c045" name="a1f5c13ec5dc2376dfb420c49d225c045"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5c13ec5dc2376dfb420c49d225c045">&#9670;&#160;</a></span>unwrap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename element_type &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">element_type * unwrap </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">contiguous_iterator</a>&lt; element_type &gt; &amp;&#160;</td>
+          <td class="paramname"><em>wrapper</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -688,7 +1136,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacey3c.html">y3c</a></li><li class="navelem"><a class="el" href="namespacey3c_1_1internal.html">internal</a></li>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

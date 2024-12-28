@@ -1,5 +1,25 @@
 var searchData=
 [
-  ['last_5fexception_5fid_0',['last_exception_id',['../classy3c_1_1internal_1_1exception__base.html#a4c39dd2a6dd32f3acdff592fce5af413',1,'y3c::internal::exception_base']]],
-  ['life_5f_1',['life_',['../classy3c_1_1wrap.html#a41b4b8fb5bdaa755cbff1eb6b250e896',1,'y3c::wrap::life_'],['../classy3c_1_1wrap_3_01element__type_01_5_01_4.html#a41b4b8fb5bdaa755cbff1eb6b250e896',1,'y3c::wrap&lt; element_type * &gt;::life_']]]
+  ['dmd_5ffileindex_0',['dmd_fileindex',['../structDwarf__Macro__Details__s.html#aef86b5e00615b7e3b31a6de9a6d024c6',1,'Dwarf_Macro_Details_s']]],
+  ['dmd_5flineno_1',['dmd_lineno',['../structDwarf__Macro__Details__s.html#ad5068879cac9edea1bba91b61199e217',1,'Dwarf_Macro_Details_s']]],
+  ['dmd_5fmacro_2',['dmd_macro',['../structDwarf__Macro__Details__s.html#ad479a027af8e9218e335ff30dac66360',1,'Dwarf_Macro_Details_s']]],
+  ['dmd_5foffset_3',['dmd_offset',['../structDwarf__Macro__Details__s.html#a6e98de89e9f02e0e028277f0ee48cac9',1,'Dwarf_Macro_Details_s']]],
+  ['dmd_5ftype_4',['dmd_type',['../structDwarf__Macro__Details__s.html#ace7279d31d6fc1424768cbb8c7ced72c',1,'Dwarf_Macro_Details_s']]],
+  ['dp_5fbuffer_5',['dp_buffer',['../structDwarf__Printf__Callback__Info__s.html#a53fdb05cd10c603a5a121d65e4f55840',1,'Dwarf_Printf_Callback_Info_s']]],
+  ['dp_5fbuffer_5flen_6',['dp_buffer_len',['../structDwarf__Printf__Callback__Info__s.html#a1b02da59eedf00a8efc604aca3435d85',1,'Dwarf_Printf_Callback_Info_s']]],
+  ['dp_5fbuffer_5fuser_5fprovided_7',['dp_buffer_user_provided',['../structDwarf__Printf__Callback__Info__s.html#acfa459573a4f7c77401c960fc9859700',1,'Dwarf_Printf_Callback_Info_s']]],
+  ['dp_5ffptr_8',['dp_fptr',['../structDwarf__Printf__Callback__Info__s.html#a10a4c04513c4c7faf318598247ccfc05',1,'Dwarf_Printf_Callback_Info_s']]],
+  ['dp_5freserved_9',['dp_reserved',['../structDwarf__Printf__Callback__Info__s.html#a9ce954b1d5150aaa4c2c7dfec9acf837',1,'Dwarf_Printf_Callback_Info_s']]],
+  ['dp_5fuser_5fpointer_10',['dp_user_pointer',['../structDwarf__Printf__Callback__Info__s.html#abe4bc99f145dd23d1a5d63ca5d0993b5',1,'Dwarf_Printf_Callback_Info_s']]],
+  ['dw_5fargs_5fsize_11',['dw_args_size',['../structDwarf__Regtable__Entry3__s.html#a87770a7470cb5ad58c88476054047ca6',1,'Dwarf_Regtable_Entry3_s']]],
+  ['dw_5fblock_12',['dw_block',['../structDwarf__Regtable__Entry3__s.html#aa3b37b5679452dd76f32cfbba9faed46',1,'Dwarf_Regtable_Entry3_s']]],
+  ['dw_5foffset_13',['dw_offset',['../structDwarf__Regtable__Entry3__s.html#a3417b3e623e40725f8d329854c1e69be',1,'Dwarf_Regtable_Entry3_s']]],
+  ['dw_5foffset_5frelevant_14',['dw_offset_relevant',['../structDwarf__Regtable__Entry3__s.html#a01d75050a17874a1c3297ac68c2e93af',1,'Dwarf_Regtable_Entry3_s']]],
+  ['dw_5fregnum_15',['dw_regnum',['../structDwarf__Regtable__Entry3__s.html#a7c43a6905e60ea5f3ffacdb00aa0c9c8',1,'Dwarf_Regtable_Entry3_s']]],
+  ['dw_5fvalue_5ftype_16',['dw_value_type',['../structDwarf__Regtable__Entry3__s.html#acd8896872d34b2802847d8628d85e483',1,'Dwarf_Regtable_Entry3_s']]],
+  ['dwarf_5fcmdline_5foptions_17',['dwarf_cmdline_options',['../group__miscellaneous.html#gadb7d9791571b129013e527be2567217c',1,'libdwarf.h']]],
+  ['dwarf_5fget_5fendian_5fcopy_5ffunction_18',['dwarf_get_endian_copy_function',['../group__miscellaneous.html#ga2d8066edfd3bb563f5d933d65d30955a',1,'libdwarf.h']]],
+  ['dwr_5faddr1_19',['dwr_addr1',['../structDwarf__Ranges__s.html#a8e2b560295aa7817dd733ec758e616b6',1,'Dwarf_Ranges_s']]],
+  ['dwr_5faddr2_20',['dwr_addr2',['../structDwarf__Ranges__s.html#a315280bcca571714e887d6b0cadb065d',1,'Dwarf_Ranges_s']]],
+  ['dwr_5ftype_21',['dwr_type',['../structDwarf__Ranges__s.html#a23d44787680013796dc7745dbce58521',1,'Dwarf_Ranges_s']]]
 ];

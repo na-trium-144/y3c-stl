@@ -134,10 +134,15 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1array.html">array</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">固定長配列 (std::array)  <a href="classy3c_1_1array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1out__of__range.html">out_of_range</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を共有するスマートポインタ (std::shared_ptr)  <a href="classy3c_1_1shared__ptr.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1vector.html">vector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">可変長配列 (std::vector)  <a href="classy3c_1_1vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap.html">wrap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス  <a href="classy3c_1_1wrap.html#details">More...</a><br /></td></tr>
@@ -147,8 +152,6 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_5_01_4.html">wrap&lt; element_type * &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ポインタ型wrap: element_type型のデータへのポインタと、 このポインタ自体の生存状態を管理するクラス  <a href="classy3c_1_1wrap_3_01element__type_01_5_01_4.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap__auto.html">wrap_auto</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -180,6 +183,30 @@ Functions</h2></td></tr>
 <tr class="memitem:a7b4c5a14939eaa9f6f90bc83741ced62"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
 <tr class="memitem:a7b4c5a14939eaa9f6f90bc83741ced62"><td class="memTemplItemLeft" align="right" valign="top">const std::array&lt; T, N &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a7b4c5a14939eaa9f6f90bc83741ced62">unwrap</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;wrapper) noexcept</td></tr>
 <tr class="separator:a7b4c5a14939eaa9f6f90bc83741ced62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d7d1a95294560fe7fc38e69997033d4"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:a7d7d1a95294560fe7fc38e69997033d4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a7d7d1a95294560fe7fc38e69997033d4">swap</a> (<a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:a7d7d1a95294560fe7fc38e69997033d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83b97b7ff55bd7b8da1aa1279c2168f7"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:a83b97b7ff55bd7b8da1aa1279c2168f7"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a83b97b7ff55bd7b8da1aa1279c2168f7">operator==</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:a83b97b7ff55bd7b8da1aa1279c2168f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a302ee7646698025e783f6411e114ca"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:a4a302ee7646698025e783f6411e114ca"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a4a302ee7646698025e783f6411e114ca">operator!=</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:a4a302ee7646698025e783f6411e114ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5cfa8df85fd8ade298bce988b1a1908"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:ac5cfa8df85fd8ade298bce988b1a1908"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ac5cfa8df85fd8ade298bce988b1a1908">operator&lt;</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:ac5cfa8df85fd8ade298bce988b1a1908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a647a82ce736c662ac2324bb2199633ac"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:a647a82ce736c662ac2324bb2199633ac"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a647a82ce736c662ac2324bb2199633ac">operator&lt;=</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:a647a82ce736c662ac2324bb2199633ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab16d24f9100d0900963661724c64cd82"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:ab16d24f9100d0900963661724c64cd82"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ab16d24f9100d0900963661724c64cd82">operator&gt;</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:ab16d24f9100d0900963661724c64cd82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecd6cd2f5f8122f7c59e45439daf8070"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N&gt; </td></tr>
+<tr class="memitem:aecd6cd2f5f8122f7c59e45439daf8070"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#aecd6cd2f5f8122f7c59e45439daf8070">operator&gt;=</a> (const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;lhs, const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;rhs)</td></tr>
+<tr class="separator:aecd6cd2f5f8122f7c59e45439daf8070"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab001fa2dab3d909bc46451ebef6207ea"><td class="memTemplParams" colspan="2">template&lt;typename element_type &gt; </td></tr>
+<tr class="memitem:ab001fa2dab3d909bc46451ebef6207ea"><td class="memTemplItemLeft" align="right" valign="top">element_type *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ab001fa2dab3d909bc46451ebef6207ea">unwrap</a> (const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">internal::contiguous_iterator</a>&lt; element_type &gt; &amp;wrapper) noexcept</td></tr>
+<tr class="separator:ab001fa2dab3d909bc46451ebef6207ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60351d4315d946f797f60cb3a21537c2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a60351d4315d946f797f60cb3a21537c2"><td class="memTemplItemLeft" align="right" valign="top">const std::shared_ptr&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a60351d4315d946f797f60cb3a21537c2">unwrap</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;wrapper) noexcept</td></tr>
 <tr class="separator:a60351d4315d946f797f60cb3a21537c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,24 +236,46 @@ Functions</h2></td></tr>
 <tr class="separator:a3abe251faee6713c39dd3d81133a3912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40c9d3b2eb997025880ea1e76d4fb53b"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
 <tr class="memitem:a40c9d3b2eb997025880ea1e76d4fb53b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a40c9d3b2eb997025880ea1e76d4fb53b">make_shared</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a40c9d3b2eb997025880ea1e76d4fb53b"><td class="mdescLeft">&#160;</td><td class="mdescRight">shared_ptrを構築する  <br /></td></tr>
 <tr class="separator:a40c9d3b2eb997025880ea1e76d4fb53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add81b8c3e9205e26147cc19be6b48f04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c.html#add81b8c3e9205e26147cc19be6b48f04">link</a> ()</td></tr>
 <tr class="separator:add81b8c3e9205e26147cc19be6b48f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6b11180abf38581b6c036e5860bf78"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6b6b11180abf38581b6c036e5860bf78"><td class="memTemplItemLeft" align="right" valign="top">const std::vector&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a6b6b11180abf38581b6c036e5860bf78">unwrap</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;wrapper) noexcept</td></tr>
+<tr class="separator:a6b6b11180abf38581b6c036e5860bf78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae48540be30f44f0a097fedf3a17f60d9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae48540be30f44f0a097fedf3a17f60d9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ae48540be30f44f0a097fedf3a17f60d9">swap</a> (<a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:ae48540be30f44f0a097fedf3a17f60d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30f2da4493ff3b3816e66e2de0071571"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a30f2da4493ff3b3816e66e2de0071571"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a30f2da4493ff3b3816e66e2de0071571">operator==</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a30f2da4493ff3b3816e66e2de0071571"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec5c54cbcb8ee83a1b0552d4a7a7a016"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aec5c54cbcb8ee83a1b0552d4a7a7a016"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#aec5c54cbcb8ee83a1b0552d4a7a7a016">operator!=</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:aec5c54cbcb8ee83a1b0552d4a7a7a016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab94bfaa8d92a7d38f077b377c85769f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aab94bfaa8d92a7d38f077b377c85769f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#aab94bfaa8d92a7d38f077b377c85769f">operator&lt;</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:aab94bfaa8d92a7d38f077b377c85769f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab99440a7531cedb112a4613af520e125"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab99440a7531cedb112a4613af520e125"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ab99440a7531cedb112a4613af520e125">operator&lt;=</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:ab99440a7531cedb112a4613af520e125"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40e4287eed72b0cef8eb1a15eddb8c66"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a40e4287eed72b0cef8eb1a15eddb8c66"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a40e4287eed72b0cef8eb1a15eddb8c66">operator&gt;</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a40e4287eed72b0cef8eb1a15eddb8c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6780e7b2aab499e37c0f69dc14edaf02"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6780e7b2aab499e37c0f69dc14edaf02"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a6780e7b2aab499e37c0f69dc14edaf02">operator&gt;=</a> (const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;lhs, const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;rhs)</td></tr>
+<tr class="separator:a6780e7b2aab499e37c0f69dc14edaf02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9cc2a5398ed33657ae6ea70a65bb13f"><td class="memTemplParams" colspan="2">template&lt;typename element_type &gt; </td></tr>
+<tr class="memitem:ab9cc2a5398ed33657ae6ea70a65bb13f"><td class="memTemplItemLeft" align="right" valign="top">element_type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ab9cc2a5398ed33657ae6ea70a65bb13f">unwrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;wrapper, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>={})</td></tr>
+<tr class="separator:ab9cc2a5398ed33657ae6ea70a65bb13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb4a3dcd24a66e5c7f1ea9b293a77ce3"><td class="memTemplParams" colspan="2">template&lt;typename base_type , typename std::enable_if&lt;!std::is_pointer&lt; base_type &gt;::value &amp;&amp;!std::is_reference&lt; base_type &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </td></tr>
 <tr class="memitem:abb4a3dcd24a66e5c7f1ea9b293a77ce3"><td class="memTemplItemLeft" align="right" valign="top">base_type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#abb4a3dcd24a66e5c7f1ea9b293a77ce3">unwrap</a> (<a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; base_type &gt; &amp;wrapper) noexcept</td></tr>
 <tr class="separator:abb4a3dcd24a66e5c7f1ea9b293a77ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab61b4b56393d743862f17996454cd05f"><td class="memTemplParams" colspan="2">template&lt;typename base_type , typename std::enable_if&lt;!std::is_pointer&lt; base_type &gt;::value &amp;&amp;!std::is_reference&lt; base_type &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </td></tr>
 <tr class="memitem:ab61b4b56393d743862f17996454cd05f"><td class="memTemplItemLeft" align="right" valign="top">const base_type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ab61b4b56393d743862f17996454cd05f">unwrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; base_type &gt; &amp;wrapper) noexcept</td></tr>
 <tr class="separator:ab61b4b56393d743862f17996454cd05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9cc2a5398ed33657ae6ea70a65bb13f"><td class="memTemplParams" colspan="2">template&lt;typename element_type &gt; </td></tr>
-<tr class="memitem:ab9cc2a5398ed33657ae6ea70a65bb13f"><td class="memTemplItemLeft" align="right" valign="top">element_type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#ab9cc2a5398ed33657ae6ea70a65bb13f">unwrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;wrapper, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>={})</td></tr>
-<tr class="separator:ab9cc2a5398ed33657ae6ea70a65bb13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d88982c3984f297690c9e559febe9dd"><td class="memTemplParams" colspan="2">template&lt;typename element_type &gt; </td></tr>
 <tr class="memitem:a9d88982c3984f297690c9e559febe9dd"><td class="memTemplItemLeft" align="right" valign="top">element_type *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#a9d88982c3984f297690c9e559febe9dd">unwrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type * &gt; &amp;wrapper) noexcept</td></tr>
 <tr class="separator:a9d88982c3984f297690c9e559febe9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacb196c17713e686213284ce9f7d4598"><td class="memTemplParams" colspan="2">template&lt;typename element_type &gt; </td></tr>
-<tr class="memitem:aacb196c17713e686213284ce9f7d4598"><td class="memTemplItemLeft" align="right" valign="top">element_type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacey3c.html#aacb196c17713e686213284ce9f7d4598">unwrap</a> (const <a class="el" href="classy3c_1_1wrap__auto.html">wrap_auto</a>&lt; element_type &gt; &amp;wrapper, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>={})</td></tr>
-<tr class="separator:aacb196c17713e686213284ce9f7d4598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a29b0e1bca1128a09dead2be9381f3b4d" name="a29b0e1bca1128a09dead2be9381f3b4d"></a>
@@ -374,10 +423,49 @@ template&lt;typename T , typename... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>shared_ptrを構築する </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>Tのコンストラクタに渡す引数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://cpprefjp.github.io/reference/memory/make_shared.html">make_shared - cpprefjp</a> </dd></dl>
+
+</div>
+</div>
+<a id="a4a302ee7646698025e783f6411e114ca" name="a4a302ee7646698025e783f6411e114ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a302ee7646698025e783f6411e114ca">&#9670;&#160;</a></span>operator!=() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <a id="af195949f9ef9939874a6d82ea47beca8" name="af195949f9ef9939874a6d82ea47beca8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af195949f9ef9939874a6d82ea47beca8">&#9670;&#160;</a></span>operator!=()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af195949f9ef9939874a6d82ea47beca8">&#9670;&#160;</a></span>operator!=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -414,8 +502,68 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a id="aec5c54cbcb8ee83a1b0552d4a7a7a016" name="aec5c54cbcb8ee83a1b0552d4a7a7a016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec5c54cbcb8ee83a1b0552d4a7a7a016">&#9670;&#160;</a></span>operator!=() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5cfa8df85fd8ade298bce988b1a1908" name="ac5cfa8df85fd8ade298bce988b1a1908"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5cfa8df85fd8ade298bce988b1a1908">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab4ed070b04dcf6b0b7895f164105ab08" name="ab4ed070b04dcf6b0b7895f164105ab08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4ed070b04dcf6b0b7895f164105ab08">&#9670;&#160;</a></span>operator&lt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4ed070b04dcf6b0b7895f164105ab08">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -452,6 +600,36 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a id="aab94bfaa8d92a7d38f077b377c85769f" name="aab94bfaa8d92a7d38f077b377c85769f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab94bfaa8d92a7d38f077b377c85769f">&#9670;&#160;</a></span>operator&lt;() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3abe251faee6713c39dd3d81133a3912" name="a3abe251faee6713c39dd3d81133a3912"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3abe251faee6713c39dd3d81133a3912">&#9670;&#160;</a></span>operator&lt;&lt;()</h2>
 
@@ -482,8 +660,38 @@ template&lt;class CharT , class Traits , typename T &gt; </div>
 
 </div>
 </div>
+<a id="a647a82ce736c662ac2324bb2199633ac" name="a647a82ce736c662ac2324bb2199633ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a647a82ce736c662ac2324bb2199633ac">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa7a55fe5dd89b23e2064020056089e4e" name="aa7a55fe5dd89b23e2064020056089e4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7a55fe5dd89b23e2064020056089e4e">&#9670;&#160;</a></span>operator&lt;=()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7a55fe5dd89b23e2064020056089e4e">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -520,8 +728,68 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a id="ab99440a7531cedb112a4613af520e125" name="ab99440a7531cedb112a4613af520e125"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab99440a7531cedb112a4613af520e125">&#9670;&#160;</a></span>operator&lt;=() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83b97b7ff55bd7b8da1aa1279c2168f7" name="a83b97b7ff55bd7b8da1aa1279c2168f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b97b7ff55bd7b8da1aa1279c2168f7">&#9670;&#160;</a></span>operator==() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa9b3dc05a5320e47be4d7da2d4d3dec0" name="aa9b3dc05a5320e47be4d7da2d4d3dec0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9b3dc05a5320e47be4d7da2d4d3dec0">&#9670;&#160;</a></span>operator==()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9b3dc05a5320e47be4d7da2d4d3dec0">&#9670;&#160;</a></span>operator==() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -558,8 +826,68 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a id="a30f2da4493ff3b3816e66e2de0071571" name="a30f2da4493ff3b3816e66e2de0071571"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30f2da4493ff3b3816e66e2de0071571">&#9670;&#160;</a></span>operator==() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab16d24f9100d0900963661724c64cd82" name="ab16d24f9100d0900963661724c64cd82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab16d24f9100d0900963661724c64cd82">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8346079838cccaa1d48931389724d715" name="a8346079838cccaa1d48931389724d715"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8346079838cccaa1d48931389724d715">&#9670;&#160;</a></span>operator&gt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8346079838cccaa1d48931389724d715">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -596,8 +924,68 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a id="a40e4287eed72b0cef8eb1a15eddb8c66" name="a40e4287eed72b0cef8eb1a15eddb8c66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40e4287eed72b0cef8eb1a15eddb8c66">&#9670;&#160;</a></span>operator&gt;() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aecd6cd2f5f8122f7c59e45439daf8070" name="aecd6cd2f5f8122f7c59e45439daf8070"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecd6cd2f5f8122f7c59e45439daf8070">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0bbac79eff6378f04bb1aa3d37d43bdb" name="a0bbac79eff6378f04bb1aa3d37d43bdb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bbac79eff6378f04bb1aa3d37d43bdb">&#9670;&#160;</a></span>operator&gt;=()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bbac79eff6378f04bb1aa3d37d43bdb">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -634,8 +1022,68 @@ template&lt;typename T , typename U &gt; </div>
 
 </div>
 </div>
+<a id="a6780e7b2aab499e37c0f69dc14edaf02" name="a6780e7b2aab499e37c0f69dc14edaf02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6780e7b2aab499e37c0f69dc14edaf02">&#9670;&#160;</a></span>operator&gt;=() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d7d1a95294560fe7fc38e69997033d4" name="a7d7d1a95294560fe7fc38e69997033d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d7d1a95294560fe7fc38e69997033d4">&#9670;&#160;</a></span>swap() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , std::size_t N&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1array.html">array</a>&lt; T, N &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aedcef319371e3918ee1977bcc70e7489" name="aedcef319371e3918ee1977bcc70e7489"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedcef319371e3918ee1977bcc70e7489">&#9670;&#160;</a></span>swap()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aedcef319371e3918ee1977bcc70e7489">&#9670;&#160;</a></span>swap() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -672,8 +1120,38 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="ae48540be30f44f0a097fedf3a17f60d9" name="ae48540be30f44f0a097fedf3a17f60d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae48540be30f44f0a097fedf3a17f60d9">&#9670;&#160;</a></span>swap() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa410c12102be676b6826ef1f042c5f1e" name="aa410c12102be676b6826ef1f042c5f1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa410c12102be676b6826ef1f042c5f1e">&#9670;&#160;</a></span>unwrap() <span class="overload">[1/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa410c12102be676b6826ef1f042c5f1e">&#9670;&#160;</a></span>unwrap() <span class="overload">[1/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -697,11 +1175,13 @@ template&lt;typename T , std::size_t N&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="shared_ptr-unwrap-ref_8cc-example.html#a0">shared_ptr-unwrap-ref.cc</a>.</dd>
+</dl>
 
 </div>
 </div>
 <a id="a7b4c5a14939eaa9f6f90bc83741ced62" name="a7b4c5a14939eaa9f6f90bc83741ced62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b4c5a14939eaa9f6f90bc83741ced62">&#9670;&#160;</a></span>unwrap() <span class="overload">[2/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b4c5a14939eaa9f6f90bc83741ced62">&#9670;&#160;</a></span>unwrap() <span class="overload">[2/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -728,8 +1208,36 @@ template&lt;typename T , std::size_t N&gt; </div>
 
 </div>
 </div>
+<a id="ab001fa2dab3d909bc46451ebef6207ea" name="ab001fa2dab3d909bc46451ebef6207ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab001fa2dab3d909bc46451ebef6207ea">&#9670;&#160;</a></span>unwrap() <span class="overload">[3/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename element_type &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">element_type * unwrap </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1internal_1_1contiguous__iterator.html">internal::contiguous_iterator</a>&lt; element_type &gt; &amp;&#160;</td>
+          <td class="paramname"><em>wrapper</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a60351d4315d946f797f60cb3a21537c2" name="a60351d4315d946f797f60cb3a21537c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60351d4315d946f797f60cb3a21537c2">&#9670;&#160;</a></span>unwrap() <span class="overload">[3/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a60351d4315d946f797f60cb3a21537c2">&#9670;&#160;</a></span>unwrap() <span class="overload">[4/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -756,8 +1264,36 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a6b6b11180abf38581b6c036e5860bf78" name="a6b6b11180abf38581b6c036e5860bf78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b6b11180abf38581b6c036e5860bf78">&#9670;&#160;</a></span>unwrap() <span class="overload">[5/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; T &gt; &amp; unwrap </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1vector.html">vector</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>wrapper</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab61b4b56393d743862f17996454cd05f" name="ab61b4b56393d743862f17996454cd05f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab61b4b56393d743862f17996454cd05f">&#9670;&#160;</a></span>unwrap() <span class="overload">[4/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab61b4b56393d743862f17996454cd05f">&#9670;&#160;</a></span>unwrap() <span class="overload">[6/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -785,7 +1321,7 @@ template&lt;typename base_type , typename std::enable_if&lt;!std::is_pointer&lt;
 </div>
 </div>
 <a id="ab9cc2a5398ed33657ae6ea70a65bb13f" name="ab9cc2a5398ed33657ae6ea70a65bb13f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9cc2a5398ed33657ae6ea70a65bb13f">&#9670;&#160;</a></span>unwrap() <span class="overload">[5/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9cc2a5398ed33657ae6ea70a65bb13f">&#9670;&#160;</a></span>unwrap() <span class="overload">[7/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -815,7 +1351,7 @@ template&lt;typename element_type &gt; </div>
 </div>
 </div>
 <a id="a9d88982c3984f297690c9e559febe9dd" name="a9d88982c3984f297690c9e559febe9dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d88982c3984f297690c9e559febe9dd">&#9670;&#160;</a></span>unwrap() <span class="overload">[6/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d88982c3984f297690c9e559febe9dd">&#9670;&#160;</a></span>unwrap() <span class="overload">[8/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -842,38 +1378,8 @@ template&lt;typename element_type &gt; </div>
 
 </div>
 </div>
-<a id="aacb196c17713e686213284ce9f7d4598" name="aacb196c17713e686213284ce9f7d4598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacb196c17713e686213284ce9f7d4598">&#9670;&#160;</a></span>unwrap() <span class="overload">[7/8]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">element_type &amp; unwrap </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1wrap__auto.html">wrap_auto</a>&lt; element_type &gt; &amp;&#160;</td>
-          <td class="paramname"><em>wrapper</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>&#160;</td>
-          <td class="paramname"> = <code>{}</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="abb4a3dcd24a66e5c7f1ea9b293a77ce3" name="abb4a3dcd24a66e5c7f1ea9b293a77ce3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb4a3dcd24a66e5c7f1ea9b293a77ce3">&#9670;&#160;</a></span>unwrap() <span class="overload">[8/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abb4a3dcd24a66e5c7f1ea9b293a77ce3">&#9670;&#160;</a></span>unwrap() <span class="overload">[9/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -906,7 +1412,7 @@ template&lt;typename base_type , typename std::enable_if&lt;!std::is_pointer&lt;
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacey3c.html">y3c</a></li>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

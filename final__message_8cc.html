@@ -119,19 +119,21 @@ $(document).ready(function(){initNavTree('final__message_8cc.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">final_message.cc File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="terminate_8h_source.html">y3c/terminate.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;y3c/terminate.h&quot;</code><br />
 <code>#include &lt;cpptrace/basic.hpp&gt;</code><br />
+<code>#include &lt;cpptrace/utils.hpp&gt;</code><br />
 <code>#include &lt;rang.hpp&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;ostream&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for final_message.cc:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="final__message_8cc__incl.svg" width="819" height="256"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="final__message_8cc__incl.svg" width="776" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -140,6 +142,11 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacey3c_1_1internal"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacey3c_1_1internal.html">y3c::internal</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a369731faf8a7a8716b87616c00476148"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="final__message_8cc.html#a369731faf8a7a8716b87616c00476148">define_ub_message</a>(ub_name)</td></tr>
+<tr class="separator:a369731faf8a7a8716b87616c00476148"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -161,13 +168,39 @@ Functions</h2></td></tr>
 <tr class="memdesc:a4a283ed9adf4fef345c3457b4c24f5f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">例外を表示して強制終了する  <br /></td></tr>
 <tr class="separator:a4a283ed9adf4fef345c3457b4c24f5f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a369731faf8a7a8716b87616c00476148" name="a369731faf8a7a8716b87616c00476148"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369731faf8a7a8716b87616c00476148">&#9670;&#160;</a></span>define_ub_message</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define define_ub_message</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ub_name</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">case</span> terminate_type::ub_name: {                                            \</div>
+<div class="line">        stream &lt;&lt; rang::style::bold &lt;&lt; <span class="stringliteral">&quot;undefined behavior detected&quot;</span>;          \</div>
+<div class="line">        stream &lt;&lt; rang::style::reset &lt;&lt; <span class="stringliteral">&quot; (&quot;</span>;                                  \</div>
+<div class="line">        stream &lt;&lt; rang::fg::cyan &lt;&lt; #ub_name;                                  \</div>
+<div class="line">        stream &lt;&lt; rang::fg::reset &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>;                                      \</div>
+<div class="line">        <span class="keywordflow">break</span>;                                                                 \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="final__message_8cc.html">final_message.cc</a></li>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

@@ -126,75 +126,182 @@ $(document).ready(function(){initNavTree('classy3c_1_1shared__ptr.html',''); ini
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="shared__ptr_8h_source.html">y3c/shared_ptr.h</a>&gt;</code></p>
+<p>所有権を共有するスマートポインタ (std::shared_ptr)  
+ <a href="classy3c_1_1shared__ptr.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="install_2include_2y3c_2shared__ptr_8h_source.html">/home/runner/work/y3c-stl/y3c-stl/install/include/y3c/shared_ptr.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:ab09edc4b568d547d04da66f947f5595a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> = T</td></tr>
+<tr class="separator:ab09edc4b568d547d04da66f947f5595a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab09edc4b568d547d04da66f947f5595a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> = T</td></tr>
 <tr class="separator:ab09edc4b568d547d04da66f947f5595a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afbbba196ae94574807f9a3875443e82e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#afbbba196ae94574807f9a3875443e82e">shared_ptr</a> (std::nullptr_t=nullptr) noexcept</td></tr>
+<tr class="memdesc:afbbba196ae94574807f9a3875443e82e"><td class="mdescLeft">&#160;</td><td class="mdescRight">デフォルトコンストラクタ: nullptrを指す  <br /></td></tr>
 <tr class="separator:afbbba196ae94574807f9a3875443e82e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae397a9ac476404b536ad1b2e014913c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ae397a9ac476404b536ad1b2e014913c5">shared_ptr</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;other)</td></tr>
+<tr class="memdesc:ae397a9ac476404b536ad1b2e014913c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">コピーコンストラクタ: リソースを共有する  <br /></td></tr>
 <tr class="separator:ae397a9ac476404b536ad1b2e014913c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7725872624348e4ed8ec22af997e66d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ae7725872624348e4ed8ec22af997e66d">operator=</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;other)</td></tr>
+<tr class="memdesc:ae7725872624348e4ed8ec22af997e66d"><td class="mdescLeft">&#160;</td><td class="mdescRight">コピー代入: リソースを共有する  <br /></td></tr>
 <tr class="separator:ae7725872624348e4ed8ec22af997e66d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac341f8d0ce7a61c174a3903ac93bbaba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ac341f8d0ce7a61c174a3903ac93bbaba">shared_ptr</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:ac341f8d0ce7a61c174a3903ac93bbaba"><td class="mdescLeft">&#160;</td><td class="mdescRight">ムーブコンストラクタ: 所有権を移動する  <br /></td></tr>
 <tr class="separator:ac341f8d0ce7a61c174a3903ac93bbaba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a154fa411ec4e55ad65818d8020c9b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a5a154fa411ec4e55ad65818d8020c9b6">operator=</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:a5a154fa411ec4e55ad65818d8020c9b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">ムーブ代入: 所有権を移動する  <br /></td></tr>
 <tr class="separator:a5a154fa411ec4e55ad65818d8020c9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a771704adcf668ebf0dc154ee24ad9c0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a771704adcf668ebf0dc154ee24ad9c0c">~shared_ptr</a> ()=default</td></tr>
 <tr class="separator:a771704adcf668ebf0dc154ee24ad9c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a2a9b7bfe4a601f4f32366f378ed8a1d0">shared_ptr</a> (const std::shared_ptr&lt; U &gt; &amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからのコピー  <br /></td></tr>
 <tr class="separator:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34df6f002416e5f807f162573676bc77"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a34df6f002416e5f807f162573676bc77"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a34df6f002416e5f807f162573676bc77">operator=</a> (const std::shared_ptr&lt; U &gt; &amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a34df6f002416e5f807f162573676bc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからのコピー  <br /></td></tr>
 <tr class="separator:a34df6f002416e5f807f162573676bc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a720c6df748300baff8c54321a017926d"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a720c6df748300baff8c54321a017926d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a720c6df748300baff8c54321a017926d">shared_ptr</a> (std::shared_ptr&lt; U &gt; &amp;&amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a720c6df748300baff8c54321a017926d"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからの所有権の移動  <br /></td></tr>
 <tr class="separator:a720c6df748300baff8c54321a017926d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a578a3e465c9d2c980c54d18e59a4ae5d">operator=</a> (std::shared_ptr&lt; U &gt; &amp;&amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからの所有権の移動  <br /></td></tr>
 <tr class="separator:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1481061429287a58250961804bc0745"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:ac1481061429287a58250961804bc0745"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ac1481061429287a58250961804bc0745">shared_ptr</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;other)</td></tr>
+<tr class="memdesc:ac1481061429287a58250961804bc0745"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrとリソースを共有する  <br /></td></tr>
 <tr class="separator:ac1481061429287a58250961804bc0745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75f8d0490d4da52eba45e86b0a5533ba"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a75f8d0490d4da52eba45e86b0a5533ba"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a75f8d0490d4da52eba45e86b0a5533ba">operator=</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;other)</td></tr>
+<tr class="memdesc:a75f8d0490d4da52eba45e86b0a5533ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrとリソースを共有する  <br /></td></tr>
 <tr class="separator:a75f8d0490d4da52eba45e86b0a5533ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a8b255c8949131ac45a8bf9fa6bab0efb">shared_ptr</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&amp;other)</td></tr>
+<tr class="memdesc:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrから所有権を移動  <br /></td></tr>
 <tr class="separator:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ae1bbfb5590d6e99b8e3c891dc7b7acb8">operator=</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&amp;other)</td></tr>
+<tr class="memdesc:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrから所有権を移動  <br /></td></tr>
 <tr class="separator:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20194325f0380eb3bbc6bc6c8b2697d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a20194325f0380eb3bbc6bc6c8b2697d9">reset</a> () noexcept</td></tr>
+<tr class="memdesc:a20194325f0380eb3bbc6bc6c8b2697d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を放棄  <br /></td></tr>
 <tr class="separator:a20194325f0380eb3bbc6bc6c8b2697d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2b2eb5e83bc2b6b03ca69f315da7770"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ab2b2eb5e83bc2b6b03ca69f315da7770">swap</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;other) noexcept</td></tr>
+<tr class="memdesc:ab2b2eb5e83bc2b6b03ca69f315da7770"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を入れ替える  <br /></td></tr>
 <tr class="separator:ab2b2eb5e83bc2b6b03ca69f315da7770"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c14b0da3649759c92c1332e47185ebe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>&lt; <a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a3c14b0da3649759c92c1332e47185ebe">get</a> () const noexcept</td></tr>
+<tr class="memdesc:a3c14b0da3649759c92c1332e47185ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">ポインタを取得  <br /></td></tr>
 <tr class="separator:a3c14b0da3649759c92c1332e47185ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a026101d5fc1809c40b2fbc62f60865b4"><td class="memTemplParams" colspan="2">template&lt;typename  = internal::skip_trace_tag&gt; </td></tr>
-<tr class="memitem:a026101d5fc1809c40b2fbc62f60865b4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap__auto.html">y3c::wrap_auto</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a026101d5fc1809c40b2fbc62f60865b4">operator*</a> () const</td></tr>
-<tr class="separator:a026101d5fc1809c40b2fbc62f60865b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbc0c7112d4a0009760d33cd18d35d20"><td class="memTemplParams" colspan="2">template&lt;typename E  = element_type, typename  = internal::skip_trace_tag&gt; </td></tr>
+<tr class="memitem:acbc0c7112d4a0009760d33cd18d35d20"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a>&lt; E &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#acbc0c7112d4a0009760d33cd18d35d20">operator*</a> () const</td></tr>
+<tr class="memdesc:acbc0c7112d4a0009760d33cd18d35d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">要素の間接参照  <br /></td></tr>
+<tr class="separator:acbc0c7112d4a0009760d33cd18d35d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad789278f6ebecb73a71b8aa20f64366"><td class="memTemplParams" colspan="2">template&lt;typename  = internal::skip_trace_tag&gt; </td></tr>
 <tr class="memitem:aad789278f6ebecb73a71b8aa20f64366"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aad789278f6ebecb73a71b8aa20f64366">operator-&gt;</a> () const</td></tr>
+<tr class="memdesc:aad789278f6ebecb73a71b8aa20f64366"><td class="mdescLeft">&#160;</td><td class="mdescRight">メンバアクセス  <br /></td></tr>
 <tr class="separator:aad789278f6ebecb73a71b8aa20f64366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68779c565035025326e9065c5edee1e6"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a68779c565035025326e9065c5edee1e6">use_count</a> () const noexcept</td></tr>
+<tr class="memdesc:a68779c565035025326e9065c5edee1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を共有しているshared_ptrの数を取得  <br /></td></tr>
 <tr class="separator:a68779c565035025326e9065c5edee1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a420e60e9788bfa3b52aa3aab72ea3a5e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a420e60e9788bfa3b52aa3aab72ea3a5e">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:a420e60e9788bfa3b52aa3aab72ea3a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">有効なリソースを所有しているかどうかを判定  <br /></td></tr>
 <tr class="separator:a420e60e9788bfa3b52aa3aab72ea3a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87e87c3fd52185c0999979d7d61e6f77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a87e87c3fd52185c0999979d7d61e6f77">owner_before</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;arg) const</td></tr>
+<tr class="memdesc:a87e87c3fd52185c0999979d7d61e6f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権ベースでのポインタ比較  <br /></td></tr>
 <tr class="separator:a87e87c3fd52185c0999979d7d61e6f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b2c9576d38a7fa7d4f43063dc1c1680"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a1b2c9576d38a7fa7d4f43063dc1c1680">operator wrap&lt; shared_ptr &amp; &gt;</a> () noexcept</td></tr>
-<tr class="separator:a1b2c9576d38a7fa7d4f43063dc1c1680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa16bb70bdd38085d8eb2509c0cc8047d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aa16bb70bdd38085d8eb2509c0cc8047d">operator const std::shared_ptr &amp;</a> () const noexcept</td></tr>
+<tr class="memdesc:aa16bb70bdd38085d8eb2509c0cc8047d"><td class="mdescLeft">&#160;</td><td class="mdescRight">const std::shared_ptr へのキャスト  <br /></td></tr>
+<tr class="separator:aa16bb70bdd38085d8eb2509c0cc8047d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd686a48ea221437dfba52fdb77e8134"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#abd686a48ea221437dfba52fdb77e8134">operator wrap&lt; const shared_ptr &amp; &gt;</a> () const noexcept</td></tr>
 <tr class="separator:abd686a48ea221437dfba52fdb77e8134"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a255320309e3c370f71893a655b9a931c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a255320309e3c370f71893a655b9a931c">operator&amp;</a> ()</td></tr>
-<tr class="separator:a255320309e3c370f71893a655b9a931c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa653d716a090fa644ed4e4dd0cc518cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aa653d716a090fa644ed4e4dd0cc518cb">operator&amp;</a> () const</td></tr>
+<tr class="separator:aa653d716a090fa644ed4e4dd0cc518cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbbba196ae94574807f9a3875443e82e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#afbbba196ae94574807f9a3875443e82e">shared_ptr</a> (std::nullptr_t=nullptr) noexcept</td></tr>
+<tr class="memdesc:afbbba196ae94574807f9a3875443e82e"><td class="mdescLeft">&#160;</td><td class="mdescRight">デフォルトコンストラクタ: nullptrを指す  <br /></td></tr>
+<tr class="separator:afbbba196ae94574807f9a3875443e82e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae397a9ac476404b536ad1b2e014913c5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ae397a9ac476404b536ad1b2e014913c5">shared_ptr</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;other)</td></tr>
+<tr class="memdesc:ae397a9ac476404b536ad1b2e014913c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">コピーコンストラクタ: リソースを共有する  <br /></td></tr>
+<tr class="separator:ae397a9ac476404b536ad1b2e014913c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7725872624348e4ed8ec22af997e66d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ae7725872624348e4ed8ec22af997e66d">operator=</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;other)</td></tr>
+<tr class="memdesc:ae7725872624348e4ed8ec22af997e66d"><td class="mdescLeft">&#160;</td><td class="mdescRight">コピー代入: リソースを共有する  <br /></td></tr>
+<tr class="separator:ae7725872624348e4ed8ec22af997e66d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac341f8d0ce7a61c174a3903ac93bbaba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ac341f8d0ce7a61c174a3903ac93bbaba">shared_ptr</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:ac341f8d0ce7a61c174a3903ac93bbaba"><td class="mdescLeft">&#160;</td><td class="mdescRight">ムーブコンストラクタ: 所有権を移動する  <br /></td></tr>
+<tr class="separator:ac341f8d0ce7a61c174a3903ac93bbaba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a154fa411ec4e55ad65818d8020c9b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a5a154fa411ec4e55ad65818d8020c9b6">operator=</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:a5a154fa411ec4e55ad65818d8020c9b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">ムーブ代入: 所有権を移動する  <br /></td></tr>
+<tr class="separator:a5a154fa411ec4e55ad65818d8020c9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771704adcf668ebf0dc154ee24ad9c0c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a771704adcf668ebf0dc154ee24ad9c0c">~shared_ptr</a> ()=default</td></tr>
+<tr class="separator:a771704adcf668ebf0dc154ee24ad9c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a2a9b7bfe4a601f4f32366f378ed8a1d0">shared_ptr</a> (const std::shared_ptr&lt; U &gt; &amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからのコピー  <br /></td></tr>
+<tr class="separator:a2a9b7bfe4a601f4f32366f378ed8a1d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34df6f002416e5f807f162573676bc77"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a34df6f002416e5f807f162573676bc77"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a34df6f002416e5f807f162573676bc77">operator=</a> (const std::shared_ptr&lt; U &gt; &amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a34df6f002416e5f807f162573676bc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからのコピー  <br /></td></tr>
+<tr class="separator:a34df6f002416e5f807f162573676bc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a720c6df748300baff8c54321a017926d"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a720c6df748300baff8c54321a017926d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a720c6df748300baff8c54321a017926d">shared_ptr</a> (std::shared_ptr&lt; U &gt; &amp;&amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a720c6df748300baff8c54321a017926d"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからの所有権の移動  <br /></td></tr>
+<tr class="separator:a720c6df748300baff8c54321a017926d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a578a3e465c9d2c980c54d18e59a4ae5d">operator=</a> (std::shared_ptr&lt; U &gt; &amp;&amp;<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>)</td></tr>
+<tr class="memdesc:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::shared_ptrからの所有権の移動  <br /></td></tr>
+<tr class="separator:a578a3e465c9d2c980c54d18e59a4ae5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1481061429287a58250961804bc0745"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ac1481061429287a58250961804bc0745"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ac1481061429287a58250961804bc0745">shared_ptr</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;other)</td></tr>
+<tr class="memdesc:ac1481061429287a58250961804bc0745"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrとリソースを共有する  <br /></td></tr>
+<tr class="separator:ac1481061429287a58250961804bc0745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75f8d0490d4da52eba45e86b0a5533ba"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a75f8d0490d4da52eba45e86b0a5533ba"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a75f8d0490d4da52eba45e86b0a5533ba">operator=</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;other)</td></tr>
+<tr class="memdesc:a75f8d0490d4da52eba45e86b0a5533ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrとリソースを共有する  <br /></td></tr>
+<tr class="separator:a75f8d0490d4da52eba45e86b0a5533ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a8b255c8949131ac45a8bf9fa6bab0efb">shared_ptr</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&amp;other)</td></tr>
+<tr class="memdesc:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrから所有権を移動  <br /></td></tr>
+<tr class="separator:a8b255c8949131ac45a8bf9fa6bab0efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ae1bbfb5590d6e99b8e3c891dc7b7acb8">operator=</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&amp;other)</td></tr>
+<tr class="memdesc:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">別の要素型のshared_ptrから所有権を移動  <br /></td></tr>
+<tr class="separator:ae1bbfb5590d6e99b8e3c891dc7b7acb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20194325f0380eb3bbc6bc6c8b2697d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a20194325f0380eb3bbc6bc6c8b2697d9">reset</a> () noexcept</td></tr>
+<tr class="memdesc:a20194325f0380eb3bbc6bc6c8b2697d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を放棄  <br /></td></tr>
+<tr class="separator:a20194325f0380eb3bbc6bc6c8b2697d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2b2eb5e83bc2b6b03ca69f315da7770"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ab2b2eb5e83bc2b6b03ca69f315da7770">swap</a> (<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;other) noexcept</td></tr>
+<tr class="memdesc:ab2b2eb5e83bc2b6b03ca69f315da7770"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を入れ替える  <br /></td></tr>
+<tr class="separator:ab2b2eb5e83bc2b6b03ca69f315da7770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c14b0da3649759c92c1332e47185ebe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>&lt; <a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a3c14b0da3649759c92c1332e47185ebe">get</a> () const noexcept</td></tr>
+<tr class="memdesc:a3c14b0da3649759c92c1332e47185ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">ポインタを取得  <br /></td></tr>
+<tr class="separator:a3c14b0da3649759c92c1332e47185ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbc0c7112d4a0009760d33cd18d35d20"><td class="memTemplParams" colspan="2">template&lt;typename E  = element_type, typename  = internal::skip_trace_tag&gt; </td></tr>
+<tr class="memitem:acbc0c7112d4a0009760d33cd18d35d20"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a>&lt; E &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#acbc0c7112d4a0009760d33cd18d35d20">operator*</a> () const</td></tr>
+<tr class="memdesc:acbc0c7112d4a0009760d33cd18d35d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">要素の間接参照  <br /></td></tr>
+<tr class="separator:acbc0c7112d4a0009760d33cd18d35d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad789278f6ebecb73a71b8aa20f64366"><td class="memTemplParams" colspan="2">template&lt;typename  = internal::skip_trace_tag&gt; </td></tr>
+<tr class="memitem:aad789278f6ebecb73a71b8aa20f64366"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aad789278f6ebecb73a71b8aa20f64366">operator-&gt;</a> () const</td></tr>
+<tr class="memdesc:aad789278f6ebecb73a71b8aa20f64366"><td class="mdescLeft">&#160;</td><td class="mdescRight">メンバアクセス  <br /></td></tr>
+<tr class="separator:aad789278f6ebecb73a71b8aa20f64366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68779c565035025326e9065c5edee1e6"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a68779c565035025326e9065c5edee1e6">use_count</a> () const noexcept</td></tr>
+<tr class="memdesc:a68779c565035025326e9065c5edee1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権を共有しているshared_ptrの数を取得  <br /></td></tr>
+<tr class="separator:a68779c565035025326e9065c5edee1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a420e60e9788bfa3b52aa3aab72ea3a5e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a420e60e9788bfa3b52aa3aab72ea3a5e">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:a420e60e9788bfa3b52aa3aab72ea3a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">有効なリソースを所有しているかどうかを判定  <br /></td></tr>
+<tr class="separator:a420e60e9788bfa3b52aa3aab72ea3a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87e87c3fd52185c0999979d7d61e6f77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#a87e87c3fd52185c0999979d7d61e6f77">owner_before</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp;arg) const</td></tr>
+<tr class="memdesc:a87e87c3fd52185c0999979d7d61e6f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">所有権ベースでのポインタ比較  <br /></td></tr>
+<tr class="separator:a87e87c3fd52185c0999979d7d61e6f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa16bb70bdd38085d8eb2509c0cc8047d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aa16bb70bdd38085d8eb2509c0cc8047d">operator const std::shared_ptr &amp;</a> () const noexcept</td></tr>
+<tr class="memdesc:aa16bb70bdd38085d8eb2509c0cc8047d"><td class="mdescLeft">&#160;</td><td class="mdescRight">const std::shared_ptr へのキャスト  <br /></td></tr>
+<tr class="separator:aa16bb70bdd38085d8eb2509c0cc8047d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd686a48ea221437dfba52fdb77e8134"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#abd686a48ea221437dfba52fdb77e8134">operator wrap&lt; const shared_ptr &amp; &gt;</a> () const noexcept</td></tr>
+<tr class="separator:abd686a48ea221437dfba52fdb77e8134"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa653d716a090fa644ed4e4dd0cc518cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aa653d716a090fa644ed4e4dd0cc518cb">operator&amp;</a> () const</td></tr>
 <tr class="separator:aa653d716a090fa644ed4e4dd0cc518cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -203,21 +310,43 @@ Friends</h2></td></tr>
 <tr class="memitem:ab2104fa6e839672da3c30400e8325e52"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:ab2104fa6e839672da3c30400e8325e52"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ab2104fa6e839672da3c30400e8325e52">shared_ptr</a></td></tr>
 <tr class="separator:ab2104fa6e839672da3c30400e8325e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7a62b6ab4389f0432f8db49c7ef328b"><td class="memItemLeft" align="right" valign="top">const std::shared_ptr&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#ad7a62b6ab4389f0432f8db49c7ef328b">y3c::unwrap</a> (const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;wrapper) noexcept</td></tr>
-<tr class="separator:ad7a62b6ab4389f0432f8db49c7ef328b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aead1626e388f77ca3535ac628e9e827d"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:aead1626e388f77ca3535ac628e9e827d"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1shared__ptr.html#aead1626e388f77ca3535ac628e9e827d">shared_ptr</a></td></tr>
+<tr class="separator:aead1626e388f77ca3535ac628e9e827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class y3c::shared_ptr&lt; T &gt;</div><ul>
-<li><code>operator*</code> と <code>operator-&gt;</code> 使用時にnullptrチェックを行う。</li>
-<li><code><a class="el" href="classy3c_1_1shared__ptr.html#a3c14b0da3649759c92c1332e47185ebe">get()</a></code> が返すポインタはラップされたものであり、 使用時にnullptrと参照先が生きているかのチェックができる。</li>
-<li>初期化は std::make_shared&lt;T&gt; または <a class="el" href="namespacey3c.html#a40c9d3b2eb997025880ea1e76d4fb53b">y3c::make_shared&lt;T&gt;</a> で行う。 </li>
+class y3c::shared_ptr&lt; T &gt;</div><p>所有権を共有するスマートポインタ (std::shared_ptr) </p>
+<ul>
+<li>キャストするか <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">unwrap()</a> することで std::shared_ptr&lt;T&gt; (のconst参照)に戻せる。<ul>
+<li>std::shared_ptr&lt;T&gt; のconstでない参照で取得して変更を加えることはできないようにしている。</li>
 </ul>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="shared_ptr-null_8cc-example.html#_a0">shared_ptr-null.cc</a>, <a class="el" href="shared_ptr-ref_8cc-example.html#_a0">shared_ptr-ref.cc</a>, and <a class="el" href="shared_ptr-unwrap-ref_8cc-example.html#_a0">shared_ptr-unwrap-ref.cc</a>.</dd>
+</li>
+<li>初期化は std::make_shared&lt;T&gt; または <a class="el" href="namespacey3c.html#a40c9d3b2eb997025880ea1e76d4fb53b" title="shared_ptrを構築する">y3c::make_shared&lt;T&gt;</a> で行う。 生ポインタ(newで初期化したものなど)を受け取ることはできない。</li>
+<li>std::shared_ptr と相互変換できるが、 y3cが管理するオブジェクトの寿命の情報を std::shared_ptr は保持していないので、 <a class="el" href="classy3c_1_1shared__ptr.html" title="所有権を共有するスマートポインタ (std::shared_ptr)">y3c::shared_ptr</a> を破棄し std::shared_ptr が残っている場合でも参照先のオブジェクトは破棄されたと判断されてしまう。</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><a href="https://cpprefjp.github.io/reference/memory/shared_ptr.html">shared_ptr - cpprefjp</a> </dd></dl>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="shared_ptr-null_8cc-example.html#_a1">shared_ptr-null.cc</a>, <a class="el" href="shared_ptr-ref_8cc-example.html#_a0">shared_ptr-ref.cc</a>, and <a class="el" href="shared_ptr-unwrap-ref_8cc-example.html#_a0">shared_ptr-unwrap-ref.cc</a>.</dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="ab09edc4b568d547d04da66f947f5595a" name="ab09edc4b568d547d04da66f947f5595a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab09edc4b568d547d04da66f947f5595a">&#9670;&#160;</a></span>element_type</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab09edc4b568d547d04da66f947f5595a">&#9670;&#160;</a></span>element_type <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> =  T</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab09edc4b568d547d04da66f947f5595a" name="ab09edc4b568d547d04da66f947f5595a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab09edc4b568d547d04da66f947f5595a">&#9670;&#160;</a></span>element_type <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,7 +363,7 @@ template&lt;typename T &gt; </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="afbbba196ae94574807f9a3875443e82e" name="afbbba196ae94574807f9a3875443e82e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbbba196ae94574807f9a3875443e82e">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afbbba196ae94574807f9a3875443e82e">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[1/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,10 +388,12 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>デフォルトコンストラクタ: nullptrを指す </p>
+
 </div>
 </div>
 <a id="ae397a9ac476404b536ad1b2e014913c5" name="ae397a9ac476404b536ad1b2e014913c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae397a9ac476404b536ad1b2e014913c5">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae397a9ac476404b536ad1b2e014913c5">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[2/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,10 +418,12 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>コピーコンストラクタ: リソースを共有する </p>
+
 </div>
 </div>
 <a id="ac341f8d0ce7a61c174a3903ac93bbaba" name="ac341f8d0ce7a61c174a3903ac93bbaba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac341f8d0ce7a61c174a3903ac93bbaba">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac341f8d0ce7a61c174a3903ac93bbaba">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[3/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,10 +448,12 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>ムーブコンストラクタ: 所有権を移動する </p>
+
 </div>
 </div>
 <a id="a771704adcf668ebf0dc154ee24ad9c0c" name="a771704adcf668ebf0dc154ee24ad9c0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a771704adcf668ebf0dc154ee24ad9c0c">&#9670;&#160;</a></span>~shared_ptr()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a771704adcf668ebf0dc154ee24ad9c0c">&#9670;&#160;</a></span>~shared_ptr() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,7 +480,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a2a9b7bfe4a601f4f32366f378ed8a1d0" name="a2a9b7bfe4a601f4f32366f378ed8a1d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a9b7bfe4a601f4f32366f378ed8a1d0">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9b7bfe4a601f4f32366f378ed8a1d0">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[4/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -372,10 +507,12 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>std::shared_ptrからのコピー </p>
+
 </div>
 </div>
 <a id="a720c6df748300baff8c54321a017926d" name="a720c6df748300baff8c54321a017926d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a720c6df748300baff8c54321a017926d">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a720c6df748300baff8c54321a017926d">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[5/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -402,10 +539,12 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>std::shared_ptrからの所有権の移動 </p>
+
 </div>
 </div>
 <a id="ac1481061429287a58250961804bc0745" name="ac1481061429287a58250961804bc0745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1481061429287a58250961804bc0745">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1481061429287a58250961804bc0745">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[6/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -432,10 +571,12 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>別の要素型のshared_ptrとリソースを共有する </p>
+
 </div>
 </div>
 <a id="a8b255c8949131ac45a8bf9fa6bab0efb" name="a8b255c8949131ac45a8bf9fa6bab0efb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b255c8949131ac45a8bf9fa6bab0efb">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b255c8949131ac45a8bf9fa6bab0efb">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[7/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -462,11 +603,258 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>別の要素型のshared_ptrから所有権を移動 </p>
+
+</div>
+</div>
+<a id="afbbba196ae94574807f9a3875443e82e" name="afbbba196ae94574807f9a3875443e82e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbbba196ae94574807f9a3875443e82e">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[8/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::nullptr_t&#160;</td>
+          <td class="paramname"> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>デフォルトコンストラクタ: nullptrを指す </p>
+
+</div>
+</div>
+<a id="ae397a9ac476404b536ad1b2e014913c5" name="ae397a9ac476404b536ad1b2e014913c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae397a9ac476404b536ad1b2e014913c5">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[9/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>コピーコンストラクタ: リソースを共有する </p>
+
+</div>
+</div>
+<a id="ac341f8d0ce7a61c174a3903ac93bbaba" name="ac341f8d0ce7a61c174a3903ac93bbaba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac341f8d0ce7a61c174a3903ac93bbaba">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[10/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ムーブコンストラクタ: 所有権を移動する </p>
+
+</div>
+</div>
+<a id="a771704adcf668ebf0dc154ee24ad9c0c" name="a771704adcf668ebf0dc154ee24ad9c0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a771704adcf668ebf0dc154ee24ad9c0c">&#9670;&#160;</a></span>~shared_ptr() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">~<a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a9b7bfe4a601f4f32366f378ed8a1d0" name="a2a9b7bfe4a601f4f32366f378ed8a1d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9b7bfe4a601f4f32366f378ed8a1d0">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[11/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>std::shared_ptrからのコピー </p>
+
+</div>
+</div>
+<a id="a720c6df748300baff8c54321a017926d" name="a720c6df748300baff8c54321a017926d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a720c6df748300baff8c54321a017926d">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[12/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; U &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>std::shared_ptrからの所有権の移動 </p>
+
+</div>
+</div>
+<a id="ac1481061429287a58250961804bc0745" name="ac1481061429287a58250961804bc0745"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1481061429287a58250961804bc0745">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[13/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>別の要素型のshared_ptrとリソースを共有する </p>
+
+</div>
+</div>
+<a id="a8b255c8949131ac45a8bf9fa6bab0efb" name="a8b255c8949131ac45a8bf9fa6bab0efb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b255c8949131ac45a8bf9fa6bab0efb">&#9670;&#160;</a></span>shared_ptr() <span class="overload">[14/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>別の要素型のshared_ptrから所有権を移動 </p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a3c14b0da3649759c92c1332e47185ebe" name="a3c14b0da3649759c92c1332e47185ebe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c14b0da3649759c92c1332e47185ebe">&#9670;&#160;</a></span>get()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c14b0da3649759c92c1332e47185ebe">&#9670;&#160;</a></span>get() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -490,10 +878,53 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>ポインタを取得 </p>
+<ul>
+<li>返り値は <a class="el" href="classy3c_1_1wrap_3_01element__type_01_5_01_4.html" title="ポインタ型wrap: element_type型のデータへのポインタと、 このポインタ自体の生存状態を管理するクラス">wrap&lt;element_type*&gt;</a> でラップされたポインタ。<ul>
+<li>生ポインタを取得するにはさらに element_type* にキャストするか <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">unwrap()</a> が必要。 </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a3c14b0da3649759c92c1332e47185ebe" name="a3c14b0da3649759c92c1332e47185ebe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c14b0da3649759c92c1332e47185ebe">&#9670;&#160;</a></span>get() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>&lt; <a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> &gt; get </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ポインタを取得 </p>
+<ul>
+<li>返り値は <a class="el" href="classy3c_1_1wrap_3_01element__type_01_5_01_4.html" title="ポインタ型wrap: element_type型のデータへのポインタと、 このポインタ自体の生存状態を管理するクラス">wrap&lt;element_type*&gt;</a> でラップされたポインタ。<ul>
+<li>生ポインタを取得するにはさらに element_type* にキャストするか <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">unwrap()</a> が必要。 </li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 <a id="a420e60e9788bfa3b52aa3aab72ea3a5e" name="a420e60e9788bfa3b52aa3aab72ea3a5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a420e60e9788bfa3b52aa3aab72ea3a5e">&#9670;&#160;</a></span>operator bool()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a420e60e9788bfa3b52aa3aab72ea3a5e">&#9670;&#160;</a></span>operator bool() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -517,10 +948,101 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>有効なリソースを所有しているかどうかを判定 </p>
+<p><code><a class="el" href="classy3c_1_1shared__ptr.html" title="所有権を共有するスマートポインタ (std::shared_ptr)">shared_ptr</a> != nullptr</code> と同じ。 </p>
+
+</div>
+</div>
+<a id="a420e60e9788bfa3b52aa3aab72ea3a5e" name="a420e60e9788bfa3b52aa3aab72ea3a5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a420e60e9788bfa3b52aa3aab72ea3a5e">&#9670;&#160;</a></span>operator bool() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">operator bool </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>有効なリソースを所有しているかどうかを判定 </p>
+<p><code><a class="el" href="classy3c_1_1shared__ptr.html" title="所有権を共有するスマートポインタ (std::shared_ptr)">shared_ptr</a> != nullptr</code> と同じ。 </p>
+
+</div>
+</div>
+<a id="aa16bb70bdd38085d8eb2509c0cc8047d" name="aa16bb70bdd38085d8eb2509c0cc8047d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa16bb70bdd38085d8eb2509c0cc8047d">&#9670;&#160;</a></span>operator const std::shared_ptr &amp;() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">operator const std::shared_ptr &amp; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>const std::shared_ptr へのキャスト </p>
+
+</div>
+</div>
+<a id="aa16bb70bdd38085d8eb2509c0cc8047d" name="aa16bb70bdd38085d8eb2509c0cc8047d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa16bb70bdd38085d8eb2509c0cc8047d">&#9670;&#160;</a></span>operator const std::shared_ptr &amp;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">operator const std::shared_ptr &amp; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>const std::shared_ptr へのキャスト </p>
+
 </div>
 </div>
 <a id="abd686a48ea221437dfba52fdb77e8134" name="abd686a48ea221437dfba52fdb77e8134"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd686a48ea221437dfba52fdb77e8134">&#9670;&#160;</a></span>operator wrap&lt; const shared_ptr &amp; &gt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abd686a48ea221437dfba52fdb77e8134">&#9670;&#160;</a></span>operator wrap&lt; const shared_ptr &amp; &gt;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -546,8 +1068,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a1b2c9576d38a7fa7d4f43063dc1c1680" name="a1b2c9576d38a7fa7d4f43063dc1c1680"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b2c9576d38a7fa7d4f43063dc1c1680">&#9670;&#160;</a></span>operator wrap&lt; shared_ptr &amp; &gt;()</h2>
+<a id="abd686a48ea221437dfba52fdb77e8134" name="abd686a48ea221437dfba52fdb77e8134"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd686a48ea221437dfba52fdb77e8134">&#9670;&#160;</a></span>operator wrap&lt; const shared_ptr &amp; &gt;() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -558,10 +1080,10 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">operator <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; &gt; </td>
+          <td class="memname">operator <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; &gt; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -573,8 +1095,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a255320309e3c370f71893a655b9a931c" name="a255320309e3c370f71893a655b9a931c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a255320309e3c370f71893a655b9a931c">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[1/2]</span></h2>
+<a id="aa653d716a090fa644ed4e4dd0cc518cb" name="aa653d716a090fa644ed4e4dd0cc518cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa653d716a090fa644ed4e4dd0cc518cb">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -585,10 +1107,10 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> * &gt; operator&amp; </td>
+          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> * &gt; operator&amp; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -627,21 +1149,21 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a026101d5fc1809c40b2fbc62f60865b4" name="a026101d5fc1809c40b2fbc62f60865b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a026101d5fc1809c40b2fbc62f60865b4">&#9670;&#160;</a></span>operator*()</h2>
+<a id="acbc0c7112d4a0009760d33cd18d35d20" name="acbc0c7112d4a0009760d33cd18d35d20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbc0c7112d4a0009760d33cd18d35d20">&#9670;&#160;</a></span>operator*() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
 <div class="memtemplate">
-template&lt;typename  = internal::skip_trace_tag&gt; </div>
+template&lt;typename E  = element_type, typename  = internal::skip_trace_tag&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap__auto.html">y3c::wrap_auto</a>&lt; T &gt; operator* </td>
+          <td class="memname"><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a>&lt; E &gt; operator* </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -654,10 +1176,59 @@ template&lt;typename  = internal::skip_trace_tag&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>要素の間接参照 </p>
+<ul>
+<li>参照先が生きていない場合terminateする。</li>
+<li>返り値は <a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html" title="参照型wrap: element_type型のデータへの参照を持つクラス">wrap&lt;element_type&amp;&gt;</a> でラップされた状態で返る。<ul>
+<li>元のelement_type型に戻すにはさらにキャストするか <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">unwrap()</a> が必要。 </li>
+</ul>
+</li>
+</ul>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="shared_ptr-null_8cc-example.html#a0">shared_ptr-null.cc</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="acbc0c7112d4a0009760d33cd18d35d20" name="acbc0c7112d4a0009760d33cd18d35d20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbc0c7112d4a0009760d33cd18d35d20">&#9670;&#160;</a></span>operator*() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename E  = element_type, typename  = internal::skip_trace_tag&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a>&lt; E &gt; operator* </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>要素の間接参照 </p>
+<ul>
+<li>参照先が生きていない場合terminateする。</li>
+<li>返り値は <a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html" title="参照型wrap: element_type型のデータへの参照を持つクラス">wrap&lt;element_type&amp;&gt;</a> でラップされた状態で返る。<ul>
+<li>元のelement_type型に戻すにはさらにキャストするか <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">unwrap()</a> が必要。 </li>
+</ul>
+</li>
+</ul>
+
 </div>
 </div>
 <a id="aad789278f6ebecb73a71b8aa20f64366" name="aad789278f6ebecb73a71b8aa20f64366"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad789278f6ebecb73a71b8aa20f64366">&#9670;&#160;</a></span>operator-&gt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aad789278f6ebecb73a71b8aa20f64366">&#9670;&#160;</a></span>operator-&gt;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -683,10 +1254,51 @@ template&lt;typename  = internal::skip_trace_tag&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>メンバアクセス </p>
+<ul>
+<li>参照先が生きていない場合terminateする。</li>
+<li>返り値は元のelement_type型の参照で返るので、 メンバアクセスは通常のポインタと同様に行える。 </li>
+</ul>
+
+</div>
+</div>
+<a id="aad789278f6ebecb73a71b8aa20f64366" name="aad789278f6ebecb73a71b8aa20f64366"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad789278f6ebecb73a71b8aa20f64366">&#9670;&#160;</a></span>operator-&gt;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename  = internal::skip_trace_tag&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html#ab09edc4b568d547d04da66f947f5595a">element_type</a> * operator-&gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>メンバアクセス </p>
+<ul>
+<li>参照先が生きていない場合terminateする。</li>
+<li>返り値は元のelement_type型の参照で返るので、 メンバアクセスは通常のポインタと同様に行える。 </li>
+</ul>
+
 </div>
 </div>
 <a id="ae7725872624348e4ed8ec22af997e66d" name="ae7725872624348e4ed8ec22af997e66d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7725872624348e4ed8ec22af997e66d">&#9670;&#160;</a></span>operator=() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7725872624348e4ed8ec22af997e66d">&#9670;&#160;</a></span>operator=() <span class="overload">[1/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,10 +1323,42 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>コピー代入: リソースを共有する </p>
+
+</div>
+</div>
+<a id="ae7725872624348e4ed8ec22af997e66d" name="ae7725872624348e4ed8ec22af997e66d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7725872624348e4ed8ec22af997e66d">&#9670;&#160;</a></span>operator=() <span class="overload">[2/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>コピー代入: リソースを共有する </p>
+
 </div>
 </div>
 <a id="a75f8d0490d4da52eba45e86b0a5533ba" name="a75f8d0490d4da52eba45e86b0a5533ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75f8d0490d4da52eba45e86b0a5533ba">&#9670;&#160;</a></span>operator=() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a75f8d0490d4da52eba45e86b0a5533ba">&#9670;&#160;</a></span>operator=() <span class="overload">[3/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -741,10 +1385,44 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>別の要素型のshared_ptrとリソースを共有する </p>
+
+</div>
+</div>
+<a id="a75f8d0490d4da52eba45e86b0a5533ba" name="a75f8d0490d4da52eba45e86b0a5533ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75f8d0490d4da52eba45e86b0a5533ba">&#9670;&#160;</a></span>operator=() <span class="overload">[4/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>別の要素型のshared_ptrとリソースを共有する </p>
+
 </div>
 </div>
 <a id="a34df6f002416e5f807f162573676bc77" name="a34df6f002416e5f807f162573676bc77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34df6f002416e5f807f162573676bc77">&#9670;&#160;</a></span>operator=() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a34df6f002416e5f807f162573676bc77">&#9670;&#160;</a></span>operator=() <span class="overload">[5/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -771,10 +1449,44 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>std::shared_ptrからのコピー </p>
+
+</div>
+</div>
+<a id="a34df6f002416e5f807f162573676bc77" name="a34df6f002416e5f807f162573676bc77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34df6f002416e5f807f162573676bc77">&#9670;&#160;</a></span>operator=() <span class="overload">[6/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype">const std::shared_ptr&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>std::shared_ptrからのコピー </p>
+
 </div>
 </div>
 <a id="a5a154fa411ec4e55ad65818d8020c9b6" name="a5a154fa411ec4e55ad65818d8020c9b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a154fa411ec4e55ad65818d8020c9b6">&#9670;&#160;</a></span>operator=() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a154fa411ec4e55ad65818d8020c9b6">&#9670;&#160;</a></span>operator=() <span class="overload">[7/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -799,10 +1511,42 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>ムーブ代入: 所有権を移動する </p>
+
+</div>
+</div>
+<a id="a5a154fa411ec4e55ad65818d8020c9b6" name="a5a154fa411ec4e55ad65818d8020c9b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a154fa411ec4e55ad65818d8020c9b6">&#9670;&#160;</a></span>operator=() <span class="overload">[8/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ムーブ代入: 所有権を移動する </p>
+
 </div>
 </div>
 <a id="ae1bbfb5590d6e99b8e3c891dc7b7acb8" name="ae1bbfb5590d6e99b8e3c891dc7b7acb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1bbfb5590d6e99b8e3c891dc7b7acb8">&#9670;&#160;</a></span>operator=() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1bbfb5590d6e99b8e3c891dc7b7acb8">&#9670;&#160;</a></span>operator=() <span class="overload">[9/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -829,10 +1573,44 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>別の要素型のshared_ptrから所有権を移動 </p>
+
+</div>
+</div>
+<a id="ae1bbfb5590d6e99b8e3c891dc7b7acb8" name="ae1bbfb5590d6e99b8e3c891dc7b7acb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1bbfb5590d6e99b8e3c891dc7b7acb8">&#9670;&#160;</a></span>operator=() <span class="overload">[10/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; U &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>別の要素型のshared_ptrから所有権を移動 </p>
+
 </div>
 </div>
 <a id="a578a3e465c9d2c980c54d18e59a4ae5d" name="a578a3e465c9d2c980c54d18e59a4ae5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a578a3e465c9d2c980c54d18e59a4ae5d">&#9670;&#160;</a></span>operator=() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a578a3e465c9d2c980c54d18e59a4ae5d">&#9670;&#160;</a></span>operator=() <span class="overload">[11/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -859,10 +1637,44 @@ template&lt;typename U &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>std::shared_ptrからの所有権の移動 </p>
+
+</div>
+</div>
+<a id="a578a3e465c9d2c980c54d18e59a4ae5d" name="a578a3e465c9d2c980c54d18e59a4ae5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a578a3e465c9d2c980c54d18e59a4ae5d">&#9670;&#160;</a></span>operator=() <span class="overload">[12/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a> &amp; operator= </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; U &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>ptr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>std::shared_ptrからの所有権の移動 </p>
+
 </div>
 </div>
 <a id="a87e87c3fd52185c0999979d7d61e6f77" name="a87e87c3fd52185c0999979d7d61e6f77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87e87c3fd52185c0999979d7d61e6f77">&#9670;&#160;</a></span>owner_before()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a87e87c3fd52185c0999979d7d61e6f77">&#9670;&#160;</a></span>owner_before() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -887,10 +1699,42 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>所有権ベースでのポインタ比較 </p>
+
+</div>
+</div>
+<a id="a87e87c3fd52185c0999979d7d61e6f77" name="a87e87c3fd52185c0999979d7d61e6f77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87e87c3fd52185c0999979d7d61e6f77">&#9670;&#160;</a></span>owner_before() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool owner_before </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>arg</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>所有権ベースでのポインタ比較 </p>
+
 </div>
 </div>
 <a id="a20194325f0380eb3bbc6bc6c8b2697d9" name="a20194325f0380eb3bbc6bc6c8b2697d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20194325f0380eb3bbc6bc6c8b2697d9">&#9670;&#160;</a></span>reset()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a20194325f0380eb3bbc6bc6c8b2697d9">&#9670;&#160;</a></span>reset() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -913,13 +1757,50 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>所有権を放棄 </p>
+<ul>
+<li>nullptr を代入するのと同じ。 </li>
+</ul>
 <dl class="section examples"><dt>Examples</dt><dd><a class="el" href="shared_ptr-ref_8cc-example.html#a2">shared_ptr-ref.cc</a>, and <a class="el" href="shared_ptr-unwrap-ref_8cc-example.html#a2">shared_ptr-unwrap-ref.cc</a>.</dd>
 </dl>
 
 </div>
 </div>
+<a id="a20194325f0380eb3bbc6bc6c8b2697d9" name="a20194325f0380eb3bbc6bc6c8b2697d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20194325f0380eb3bbc6bc6c8b2697d9">&#9670;&#160;</a></span>reset() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>所有権を放棄 </p>
+<ul>
+<li>nullptr を代入するのと同じ。 </li>
+</ul>
+
+</div>
+</div>
 <a id="ab2b2eb5e83bc2b6b03ca69f315da7770" name="ab2b2eb5e83bc2b6b03ca69f315da7770"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2b2eb5e83bc2b6b03ca69f315da7770">&#9670;&#160;</a></span>swap()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b2eb5e83bc2b6b03ca69f315da7770">&#9670;&#160;</a></span>swap() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -944,10 +1825,42 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>所有権を入れ替える </p>
+
+</div>
+</div>
+<a id="ab2b2eb5e83bc2b6b03ca69f315da7770" name="ab2b2eb5e83bc2b6b03ca69f315da7770"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b2eb5e83bc2b6b03ca69f315da7770">&#9670;&#160;</a></span>swap() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>所有権を入れ替える </p>
+
 </div>
 </div>
 <a id="a68779c565035025326e9065c5edee1e6" name="a68779c565035025326e9065c5edee1e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68779c565035025326e9065c5edee1e6">&#9670;&#160;</a></span>use_count()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a68779c565035025326e9065c5edee1e6">&#9670;&#160;</a></span>use_count() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -971,11 +1884,48 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>所有権を共有しているshared_ptrの数を取得 </p>
+<ul>
+<li>std::shared_ptr の use_count を返す。 std::shared_ptr と <a class="el" href="classy3c_1_1shared__ptr.html" title="所有権を共有するスマートポインタ (std::shared_ptr)">y3c::shared_ptr</a> で共有されている場合、 y3c側のオブジェクト寿命管理とは無関係。 </li>
+</ul>
+
+</div>
+</div>
+<a id="a68779c565035025326e9065c5edee1e6" name="a68779c565035025326e9065c5edee1e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68779c565035025326e9065c5edee1e6">&#9670;&#160;</a></span>use_count() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">long use_count </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>所有権を共有しているshared_ptrの数を取得 </p>
+<ul>
+<li>std::shared_ptr の use_count を返す。 std::shared_ptr と <a class="el" href="classy3c_1_1shared__ptr.html" title="所有権を共有するスマートポインタ (std::shared_ptr)">y3c::shared_ptr</a> で共有されている場合、 y3c側のオブジェクト寿命管理とは無関係。 </li>
+</ul>
+
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
 <a id="ab2104fa6e839672da3c30400e8325e52" name="ab2104fa6e839672da3c30400e8325e52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2104fa6e839672da3c30400e8325e52">&#9670;&#160;</a></span>shared_ptr</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2104fa6e839672da3c30400e8325e52">&#9670;&#160;</a></span>shared_ptr <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1000,23 +1950,21 @@ template&lt;typename U &gt; </div>
 
 </div>
 </div>
-<a id="ad7a62b6ab4389f0432f8db49c7ef328b" name="ad7a62b6ab4389f0432f8db49c7ef328b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7a62b6ab4389f0432f8db49c7ef328b">&#9670;&#160;</a></span>y3c::unwrap</h2>
+<a id="aead1626e388f77ca3535ac628e9e827d" name="aead1626e388f77ca3535ac628e9e827d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aead1626e388f77ca3535ac628e9e827d">&#9670;&#160;</a></span>shared_ptr <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::shared_ptr&lt; T &gt; &amp; <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">y3c::unwrap</a> </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>wrapper</em></td><td>)</td>
-          <td></td>
+          <td class="memname">class <a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a></td>
         </tr>
       </table>
   </td>
@@ -1029,7 +1977,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/y3c/<a class="el" href="shared__ptr_8h_source.html">shared_ptr.h</a></li>
+<li>install/include/y3c/<a class="el" href="install_2include_2y3c_2shared__ptr_8h_source.html">shared_ptr.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -1037,7 +1985,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacey3c.html">y3c</a></li><li class="navelem"><a class="el" href="classy3c_1_1shared__ptr.html">shared_ptr</a></li>
-    <li class="footer">Generated on Fri Dec 27 2024 18:15:35 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>
