@@ -14,6 +14,19 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: "recursive"
+
+    - name: install graphviz
+      if: github.ref == 'refs/heads/main'
+      run: sudo apt-get update && sudo apt-get install -y graphviz
+    # 1.9.8で生成するとリンクがバグる。
+    # 1.10以上はまだ試していない
+    - uses: ssciwr/doxygen-install@v1
+      if: github.ref == 'refs/heads/main'
+      with:
+        version: "1.9.7"
+
     - name: Install dependencies
       run: |
         sudo apt-get update
@@ -21,6 +34,7 @@ jobs:
       # if [[ ${{matrix.dep}} = apt ]]; then sudo apt-get install -y libdwarf-dev; fi
     - name: Install meson
       run: pip install meson || pip install --break-system-packages meson
+      
     - name: Setup Meson
       run: >
         meson setup build
@@ -28,6 +42,20 @@ jobs:
         -Dprefix=${{github.workspace}}/install
     - name: Compile
       run: meson compile -C build
+
+    - name: Generate list of examples output
+      run: python3 ./run_examples.py build
+      if: github.ref == 'refs/heads/main'
+    - name: Generate Documentation
+      if: github.ref == 'refs/heads/main'
+      run: |
+        mkdir -p build/doxygen
+        doxygen
+    - uses: JamesIves/github-pages-deploy-action@v4
+      if: github.ref == 'refs/heads/main'
+      with:
+        folder: build/doxygen/html
+
     - name: Test
       run: meson test -C build --suite y3c-stl --print-errorlog
 

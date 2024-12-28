@@ -24,7 +24,7 @@ int main() {
 y3c-stl terminated: undefined behavior detected (ub_access_deleted)
   at y3c::vector<int>::iterator::operator*(): attempted to access the deleted value.
 Stack trace (most recent call first):
-#0 0x0000000100ea5f7b in main at /Users/kou/projects/y3c-stl/build/../examples/vector-iter-reallocate.cc:8:18
+#0 0x000056364363f72e in main at /home/runner/work/y3c-stl/y3c-stl/build/../examples/vector-iter-reallocate.cc:8:18
        6:     y3c::vector<int>::iterator it = a.begin();
        7:     a.resize(100);
        8:     std::cout << *it << std::endl;
