@@ -22,12 +22,12 @@ elseif(APPLE)
   set_target_properties(y3c::y3c PROPERTIES
     IMPORTED_LOCATION "${Y3C_RELEASE_LIB}"
     # MacではMesonがinstall_nameにprefixを絶対パスで入れるらしい (meson.build内で変更するオプション無い)
-    IMPORTED_SONAME "@prefix@/@libdir@/lib@y3c_lib_release@.@y3c_abi_major@.dylib"
+    IMPORTED_SONAME "@prefix@/@libdir@/lib@y3c_lib_release@.@y3c_soversion@.dylib"
   )
 elseif(UNIX)
   set_target_properties(y3c::y3c PROPERTIES
     IMPORTED_LOCATION "${Y3C_RELEASE_LIB}"
-    IMPORTED_SONAME "lib@y3c_lib_release@.so.@y3c_abi_major@"
+    IMPORTED_SONAME "lib@y3c_lib_release@.so.@y3c_soversion@"
   )
 else()
   message(FATAL_ERROR "Unsupported system?")

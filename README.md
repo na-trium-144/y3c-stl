@@ -166,23 +166,25 @@ y3c:: のラッパークラス以外が投げた標準のexceptionや、直接 `
 
 ### 実装済みの関数、クラス一覧
 
-todo: doxygenのドキュメントを作りそれへのリンクにするとか
+リンクはDoxygenによるドキュメントへのリンクです。
 
 * `#include <y3c/wrap>` (y3c独自のユーティリティ関数、STLのクラスに属さないものなど)
-    * `y3c::link()`
-    * `y3c::unwrap(y3c::wrap<T>)`
-    * `y3c::wrap<T>` ← `T`
-        * `y3c::wrap_ref<T>` = `y3c::wrap<T&>`
-        * `y3c::const_wrap_ref<T>` = `y3c::wrap<const T&>`
-        * `y3c::ptr<T>` = `y3c::wrap<T*>`
-        * `y3c::const_ptr<T>` = `y3c::wrap<const T*>`
-        * `y3c::ptr_const<T>` = `const y3c::wrap<T*>`
-        * `y3c::const_ptr_const<T>` = `const y3c::wrap<const T*>`
+    * y3c::link()
+    * y3c::unwrap(y3c::wrap&lt;T&gt;)
+    * [y3c::wrap&lt;T&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1wrap.html) ← `T`
+    * [y3c::wrap&lt;T&>](https://na-trium-144.github.io/y3c-stl/classy3c_1_1wrap_3_01element__type_01_6_01_4.html) ← `T&`
+        * y3c::wrap_ref&lt;T&gt; = `y3c::wrap<T&>`
+        * y3c::const_wrap_ref&lt;T&gt; = `y3c::wrap<const T&>`
+    * [y3c::wrap&lt;T*&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1wrap_3_01element__type_01_5_01_4.html) ← `T*`
+        * y3c::ptr&lt;T&gt; = `y3c::wrap<T*>`
+        * y3c::const_ptr&lt;T&gt; = `y3c::wrap<const T*>`
+        * y3c::ptr_const&lt;T&gt; = `const y3c::wrap<T*>`
+        * y3c::const_ptr_const&lt;T&gt; = `const y3c::wrap<const T*>`
 * `#include <y3c/array>`
-    * `y3c::array<T, N>` ← `std::array<T, N>`
+    * [y3c::array&lt;T, N&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1array.html) ← `std::array<T, N>`
 * `#include <y3c/memory>`
-    * `y3c::shared_ptr<T>` ← `std::shared_ptr<T>`
-        * `y3c::make_shared<T>()` ← `std::make_shared<T>()`
+    * [y3c::shared_ptr&lt;T&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1shared__ptr.html) ← `std::shared_ptr<T>`
+        * y3c::make_shared&lt;T&gt;() ← `std::make_shared<T>()`
 
 ## ライセンス
 

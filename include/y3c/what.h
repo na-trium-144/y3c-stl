@@ -8,7 +8,6 @@
 
 namespace y3c {
 namespace internal {
-inline namespace Y3C_NS_ABI {
 
 /*!
  * エラーメッセージの生成
@@ -27,6 +26,5 @@ Y3C_DLL const char *Y3C_CALL ub_invalid_iter();
 Y3C_DLL const char *Y3C_CALL ub_iter_after_end();
 Y3C_DLL const char *Y3C_CALL ub_iter_before_begin();
 } // namespace what
-} // namespace Y3C_NS_ABI
 } // namespace internal
 } // namespace y3c

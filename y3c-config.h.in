@@ -33,22 +33,3 @@
 #else // !DLLEXPORT
 #define Y3C_CALL
 #endif
-
-// コンパイル時にnamespaceにabiバージョンを埋め込む
-
-#if Y3C_SYSTEM_ADD_DEBUG
-#ifdef _DEBUG
-#define Y3C_NS_ABI_3(ver) v##ver##_debug
-#endif
-#endif
-
-#ifndef Y3C_NS_ABI_3
-#define Y3C_NS_ABI_3(ver) v##ver##_
-#endif
-
-#define Y3C_NS_ABI_2(ver) Y3C_NS_ABI_3(ver)
-#define Y3C_NS_ABI Y3C_NS_ABI_2(Y3C_ABI_MAJOR)
-
-#define Y3C_NS_ABI_S3(ns) #ns
-#define Y3C_NS_ABI_S2(ns) Y3C_NS_ABI_S3(ns)
-#define Y3C_NS_ABI_S Y3C_NS_ABI_S2(Y3C_NS_ABI_2(Y3C_ABI_MAJOR))

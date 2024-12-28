@@ -3,7 +3,6 @@
 
 namespace y3c {
 namespace internal {
-inline namespace Y3C_NS_ABI {
 namespace what {
 std::string ub_out_of_range(std::size_t size, std::ptrdiff_t index) {
     std::ostringstream ss;
@@ -35,6 +34,5 @@ const char *ub_iter_before_begin() {
     return "iterated back beyond the begin() of container.";
 }
 } // namespace what
-} // namespace Y3C_NS_ABI
 } // namespace internal
 } // namespace y3c

@@ -1,0 +1,41 @@
+/* DoxygenAwesomeのデフォルト値のHueをそれぞれ15に変えたもの */
+html {
+  --top-nav-height: 150px; /*https://github.com/jothepro/doxygen-awesome-css/issues/129*/
+
+  --primary-color: #c43916;
+  --primary-dark-color: #804533;
+  --primary-light-color: #e98b70;
+  --page-background-color: #ffffff;
+  --page-foreground-color: #53382e;
+  --page-secondary-foreground-color: #8e776f;
+  --fragment-background: #faf8f8;
+  --fragment-foreground: #4f3936;
+}
+html.dark-mode {
+  --primary-color: #d23d19;
+  --primary-dark-color: #e2765c;
+  --primary-light-color: #ac6247;
+  --page-background-color: #1f1d1c;
+  --page-foreground-color: #ded2d2;
+  --page-secondary-foreground-color: #998685;
+  --fragment-background: #342d27;
+  --fragment-foreground: #ebdedb;
+}
+@media screen and (min-width: 768px) {
+  #top {
+    height: var(--top-nav-height);
+  }
+  #nav-tree,
+  #side-nav {
+    height: calc(100vh - var(--top-nav-height)) !important;
+  }
+  #side-nav {
+    top: var(--top-nav-height);
+  }
+}
+@media screen and (max-width: 767px) {
+  #titlearea {
+    /* 右上のgithub猫にproject_briefのテキストが被らないようにする */
+    padding-right: 40px;
+  }
+}

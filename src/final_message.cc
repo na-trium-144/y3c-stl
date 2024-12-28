@@ -6,17 +6,15 @@
 
 namespace y3c {
 namespace internal {
-inline namespace Y3C_NS_ABI {
 
 void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
     while (!trace.frames.empty() &&
            (trace.frames.front().symbol.empty() ||
-            trace.frames.front().symbol.find("y3c::internal::" Y3C_NS_ABI_S
-                                             "::skip_trace_tag") !=
+            trace.frames.front().symbol.find("y3c::internal::skip_trace_tag") !=
                 std::string::npos ||
             trace.frames.front().symbol.find(
-                "y3c::internal::" Y3C_NS_ABI_S
-                "::handle_final_terminate_message") != std::string::npos)) {
+                "y3c::internal::handle_final_terminate_message") !=
+                std::string::npos)) {
         trace.frames.erase(trace.frames.begin());
     }
     while (!trace.frames.empty() && trace.frames.back().symbol.empty()) {
@@ -168,6 +166,5 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
     std::abort();
 }
 
-} // namespace Y3C_NS_ABI
 } // namespace internal
 } // namespace y3c
