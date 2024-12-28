@@ -1,5 +1,6 @@
 #include "y3c/terminate.h"
 #include <cpptrace/basic.hpp>
+#include <cpptrace/utils.hpp>
 #include <rang.hpp>
 #include <iostream>
 #include <ostream>
@@ -26,7 +27,8 @@ void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
                   "debug symbols enabled.)"
                << rang::style::reset << std::endl;
     } else {
-        trace.print_with_snippets(stream);
+        trace.print_with_snippets(stream,
+                                  cpptrace::isatty(cpptrace::stderr_fileno));
     }
 }
 
@@ -80,11 +82,26 @@ void print_y3c_exception(std::ostream &stream, const terminate_detail &e) {
     case terminate_type::internal:
         stream << rang::style::bold << "internal error of y3c-stl itself";
         break;
-    case terminate_type::ub_out_of_range:
-    case terminate_type::ub_access_nullptr:
-    case terminate_type::ub_access_deleted:
-        stream << rang::style::bold << "undefined behavior detected";
-        break;
+
+#define define_ub_message(ub_name)                                             \
+    case terminate_type::ub_name: {                                            \
+        stream << rang::style::bold << "undefined behavior detected";          \
+        stream << rang::style::reset << " (";                                  \
+        stream << rang::fg::cyan << #ub_name;                                  \
+        stream << rang::fg::reset << ")";                                      \
+        break;                                                                 \
+    }
+
+        define_ub_message(ub_out_of_range);
+        define_ub_message(ub_access_nullptr);
+        define_ub_message(ub_access_deleted);
+        define_ub_message(ub_wrong_iter);
+        define_ub_message(ub_invalid_iter);
+        define_ub_message(ub_iter_after_end);
+        define_ub_message(ub_iter_before_begin);
+
+#undef define_ub_message
+
     default:
         stream << rang::style::italic << rang::fg::red
                << "error: invalid terminate type " << static_cast<int>(e.type);
@@ -129,7 +146,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
 }
 [[noreturn]] void handle_final_terminate_message() noexcept {
     auto &stream = std::cerr;
-    rang::setControlMode(rang::control::Force);
+    rang::setControlMode(cpptrace::isatty(cpptrace::stderr_fileno)
+                             ? rang::control::Force
+                             : rang::control::Off);
     print_header(stream);
     auto current = std::current_exception();
     if (current) {
@@ -157,7 +176,9 @@ void print_current_exception(std::ostream &stream, std::exception_ptr current,
 
 [[noreturn]] void do_terminate_with(terminate_detail &&detail) {
     auto &stream = std::cerr;
-    rang::setControlMode(rang::control::Force);
+    rang::setControlMode(cpptrace::isatty(cpptrace::stderr_fileno)
+                             ? rang::control::Force
+                             : rang::control::Off);
     print_header(stream);
     print_y3c_exception(stream, detail);
     auto trace = std::static_pointer_cast<cpptrace::raw_trace>(detail.raw_trace)

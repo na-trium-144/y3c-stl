@@ -7,33 +7,19 @@
 namespace y3c {
 template <typename base_type>
 class wrap;
-template <typename base_type>
-class wrap_auto;
-
-template <typename base_type,
-          typename std::enable_if<!std::is_pointer<base_type>::value &&
-                                      !std::is_reference<base_type>::value,
-                                  std::nullptr_t>::type = nullptr>
-base_type &unwrap(wrap<base_type> &wrapper) noexcept;
-template <typename base_type,
-          typename std::enable_if<!std::is_pointer<base_type>::value &&
-                                      !std::is_reference<base_type>::value,
-                                  std::nullptr_t>::type = nullptr>
-const base_type &unwrap(const wrap<base_type> &wrapper) noexcept;
 template <typename element_type>
 element_type &unwrap(const wrap<element_type &> &wrapper,
                      internal::skip_trace_tag = {});
-template <typename element_type>
-element_type *unwrap(const wrap<element_type *> &wrapper) noexcept;
 
 /*!
  * \brief 値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス
  *
- * * `operator&` で y3c::wrap<T*> が得られる
- * * y3c::wrap<T&> にキャストできる
- * * Tが E[N] の形の場合、
- *   * `operator[]` で y3c::wrap<E&> が得られる
- *   * `y3c::wrap<E*> にキャストできる
+ * * キャストするか unwrap() することでbase_type型(の参照)に戻せる。
+ * * `&` をつけるとbase_typeのポインタをラップした y3c::wrap<base_type*>
+ * が得られる
+ * * base_typeが E[N] の形の場合、
+ *   * `[ ]` で要素アクセスできる (参照をラップした y3c::wrap<E&> が得られる)
+ *   * E のポインタをラップした y3c::wrap<E*> にもキャストできる
  *
  */
 template <typename base_type>
@@ -52,21 +38,46 @@ class wrap {
     internal::life life_;
 
   public:
+    /*!
+     * \brief デフォルト構築
+     */
     wrap() : base_(), life_(&base_) {}
+    /*!
+     * \brief コピーコンストラクタ
+     */
     wrap(const wrap &other) : base_(other.base_), life_(&base_) {}
+    /*!
+     * \brief ムーブコンストラクタ
+     *
+     * * このデータの生存状態はムーブされない。
+     */
     wrap(wrap &&other) : base_(std::move(other.base_)), life_(&base_) {}
+    /*!
+     * \brief コピー代入
+     */
     wrap &operator=(const wrap &other) {
         base_ = other.base_;
         return *this;
     }
+    /*!
+     * \brief ムーブ代入
+     *
+     * * このデータの生存状態はムーブされない。
+     */
     wrap &operator=(wrap &&other) {
         base_ = std::move(other.base_);
         return *this;
     }
     ~wrap() = default;
 
+    /*!
+     * \brief コンストラクタ引数はそのままbase_typeのコンストラクタに渡される。
+     */
     template <typename... Args>
     wrap(Args &&...args) : base_{std::forward<Args>(args)...}, life_(&base_) {}
+    /*!
+     * \brief 引数はそのままbase_typeのoperator=()に渡される。
+     */
     template <typename V>
     wrap &operator=(V &&args) {
         base_ = std::forward<V>(args);
@@ -75,33 +86,47 @@ class wrap {
 
     template <typename>
     friend class wrap;
-    friend base_type &
-    y3c::unwrap<base_type, nullptr>(wrap<base_type> &) noexcept;
-    friend const base_type &
-    y3c::unwrap<base_type, nullptr>(const wrap<base_type> &) noexcept;
 
+    /*!
+     * \brief base_type へのキャスト
+     */
     operator base_type &() noexcept { return this->base_; }
+    /*!
+     * \brief const base_type へのキャスト
+     */
     operator const base_type &() const noexcept { return this->base_; }
 
+    /*!
+     * \brief base_typeが E[N] の形の場合、要素への参照を返す
+     *
+     * * インデックスが範囲外の場合terminateする。
+     *
+     */
     template <typename T = base_type,
               typename E = typename std::remove_extent<base_type>::type,
               typename std::enable_if<std::is_array<T>::value,
                                       std::nullptr_t>::type = nullptr,
               typename = internal::skip_trace_tag>
-    wrap_auto<E> operator[](std::ptrdiff_t i) {
+    wrap<E &> operator[](std::ptrdiff_t i) {
         static std::string func = type_name() + "::operator[]()";
-        return wrap_auto<E>(life_.observer().assert_ptr(&base_[i], func),
-                            life_.observer());
+        return wrap<E &>(life_.observer().assert_ptr(&base_[i], func),
+                         life_.observer());
     }
+    /*!
+     * \brief base_typeが E[N] の形の場合、要素への参照を返す(const)
+     *
+     * * インデックスが範囲外の場合terminateする。
+     *
+     */
     template <typename T = base_type,
               typename E = typename std::remove_extent<base_type>::type,
               typename std::enable_if<std::is_array<T>::value,
                                       std::nullptr_t>::type = nullptr,
               typename = internal::skip_trace_tag>
-    wrap_auto<const E> operator[](std::ptrdiff_t i) const {
+    wrap<const E &> operator[](std::ptrdiff_t i) const {
         static std::string func = type_name() + "::operator[]()";
-        return wrap_auto<const E>(life_.observer().assert_ptr(&base_[i], func),
-                                  life_.observer());
+        return wrap<const E &>(life_.observer().assert_ptr(&base_[i], func),
+                               life_.observer());
     }
 
     wrap<base_type *> operator&() {
@@ -114,94 +139,28 @@ class wrap {
 template <typename base_type,
           typename std::enable_if<!std::is_pointer<base_type>::value &&
                                       !std::is_reference<base_type>::value,
-                                  std::nullptr_t>::type>
+                                  std::nullptr_t>::type = nullptr>
 base_type &unwrap(wrap<base_type> &wrapper) noexcept {
-    return wrapper.base_;
+    return static_cast<base_type &>(wrapper);
 }
 template <typename base_type,
           typename std::enable_if<!std::is_pointer<base_type>::value &&
                                       !std::is_reference<base_type>::value,
-                                  std::nullptr_t>::type>
+                                  std::nullptr_t>::type = nullptr>
 const base_type &unwrap(const wrap<base_type> &wrapper) noexcept {
-    return wrapper.base_;
+    return static_cast<const base_type &>(wrapper);
 }
-
-/*!
- * 値の参照を返す関数が、y3c::wrap<T&> を返す代わりにこれを返すことで、
- * ユーザーがそれをさらに明示的に y3c::wrap<T&>
- * にキャストすれば元の参照を返すが、
- * autoで受け取るなどwrap<T&>にならなかった場合は参照ではなく値をコピーしたものとしてふるまう
- *
- * * `operator&` で y3c::wrap<T*> が得られる
- *
- * \todo
- * autoで受け取ったあとしばらく値を変更せずにあとでrefに変換した場合も元の値を参照することになるが、
- * それは直感的ではない
- *
- * ↑ しばらくしてから の定義ってなんだ?
- *
- */
-template <typename element_type>
-class wrap_auto : public wrap<typename std::remove_const<element_type>::type> {
-    using base_type = typename std::remove_const<element_type>::type;
-    element_type *ptr_;
-    internal::life_observer observer_;
-
-    void clear_ref() {
-        ptr_ = &this->base_;
-        observer_ = this->life_.observer();
-    }
-
-  public:
-    wrap_auto(element_type *ptr, internal::life_observer observer) noexcept
-        : wrap<base_type>(*ptr), ptr_(ptr), observer_(observer) {}
-    wrap_auto(const wrap_auto &) = default;
-    wrap_auto(wrap_auto &&) = default;
-    ~wrap_auto() = default;
-
-    template <typename T>
-    friend class wrap;
-
-    /*!
-     * 値が代入されたら元の参照は破棄し値のコピーだけが利用可能になる
-     */
-    template <typename Args>
-    wrap_auto &operator=(Args &&args) {
-        clear_ref();
-        this->wrap<base_type>::operator=(std::forward<Args>(args));
-        return *this;
-    }
-    wrap_auto &operator=(const wrap_auto &other) {
-        clear_ref();
-        if (this != std::addressof(other)) {
-            this->wrap<base_type>::operator=(other);
-        }
-        return *this;
-    }
-    wrap_auto &operator=(wrap_auto &&other) {
-        clear_ref();
-        if (this != std::addressof(other)) {
-            this->wrap<base_type>::operator=(other);
-        }
-        return *this;
-    }
-
-    wrap<element_type *> operator&() const noexcept {
-        return wrap<element_type *>(ptr_, observer_);
-    }
-};
 
 /*!
  * \brief 参照型wrap: element_type型のデータへの参照を持つクラス
  *
- * * `T&`へのキャスト時と、`y3c::unwrap()`
- * 時に参照先が生きているかなどのチェックを行う。
- * キャストとy3c::unwrapでチェックが入るのは (今のところ) wrap_ref のみ。
- * * y3c::wrap<remove_const_t<T>> の左辺値からキャストできる
- * * `operator&` で y3c::wrap<T*> が得られる
- * * Tが E[N] の形の場合、
- *   * `operator[]` で y3c::wrap<E&> が得られる
- *   * `y3c::wrap<E*> にキャストできる
+ * * キャストするか unwrap() することでbase_type型の参照に戻せるが、
+ * その際参照先が生きているかどうかのチェックが入る。
+ * * `&` をつけるとelement_typeのポインタをラップした y3c::wrap<element_type*>
+ * が得られる
+ * * element_typeが E[N] の形の場合、
+ *   * `[ ]` で要素アクセスできる (参照をラップした y3c::wrap<E&> が得られる)
+ *   * E のポインタをラップした y3c::wrap<E*> にもキャストできる
  *
  * \sa wrap_ref, const_wrap_ref
  */
@@ -238,7 +197,7 @@ class wrap<element_type &> {
         : ptr_(&wrapper.base_), observer_(wrapper.life_.observer()) {}
 
     /*!
-     * \brief 値型wrapの参照
+     * \brief 値型wrapの参照(const)
      */
     template <typename T, typename E = element_type,
               typename std::enable_if<!std::is_pointer<T>::value &&
@@ -249,7 +208,7 @@ class wrap<element_type &> {
         : ptr_(&wrapper.base_), observer_(wrapper.life_.observer()) {}
 
     /*!
-     * \brief 参照型wrapのコピー
+     * \brief 参照型wrapのコピー: 同じものを参照する
      */
     template <typename T>
     wrap(const wrap<T &> &ref) noexcept
@@ -265,16 +224,12 @@ class wrap<element_type &> {
         return *this;
     }
 
-    template <typename T>
-    wrap(const wrap_auto<T> &auto_ref) noexcept
-        : wrap(auto_ref.ptr_, auto_ref.observer_) {}
-
     /*!
-     * コピー構築の場合は参照としてコピーする
+     * \brief コピーコンストラクタ: 同じものを参照する
      */
     wrap(const wrap &) noexcept = default;
     /*!
-     * コピー代入しようとした場合は値のコピーにする
+     * \brief コピー代入: 値を参照先へコピーする
      */
     template <typename = internal::skip_trace_tag>
     wrap &operator=(const wrap &other) {
@@ -285,8 +240,9 @@ class wrap<element_type &> {
         return *this;
     }
     /*!
-     * ムーブ代入
-     * (ムーブ構築は無い)
+     * \brief ムーブ代入
+     *
+     * (ムーブコンストラクタは無い)
      */
     template <typename = internal::skip_trace_tag>
     wrap &operator=(wrap &&other) {
@@ -302,24 +258,34 @@ class wrap<element_type &> {
 
     template <typename T>
     friend class wrap;
-    friend class wrap_auto<element_type>;
     friend element_type &y3c::unwrap<element_type>(const wrap<element_type &> &,
                                                    internal::skip_trace_tag);
 
+    /*!
+     * \brief element_type へのキャスト
+     *
+     * * 参照先が生きていない場合terminateする。
+     */
     template <typename = internal::skip_trace_tag>
     operator element_type &() {
         static std::string func2 = "cast from " + type_name() + " to reference";
         return *assert_ptr(func2);
     }
 
+    /*!
+     * \brief element_typeが E[N] の形の場合、要素への参照を返す
+     *
+     * * インデックスが範囲外の場合terminateする。
+     *
+     */
     template <typename T = element_type,
               typename E = typename std::remove_extent<element_type>::type,
               typename std::enable_if<std::is_array<T>::value,
                                       std::nullptr_t>::type = nullptr,
               typename = internal::skip_trace_tag>
-    wrap_auto<E> operator[](std::ptrdiff_t i) {
+    wrap<E &> operator[](std::ptrdiff_t i) {
         static std::string func = type_name() + "::operator[]()";
-        return wrap_auto<E>(&assert_ptr(func)[0][i], observer_);
+        return wrap<E &>(&assert_ptr(func)[0][i], observer_);
     }
 
     wrap<element_type *> operator&() const noexcept {
@@ -334,33 +300,27 @@ element_type &unwrap(const wrap<element_type &> &wrapper,
     return *wrapper.assert_ptr(func);
 }
 
-template <typename element_type>
-element_type &unwrap(const wrap_auto<element_type> &wrapper,
-                     internal::skip_trace_tag = {}) {
-    return unwrap(wrap<element_type &>(wrapper));
-}
-
 /*!
  * \brief ポインタ型wrap: element_type型のデータへのポインタと、
  * このポインタ自体の生存状態を管理するクラス
  *
- * * `operator*`, `operator->`, `operator[]`
- * 時にnullptrチェックと範囲外アクセスチェックをする
- * 使用時にnullptrでないかと範囲外でないかのチェックを行う。
- * * また `operator*`, `operator[]` が返す参照はラップ済み (y3c::wrap_auto)
- * * `T*` にキャストできるがその場合チェックされないので注意
- * * `operator&` で y3c::wrap<T**> が得られる
+ * * 他のy3cライブラリのクラスに `&` をつけることで、
+ * このクラスでラップされたポインタが得られる。
+ *   * 生ポインタなどから wrap<element_type*> へ変換することはできない。
+ * * element_type* にキャストまたは unwrap()
+ * することで生ポインタに変換できるが、
+ * その場合参照先の生存チェックはされないので注意
+ * * `&` をつけると y3c::wrap<element_type**> が得られる
  *
  * \sa ptr, const_ptr, ptr_const, const_ptr_const
  */
 template <typename element_type>
 class wrap<element_type *> {
-  protected:
     element_type *ptr_;
     internal::life_observer observer_;
     internal::life life_;
 
-    virtual const std::string &type_name() const {
+    const std::string &type_name() const {
         return internal::get_type_name<wrap>();
     }
 
@@ -373,6 +333,9 @@ class wrap<element_type *> {
     wrap(element_type *ptr, internal::life_observer observer) noexcept
         : ptr_(ptr), observer_(observer), life_(&ptr_) {}
 
+    /*!
+     * \brief 配列型wrapからのキャスト
+     */
     template <typename T, std::size_t N,
               typename std::enable_if<!std::is_pointer<T>::value &&
                                           !std::is_reference<T>::value,
@@ -380,6 +343,9 @@ class wrap<element_type *> {
     wrap(wrap<T[N]> &array)
         : ptr_(&array.base_[0]), observer_(array.life_.observer()),
           life_(&ptr_) {}
+    /*!
+     * \brief 配列型wrapからのキャスト(const)
+     */
     template <typename T, std::size_t N, typename E = element_type,
               typename std::enable_if<!std::is_pointer<T>::value &&
                                           !std::is_reference<T>::value &&
@@ -389,47 +355,66 @@ class wrap<element_type *> {
         : ptr_(&array.base_[0]), observer_(array.life_.observer()),
           life_(&ptr_) {}
 
+    /*!
+     * \brief 配列の参照型wrapからのキャスト
+     */
     template <typename T, std::size_t N>
     wrap(const wrap<T (&)[N]> &array)
         : ptr_(&array.ptr_[0][0]), observer_(array.observer_), life_(&ptr_) {}
 
+    /*!
+     * \brief デフォルトコンストラクタ: nullptrを指す
+     */
     wrap(std::nullptr_t = nullptr) noexcept
         : ptr_(nullptr), observer_(nullptr), life_(&ptr_) {}
 
+    /*!
+     * \brief ポインタのコピー
+     */
     wrap(const wrap &other)
         : ptr_(other.ptr_), observer_(other.observer_), life_(&ptr_) {}
+    /*!
+     * \brief ポインタのコピー
+     */
     wrap &operator=(const wrap &other) {
         ptr_ = other.ptr_;
         observer_ = other.observer_;
         return *this;
     }
-    virtual ~wrap() = default;
+    ~wrap() = default;
 
+    /*!
+     * \brief 別の型のポインタからの変換
+     */
     template <typename T>
     wrap(const wrap<T *> &ref)
         : ptr_(ref.ptr_), observer_(ref.observer_), life_(&ptr_) {}
-    template <typename T>
-    wrap &operator=(const wrap<T> &ref) {
-        ptr_ = ref.ptr_;
-        observer_ = ref.observer_;
-        return *this;
-    }
 
     template <typename T>
     friend class wrap;
-    template <typename T>
-    friend class wrap_auto;
-    friend element_type *
-    y3c::unwrap<element_type>(const wrap<element_type *> &wrapper) noexcept;
 
-    template <typename = internal::skip_trace_tag>
-    wrap_auto<element_type> operator*() const {
-        std::string func = type_name() + "::operator*()";
-        return wrap_auto<element_type>(assert_ptr(func), observer_);
+    /*!
+     * \brief 要素アクセス
+     *
+     * * 参照先が生きていない場合terminateする。
+     * * 返り値は wrap<element_type&> でラップされた状態で返る。
+     *   * 元のelement_type型に戻すにはさらにキャストするか unwrap() が必要。
+     */
+    template <typename E = element_type, typename = internal::skip_trace_tag>
+    wrap<E &> operator*() const {
+        static std::string func = type_name() + "::operator*()";
+        return wrap<E &>(assert_ptr(func), observer_);
     }
+    /*!
+     * \brief メンバアクセス
+     *
+     * * 参照先が生きていない場合terminateする。
+     * * 返り値は元のelement_type型の参照で返るので、
+     * メンバアクセスは通常のポインタと同様に行える。
+     */
     template <typename = internal::skip_trace_tag>
     element_type *operator->() const {
-        std::string func = type_name() + "::operator->()";
+        static std::string func = type_name() + "::operator->()";
         return assert_ptr(func);
     }
 
@@ -464,12 +449,21 @@ class wrap<element_type *> {
     std::ptrdiff_t operator-(const wrap &other) const {
         return ptr_ - other.ptr_;
     }
-    template <typename = internal::skip_trace_tag>
-    wrap_auto<element_type> operator[](std::ptrdiff_t n) const {
-        std::string func = type_name() + "::operator[]()";
-        return wrap_auto<element_type>((*this + n).assert_ptr(func), observer_);
+    /*!
+     * \brief 要素アクセス
+     *
+     * * `ptr[n]` は `*(ptr + n)` と同じ。
+     * * 参照先が生きていない場合terminateする。
+     */
+    template <typename E = element_type, typename = internal::skip_trace_tag>
+    wrap<E &> operator[](std::ptrdiff_t n) const {
+        static std::string func = type_name() + "::operator[]()";
+        return wrap<E &>((*this + n).assert_ptr(func), observer_);
     }
 
+    /*!
+     * \brief 生ポインタへのキャスト
+     */
     operator element_type *() const noexcept { return ptr_; }
 
     wrap<element_type **> operator&() {
@@ -481,7 +475,7 @@ class wrap<element_type *> {
 };
 template <typename element_type>
 element_type *unwrap(const wrap<element_type *> &wrapper) noexcept {
-    return wrapper.ptr_;
+    return static_cast<element_type *>(wrapper);
 }
 
 template <typename element_type>

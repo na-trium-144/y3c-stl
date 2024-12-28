@@ -1,5 +1,5 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.2.0',
+  version: '0.3.0',
   meson_version: '>=0.56',
   default_options: [
     'cpp_std=c++11',
@@ -12,7 +12,7 @@ cxx = meson.get_compiler('cpp')
 py = find_program('python3')
 cmake = import('cmake')
 
-y3c_soversion = '0.2'
+y3c_soversion = '0.3'
 
 assert(
   get_option('default_library') == 'shared' or get_option('default_library') == 'static',
@@ -188,11 +188,3 @@ endif
 
 subdir('tests')
 subdir('examples')
-
-configure_file(
-  input: examples_dox,
-  output: 'examples.dox',
-  configuration: configuration_data({
-    'line': '',
-  }),
-)

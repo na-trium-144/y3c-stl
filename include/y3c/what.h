@@ -14,10 +14,17 @@ namespace internal {
  *
  */
 namespace what {
-Y3C_DLL std::string Y3C_CALL out_of_range(std::size_t size,
-                                          std::ptrdiff_t index);
-Y3C_DLL const char *Y3C_CALL access_nullptr();
-Y3C_DLL const char *Y3C_CALL access_deleted();
+Y3C_DLL std::string Y3C_CALL ub_out_of_range(std::size_t size,
+                                             std::ptrdiff_t index);
+Y3C_DLL std::string Y3C_CALL ub_out_of_range(std::size_t size,
+                                             std::ptrdiff_t begin,
+                                             std::ptrdiff_t end);
+Y3C_DLL const char *Y3C_CALL ub_access_nullptr();
+Y3C_DLL const char *Y3C_CALL ub_access_deleted();
+Y3C_DLL const char *Y3C_CALL ub_wrong_iter();
+Y3C_DLL const char *Y3C_CALL ub_invalid_iter();
+Y3C_DLL const char *Y3C_CALL ub_iter_after_end();
+Y3C_DLL const char *Y3C_CALL ub_iter_before_begin();
 } // namespace what
 } // namespace internal
 } // namespace y3c

@@ -170,35 +170,6 @@ TEST_CASE("wrap") {
             }
         }
     }
-    SUBCASE("auto") {
-        y3c::array<A, 2> aa{100, 200};
-        y3c::wrap_auto<A> ar = aa[0];
-        CHECK_EQ(unwrap(ar).val, 100);
-        CHECK_EQ(static_cast<A &>(ar).val, 100);
-        CHECK_EQ(&unwrap(ar), &unwrap(aa)[0]);
-        SUBCASE("assign") {
-            SUBCASE("value") {
-                ar = A(200);
-                CHECK_EQ(unwrap(ar).val, 200);
-            }
-            SUBCASE("copy auto") {
-                y3c::wrap_auto<A> ar2 = aa[1];
-                ar = ar2;
-                CHECK_EQ(unwrap(ar).val, 200);
-                CHECK_EQ(unwrap(ar2).val, 200);
-                CHECK_NE(&unwrap(ar), &unwrap(ar2));
-            }
-            SUBCASE("move auto") {
-                y3c::wrap_auto<A> ar2 = aa[1];
-                ar = std::move(ar2);
-                CHECK_EQ(unwrap(ar).val, 200);
-                CHECK_EQ(unwrap(ar2).val, 200);
-                CHECK_NE(&unwrap(ar), &unwrap(ar2));
-            }
-            CHECK_EQ(unwrap(aa[0]).val, 100);
-            CHECK_NE(&unwrap(ar), &unwrap(aa)[0]);
-        }
-    }
     SUBCASE("ptr") {
         SUBCASE("ctor") {
             SUBCASE("same type") {
@@ -217,13 +188,6 @@ TEST_CASE("wrap") {
                 y3c::ptr<A> p(&r);
                 CHECK_EQ(unwrap(p)->val, 100);
                 CHECK_EQ(unwrap(p), &unwrap(r));
-            }
-            SUBCASE("from_auto") {
-                y3c::array<A, 2> aa{100, 200};
-                y3c::wrap_auto<A> ar = aa[0];
-                y3c::ptr<A> p(&ar);
-                CHECK_EQ(unwrap(p)->val, 100);
-                CHECK_EQ(unwrap(p), &unwrap(ar));
             }
             SUBCASE("from array") {
                 y3c::wrap<A[2]> a = {100, 200};
@@ -302,6 +266,7 @@ TEST_CASE("wrap") {
             SUBCASE("delete") {
                 delete a;
                 a = nullptr;
+                CHECK_THROWS_AS(*p, y3c::internal::ub_access_deleted);
                 CHECK_THROWS_AS(p->val, y3c::internal::ub_access_deleted);
             }
             SUBCASE("remains on") {

@@ -6,82 +6,32 @@ C++初心者におすすめです。
 Linux, MacOS, Windows (MSVC, MinGW) で動作確認しています。
 スタックトレースの取得と表示に関しては [cpptrace](https://github.com/jeremy-rifkin/cpptrace) ライブラリを使用しています。
 
-例えば範囲外アクセス:
-```cpp
-#include <y3c/array> // <- instead of #include <array>
+## Example
 
-int main() {
-    y3c::array<int, 5> a; // <- instead of std::array<int, 5>
-    a[100] = 42;  // this would be undefined behavior, but...
-}
-```
-↓
-```
-y3c-stl terminated: undefined behavior detected
-  at y3c::array::operator[](): attempted to access index 100, that is outside the bounds of size 5.
-Stack trace (most recent call first):
-#0 0x0000000104f6a16f in main at /Users/kou/projects/y3c-stl/build/../examples/array-operator.cc:5:5
-       3: int main() {
-       4:     y3c::array<int, 5> a;
-       5:     a[100] = 42;
-       6: }
-Abort trap: 6
-```
-
-イテレータや参照、ポインタなどを雑に使っても大丈夫です。
-(生参照や生ポインタはさすがに対策できないのでそれらと同等の `y3c::wrap<T&>`, `y3c::wrap<T*>` を用意しています)
 ```cpp
-#include <y3c/array>
+#include <y3c/vector>  // <= instead of <vector>
 #include <iostream>
-
+ 
 int main() {
-    y3c::array<int, 5> a = {1, 2, 3, 4, 5};
-    y3c::array<int, 5>::iterator it = a.begin();
-    it += 10;
-    std::cout << *it << std::endl;
+    y3c::vector<int> a = {1, 2, 3, 4, 5};  // <= instead of std::vector<int>
+    y3c::vector<int>::iterator it = a.begin();
+    a.resize(100);                  // reallocation occurs here and
+    std::cout << *it << std::endl;  // <= this would be undefined behavior, but...
 }
 ```
 ↓
 ```
-y3c-stl terminated: undefined behavior detected
-  at y3c::array::iterator::operator*(): attempted to access index 10, that is outside the bounds of size 5.
+y3c-stl terminated: undefined behavior detected (ub_access_deleted)
+  at y3c::vector<int>::iterator::operator*(): attempted to access the deleted value.
 Stack trace (most recent call first):
-#0 0x0000000102929573 in main at /Users/kou/projects/y3c-stl/build/../examples/array-iter.cc:8:18
-       6:     y3c::array<int, 5>::iterator it = a.begin();
-       7:     it += 10;
+#0 0x000056364363f72e in main at /home/runner/work/y3c-stl/y3c-stl/build/../examples/vector-iter-reallocate.cc:8:18
+       6:     y3c::vector<int>::iterator it = a.begin();
+       7:     a.resize(100);
        8:     std::cout << *it << std::endl;
        9: }
-Abort trap: 6
 ```
 
-また、範囲外だけでなく寿命切れやnullptrアクセスなど他の未定義動作も対策済みです。
-```cpp
-#include <y3c/array>
-#include <iostream>
-
-int main() {
-    y3c::ptr<int> p;  // <- instead of int &p;
-    {
-        y3c::array<int, 5> a;
-        p = &a[3];
-        std::cout << *p << std::endl;
-    }
-    std::cout << *p << std::endl;
-}
-```
-↓
-```
-0
-y3c-stl terminated: undefined behavior detected
-  at y3c::ptr::operator*(): attempted to access the deleted value.
-Stack trace (most recent call first):
-#0 0x0000000100195337 in main at /Users/kou/projects/y3c-stl/build/../examples/array-ptr-local.cc:11:18
-       9:         std::cout << *p << std::endl;
-      10:     }
-      11:     std::cout << *p << std::endl;
-      12: }
-Abort trap: 6
-```
+[こちら](https://na-trium-144.github.io/y3c-stl/examples.html)から他のサンプルコードと実行結果の例を見ることができます。
 
 ## インストール
 
@@ -117,8 +67,7 @@ Linux,Macの場合は何も指定せずデフォルトのまま (`/usr/local` �
 * Linux,Macでインストール先がデフォルトの場合は `-ly3c` を渡せばよいです。
     * インストール先を変更している場合は `-I/path/to/y3c/include -L/path/to/y3c/lib -ly3c` などとパスも指定する必要があります。
 * Windows MSVCの場合は `/IC:\path\to\y3c\include` と `/libpath:C:\path\to\y3c\lib` でパスを指定し、
-`y3c.lib`(releaseビルドの場合) または `y3cd.lib`(debugビルドの場合) を渡せば良いです。
-両方渡せば確実です(内部でnamespaceを分けているので混ぜても問題ありません)。
+`y3c.lib`(releaseビルドの場合) または `y3cd.lib`(debugビルドの場合) を渡してください。
 
 ### pkg-config
 
@@ -182,6 +131,8 @@ y3c:: のラッパークラス以外が投げた標準のexceptionや、直接 `
         * y3c::const_ptr_const&lt;T&gt; = `const y3c::wrap<const T*>`
 * `#include <y3c/array>`
     * [y3c::array&lt;T, N&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1array.html) ← `std::array<T, N>`
+* `#include <y3c/vector>`
+    * [y3c::vector&lt;T&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1vector.html) ← `std::vector<T>`
 * `#include <y3c/memory>`
     * [y3c::shared_ptr&lt;T&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1shared__ptr.html) ← `std::shared_ptr<T>`
         * y3c::make_shared&lt;T&gt;() ← `std::make_shared<T>()`
