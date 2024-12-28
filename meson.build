@@ -1,5 +1,5 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.3.1',
+  version: '0.3.2',
   meson_version: '>=1.1',
   default_options: [
     'cpp_std=c++11',
@@ -100,6 +100,7 @@ else
 endif
 
 cpptrace_dep = dependency('cpptrace')
+libdwarf_dep = dependency('libdwarf')
 rang_dep = dependency('rang')
 
 y3c_inc = include_directories('include')
@@ -127,6 +128,7 @@ y3c_lib = library(y3c_lib_name,
   dependencies: [
     y3c_config_dep,
     cpptrace_dep,
+    libdwarf_dep,
     rang_dep,
   ],
   version: meson.project_version(),
