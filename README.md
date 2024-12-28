@@ -67,8 +67,7 @@ Linux,Macの場合は何も指定せずデフォルトのまま (`/usr/local` �
 * Linux,Macでインストール先がデフォルトの場合は `-ly3c` を渡せばよいです。
     * インストール先を変更している場合は `-I/path/to/y3c/include -L/path/to/y3c/lib -ly3c` などとパスも指定する必要があります。
 * Windows MSVCの場合は `/IC:\path\to\y3c\include` と `/libpath:C:\path\to\y3c\lib` でパスを指定し、
-`y3c.lib`(releaseビルドの場合) または `y3cd.lib`(debugビルドの場合) を渡せば良いです。
-両方渡せば確実です(内部でnamespaceを分けているので混ぜても問題ありません)。
+`y3c.lib`(releaseビルドの場合) または `y3cd.lib`(debugビルドの場合) を渡してください。
 
 ### pkg-config
 
