@@ -35,6 +35,16 @@ Stack trace (most recent call first):
 
 ## インストール
 
+### Homebrew (MacOS, Linux)
+
+```sh
+brew tap na-trium-144/y3c
+brew install y3c-stl
+```
+でインストールできます。
+
+### ソースからビルド
+
 Meson (>=1.1) をインストールしてください。
 
 * Ubuntu: `pip install meson` または `sudo apt install meson`
@@ -52,7 +62,7 @@ meson install -Cbuild --skip-subprojects
 ```
 
 Windowsの場合は meson setup 時の引数で `-Dprefix=C:/Users/hoge/y3c` などとインストール先を指定するとよいです。
-Linux,Macの場合は何も指定せずデフォルトのまま (`/usr/local` など) がおすすめです。
+Linux,Macの場合は特にこだわりがなければ何も指定せずデフォルトのまま (`/usr/local` など) がおすすめです。
 
 また、Windows MSVC の場合はdebugビルド(デフォルト)とreleaseビルド(meson setup 時に `-Dbuildtype=release` を指定)の両方をインストールする必要があります。
 
@@ -64,15 +74,18 @@ Linux,Macの場合は何も指定せずデフォルトのまま (`/usr/local` �
 
 ### 直接コンパイラの引数で指定
 
-* Linux,Macでインストール先がデフォルトの場合は `-ly3c` を渡せばよいです。
+* Linux,Macでインストール先がデフォルトの場合は `-ly3c` と `-g` を渡せばよいです。
     * インストール先を変更している場合は `-I/path/to/y3c/include -L/path/to/y3c/lib -ly3c` などとパスも指定する必要があります。
+    * `-g` はなくてもビルドできますが、スタックトレースが表示されなくなります。
+* コンパイラによってはさらに `-std=c++11` またはそれ以上がないとコンパイルエラーになる場合があります。
 * Windows MSVCの場合は `/IC:\path\to\y3c\include` と `/libpath:C:\path\to\y3c\lib` でパスを指定し、
 `y3c.lib`(releaseビルドの場合) または `y3cd.lib`(debugビルドの場合) を渡してください。
 
 ### pkg-config
 
-* コンパイラの引数に `$(pkg-config --cflags --libs y3c)` を渡せば良いです。
+* コンパイラの引数に `$(pkg-config --cflags --libs y3c)` と `-g` を渡せば良いです。
     * インストール先を変更している場合は `PKG_CONFIG_PATH` 環境変数に `/path/to/y3c/lib/pkgconfig` などを追加する必要があります。
+* コンパイラによってはさらに `-std=c++11` またはそれ以上がないとコンパイルエラーになる場合があります。
 
 ### CMake
 
