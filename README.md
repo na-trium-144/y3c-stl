@@ -182,6 +182,8 @@ y3c:: のラッパークラス以外が投げた標準のexceptionや、直接 `
         * y3c::const_ptr_const&lt;T&gt; = `const y3c::wrap<const T*>`
 * `#include <y3c/array>`
     * [y3c::array&lt;T, N&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1array.html) ← `std::array<T, N>`
+* `#include <y3c/vector>`
+    * [y3c::vector&lt;T&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1vector.html) ← `std::vector<T>`
 * `#include <y3c/memory>`
     * [y3c::shared_ptr&lt;T&gt;](https://na-trium-144.github.io/y3c-stl/classy3c_1_1shared__ptr.html) ← `std::shared_ptr<T>`
         * y3c::make_shared&lt;T&gt;() ← `std::make_shared<T>()`

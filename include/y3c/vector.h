@@ -8,18 +8,16 @@
 
 namespace y3c {
 
-template <typename T>
-class vector;
-
-template <typename T>
-const std::vector<T> &unwrap(const vector<T> &wrapper) noexcept {
-    return wrapper.base_;
-}
-
 /*!
- * \todo
- * * std::length_error
+ * \brief 可変長配列 (std::vector)
  *
+ * * キャストするか unwrap() することで std::vector<T>
+ * (のconst参照)に戻せる。
+ *   * std::vector<T>
+ * のconstでない参照で取得して変更を加えることはできないようにしている。
+ *
+ * \sa [vector -
+ * cpprefjp](https://cpprefjp.github.io/reference/vector/vector.html)
  */
 template <typename T>
 class vector {
@@ -104,8 +102,8 @@ class vector {
     /*!
      * \brief ムーブ構築
      *
-     * ムーブ元の領域を自分のものとする。
-     * ムーブ元を指していたイテレータは有効のまま
+     * * ムーブ元の領域を自分のものとする。
+     * * ムーブ元を指していたイテレータは有効のまま
      *
      */
     vector(vector &&other)
@@ -114,7 +112,7 @@ class vector {
     /*!
      * \brief すべての要素をコピー
      *
-     * 既存のイテレータは無効になる
+     * * このコンテナの既存のイテレータは無効になる
      *
      */
     vector &operator=(const vector &other) {
@@ -125,7 +123,8 @@ class vector {
     /*!
      * \brief すべての要素をムーブ
      *
-     * ムーブ元を指していたイテレータは有効のまま
+     * * このコンテナの既存のイテレータは無効になる
+     * * ムーブ元を指していたイテレータは有効のまま
      *
      */
     vector &operator=(vector &&other) {
@@ -136,8 +135,6 @@ class vector {
         return *this;
     }
     ~vector() = default;
-
-    friend const std::vector<T> &y3c::unwrap<>(const vector<T> &) noexcept;
 
     using value_type = T;
     using size_type = std::size_t;
@@ -150,22 +147,22 @@ class vector {
     using const_iterator = internal::contiguous_iterator<const T>;
 
     /*!
-     * \brief コピー構築
+     * \brief std::vectorからコピー構築
      */
     vector(const std::vector<T> &other) : base_(other), life_(this) {
         init_elems_life();
     }
     /*!
-     * \brief ムーブ構築
+     * \brief std::vectorからムーブ構築
      */
     vector(const std::vector<T> &&other)
         : base_(std::move(other)), life_(this) {
         init_elems_life();
     }
     /*!
-     * \brief コピー代入
+     * \brief std::vectorからのコピー代入
      *
-     * 既存のイテレータは無効になる
+     * * 既存のイテレータは無効になる
      *
      */
     vector &operator=(const std::vector<T> &other) {
@@ -174,7 +171,9 @@ class vector {
         return *this;
     }
     /*!
-     * \brief ムーブ代入
+     * \brief std::vectorからのムーブ代入
+     *
+     * * 既存のイテレータは無効になる
      *
      */
     vector &operator=(std::vector<T> &&other) {
@@ -211,7 +210,7 @@ class vector {
     /*!
      * \brief initialization_listの代入
      *
-     * 既存のイテレータは無効になる
+     * * 既存のイテレータは無効になる
      */
     vector &operator=(std::initializer_list<T> ilist) {
         base_ = ilist;
@@ -222,7 +221,7 @@ class vector {
     /*!
      * \brief サイズと値を指定して要素を置き換える
      *
-     * 既存のイテレータは無効になる
+     * * 既存のイテレータは無効になる
      *
      */
     void assign(size_type count, const T &value) {
@@ -232,7 +231,7 @@ class vector {
     /*!
      * \brief イテレータからのコピーで要素を置き換える
      *
-     * 既存のイテレータは無効になる
+     * * 既存のイテレータは無効になる
      *
      */
     template <typename InputIt>
@@ -243,7 +242,7 @@ class vector {
     /*!
      * \brief initializer_listで要素を置き換える
      *
-     * 既存のイテレータは無効になる
+     * * 既存のイテレータは無効になる
      *
      */
     void assign(std::initializer_list<T> ilist) {
@@ -253,7 +252,7 @@ class vector {
     /*!
      * \brief 要素のクリア
      *
-     * 既存のイテレータは無効になる
+     * * 既存のイテレータは無効になる
      *
      */
     void clear() {
@@ -264,7 +263,7 @@ class vector {
     /*!
      * \brief 領域の確保
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる
      *
      */
     void reserve(size_type new_cap) {
@@ -274,7 +273,7 @@ class vector {
     /*!
      * \brief 容量の縮小
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる
      *
      */
     void shrink_to_fit() {
@@ -284,8 +283,11 @@ class vector {
 
     /*!
      * \brief 要素の削除
+     * \param pos 削除する位置を指すイテレータ
+     * \return 削除した次の要素を指すイテレータ
      *
-     * 削除した位置以降を指していたイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 削除した位置以降を指していたイテレータは無効になる
      *
      */
     iterator erase(const_iterator pos, internal::skip_trace_tag = {}) {
@@ -298,6 +300,12 @@ class vector {
     }
     /*!
      * \brief 要素の削除
+     * \param begin,end 削除する範囲を指すイテレータ
+     * \return 削除した次の要素を指すイテレータ
+     *
+     * * 指定した範囲が無効であったりこのvectorのものでない場合terminateする。
+     * * 削除した位置以降を指していたイテレータは無効になる
+     *
      */
     iterator erase(const_iterator begin, const_iterator end,
                    internal::skip_trace_tag = {}) {
@@ -316,9 +324,11 @@ class vector {
     }
     /*!
      * \brief 要素の追加
+     * \param value 追加する要素(コピー)
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、end()を指していたもののみ無効になる
+     *
      */
     void push_back(const T &value) {
         base_.push_back(value);
@@ -326,9 +336,11 @@ class vector {
     }
     /*!
      * \brief 要素の追加
+     * \param value 追加する要素(ムーブ)
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、end()を指していたもののみ無効になる
+     *
      */
     void push_back(T &&value) {
         base_.push_back(std::move(value));
@@ -336,9 +348,11 @@ class vector {
     }
     /*!
      * \brief 要素の追加
+     * \param args 追加する要素のコンストラクタ引数
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、end()を指していたもののみ無効になる
+     *
      */
     template <typename... Args>
     reference emplace_back(Args &&...args) {
@@ -349,9 +363,14 @@ class vector {
 
     /*!
      * \brief 要素の挿入
+     * \param pos 挿入する位置を指すイテレータ
+     * \param value 挿入する要素(コピー)
+     * \return 挿入された要素を指すイテレータ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、挿入位置以降が無効になる
+     *
      */
     iterator insert(const_iterator pos, const T &value,
                     internal::skip_trace_tag = {}) {
@@ -364,9 +383,14 @@ class vector {
     }
     /*!
      * \brief 要素の挿入
+     * \param pos 挿入する位置を指すイテレータ
+     * \param value 挿入する要素(ムーブ)
+     * \return 挿入された要素を指すイテレータ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、挿入位置以降が無効になる
+     *
      */
     iterator insert(const_iterator pos, T &&value,
                     internal::skip_trace_tag = {}) {
@@ -379,9 +403,15 @@ class vector {
     }
     /*!
      * \brief 要素の挿入
+     * \param pos 挿入する位置を指すイテレータ
+     * \param count 挿入する個数
+     * \param value 挿入する要素(コピー)
+     * \return 挿入された要素を指すイテレータ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、挿入位置以降が無効になる
+     *
      */
     iterator insert(const_iterator pos, size_type count, const T &value,
                     internal::skip_trace_tag = {}) {
@@ -394,9 +424,14 @@ class vector {
     }
     /*!
      * \brief 要素の挿入
+     * \param pos 挿入する位置を指すイテレータ
+     * \param first,end 挿入する要素(別の配列など)を指すイテレータ
+     * \return 挿入された要素を指すイテレータ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、挿入位置以降が無効になる
+     *
      */
     template <typename InputIt,
               typename std::enable_if<
@@ -415,9 +450,14 @@ class vector {
     }
     /*!
      * \brief 要素の挿入
+     * \param pos 挿入する位置を指すイテレータ
+     * \param ilist 挿入する要素
+     * \return 挿入された要素を指すイテレータ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、挿入位置以降が無効になる
+     *
      */
     iterator insert(const_iterator pos, std::initializer_list<T> ilist,
                     internal::skip_trace_tag = {}) {
@@ -430,9 +470,14 @@ class vector {
     }
     /*!
      * \brief 要素の挿入
+     * \param pos 挿入する位置を指すイテレータ
+     * \param args 挿入する要素のコンストラクタ引数
+     * \return 挿入された要素を指すイテレータ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 指定した位置が無効であったりこのvectorのものでない場合terminateする。
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、挿入位置以降が無効になる
+     *
      */
     template <typename... Args, typename = internal::skip_trace_tag>
     iterator emplace(const_iterator pos, Args &&...args) {
@@ -446,8 +491,9 @@ class vector {
 
     /*!
      * \brief サイズを変更
+     * \param count 配列サイズ
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、削除された要素とend()を指すもののみ無効になる
      */
     void resize(size_type count) {
@@ -456,8 +502,10 @@ class vector {
     }
     /*!
      * \brief サイズを変更
+     * \param count 配列サイズ
+     * \param value サイズの増加分に挿入される要素
      *
-     * 再割り当てが発生した場合、既存のイテレータは無効になる
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる。
      * そうでない場合、削除された要素とend()を指すもののみ無効になる
      */
     void resize(size_type count, const T &value) {
@@ -468,7 +516,7 @@ class vector {
     /*!
      * \brief 末尾の要素を削除
      *
-     * 最後の要素とend()を指すイテレータは無効になる
+     * * 最後の要素とend()を指すイテレータは無効になる
      *
      */
     void pop_back(internal::skip_trace_tag = {}) {
@@ -480,6 +528,12 @@ class vector {
         update_elems_life();
     }
 
+    /*!
+     * \brief 要素アクセス
+     *
+     * * インデックスが範囲外の場合、 out_of_range を投げる。
+     *
+     */
     reference at(size_type n, internal::skip_trace_tag = {}) {
         if (n >= base_.size()) {
             static std::string func = type_name() + "::at()";
@@ -488,6 +542,12 @@ class vector {
         }
         return reference(&this->base_[n], elems_life_->observer());
     }
+    /*!
+     * \brief 要素アクセス(const)
+     *
+     * * インデックスが範囲外の場合、 out_of_range を投げる。
+     *
+     */
     const_reference at(size_type n, internal::skip_trace_tag = {}) const {
         if (n >= base_.size()) {
             static std::string func = type_name() + "::at()";
@@ -496,6 +556,12 @@ class vector {
         }
         return const_reference(&this->base_[n], elems_life_->observer());
     }
+    /*!
+     * \brief 要素アクセス
+     *
+     * * インデックスが範囲外の場合terminateする。
+     *
+     */
     template <typename = internal::skip_trace_tag>
     reference operator[](size_type n) {
         if (n >= base_.size()) {
@@ -505,6 +571,12 @@ class vector {
         }
         return reference(&this->base_[n], elems_life_->observer());
     }
+    /*!
+     * \brief 要素アクセス(const)
+     *
+     * * インデックスが範囲外の場合terminateする。
+     *
+     */
     template <typename = internal::skip_trace_tag>
     const_reference operator[](size_type n) const {
         if (n >= base_.size()) {
@@ -514,6 +586,12 @@ class vector {
         }
         return const_reference(&this->base_[n], elems_life_->observer());
     }
+    /*!
+     * \brief 先頭の要素へのアクセス
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
     reference front(internal::skip_trace_tag = {}) {
         if (base_.empty()) {
             static std::string func = type_name() + "::front()";
@@ -521,6 +599,12 @@ class vector {
         }
         return reference(&base_.front(), elems_life_->observer());
     }
+    /*!
+     * \brief 先頭の要素へのアクセス(const)
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
     const_reference front(internal::skip_trace_tag = {}) const {
         if (base_.empty()) {
             static std::string func = type_name() + "::front()";
@@ -528,6 +612,12 @@ class vector {
         }
         return const_reference(&base_.front(), elems_life_->observer());
     }
+    /*!
+     * \brief 末尾の要素へのアクセス
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
     reference back(internal::skip_trace_tag = {}) {
         if (base_.empty()) {
             static std::string func = type_name() + "::back()";
@@ -535,6 +625,12 @@ class vector {
         }
         return reference(&base_.back(), elems_life_->observer());
     }
+    /*!
+     * \brief 末尾の要素へのアクセス(const)
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
     const_reference back(internal::skip_trace_tag = {}) const {
         if (base_.empty()) {
             static std::string func = type_name() + "::back()";
@@ -543,12 +639,24 @@ class vector {
         return const_reference(&base_.back(), elems_life_->observer());
     }
 
+    /*!
+     * \brief 先頭要素へのポインタを取得
+     *
+     * * サイズが0の場合無効なポインタを返す。
+     *
+     */
     pointer data() {
         if (base_.empty()) {
             return pointer(nullptr, elems_life_->observer());
         }
         return pointer(&this->base_[0], elems_life_->observer());
     }
+    /*!
+     * \brief 先頭要素へのconstポインタを取得
+     *
+     * * サイズが0の場合無効なポインタを返す。
+     *
+     */
     const_pointer data() const {
         if (base_.empty()) {
             return const_pointer(nullptr, elems_life_->observer());
@@ -556,6 +664,12 @@ class vector {
         return const_pointer(&this->base_[0], elems_life_->observer());
     }
 
+    /*!
+     * \brief 先頭要素を指すイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
     iterator begin() {
         if (base_.empty()) {
             return iterator(nullptr, elems_life_->observer(), &iter_name());
@@ -563,6 +677,12 @@ class vector {
         return iterator(&this->base_.front(), elems_life_->observer(),
                         &iter_name());
     }
+    /*!
+     * \brief 先頭要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
     const_iterator begin() const {
         if (base_.empty()) {
             return const_iterator(nullptr, elems_life_->observer(),
@@ -571,22 +691,69 @@ class vector {
         return const_iterator(&this->base_.front(), elems_life_->observer(),
                               &iter_name());
     }
+    /*!
+     * \brief 先頭要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
     const_iterator cbegin() const { return begin(); }
+    /*!
+     * \brief 末尾要素を指すイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
     iterator end() { return begin() + base_.size(); }
+    /*!
+     * \brief 末尾要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
     const_iterator end() const { return begin() + base_.size(); }
+    /*!
+     * \brief 末尾要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
     const_iterator cend() const { return begin() + base_.size(); }
 
+    /*!
+     * \brief sizeが0かどうかを返す
+     */
     bool empty() const { return base_.empty(); }
+    /*!
+     * \brief 配列のサイズを取得
+     */
     size_type size() const { return base_.size(); }
+    /*!
+     * \brief 配列の最大サイズを取得
+     */
     size_type max_size() const { return base_.max_size(); }
+    /*!
+     * \brief 現在のメモリ確保済みのサイズを取得
+     */
     size_type capacity() const { return base_.capacity(); }
 
+    /*!
+     * \brief 別のvectorと要素を入れ替える
+     *
+     * * 双方のend()を指す既存のイテレータは無効になる。
+     *
+     */
     void swap(vector &other) {
         base_.swap(other.base_);
         elems_life_.swap(other.elems_life_);
         update_elems_life(&base_[0] + base_.size());
         other.update_elems_life(&other.base_[0] + other.base_.size());
     }
+
+    /*!
+     * \brief const std::vector へのキャスト
+     */
+    operator const std::vector<T> &() const noexcept { return base_; }
 
     operator wrap<const vector &>() const noexcept {
         return wrap<const vector &>(this, life_.observer());
@@ -595,6 +762,11 @@ class vector {
         return wrap<const vector *>(this, life_.observer());
     }
 };
+
+template <typename T>
+const std::vector<T> &unwrap(const vector<T> &wrapper) noexcept {
+    return static_cast<const std::vector<T> &>(wrapper);
+}
 
 template <typename T>
 void swap(vector<T> &lhs, vector<T> &rhs) {
