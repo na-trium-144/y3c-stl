@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"namespacey3c.html#a6b6b11180abf38581b6c036e5860bf78":[1,0,0,42],
+"namespacey3c.html#a7b4c5a14939eaa9f6f90bc83741ced62":[1,0,0,39],
 "namespacey3c.html#a7d7d1a95294560fe7fc38e69997033d4":[1,0,0,35],
 "namespacey3c.html#a8346079838cccaa1d48931389724d715":[1,0,0,30],
 "namespacey3c.html#a83b97b7ff55bd7b8da1aa1279c2168f7":[1,0,0,26],
