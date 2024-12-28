@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.3.0</span>
    </div>
    <div id="projectbrief">C++ STL wrapper that provide friendly error message and automatic stacktrace.</div>
   </td>
@@ -122,7 +122,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a> std:: の標準ライブラリの代わりに <a class="el" href="namespacey3c.html">y3c</a>:: 以下のクラスを使うことで、例外がcatchされなかった場合や未定義動作の代わりにわかりやすいエラーメッセージとスタックトレースを表示します。 C++初心者におすすめです。</p>
 <p>Linux, MacOS, Windows (MSVC, MinGW) で動作確認しています。 スタックトレースの取得と表示に関しては <a href="https://github.com/jeremy-rifkin/cpptrace">cpptrace</a> ライブラリを使用しています。</p>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md1"></a>
 Example</h1>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;y3c/vector&gt;</span>  <span class="comment">// &lt;= instead of &lt;vector&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
@@ -140,13 +140,13 @@ Example</h1>
 </div><!-- fragment --><p> ↓ </p><div class="fragment"><div class="line">y3c-stl terminated: undefined behavior detected (ub_access_deleted)</div>
 <div class="line">  at y3c::vector&lt;int&gt;::iterator::operator*(): attempted to access the deleted value.</div>
 <div class="line">Stack trace (most recent call first):</div>
-<div class="line">#0 0x0000000100ea5f7b in main at /Users/kou/projects/y3c-stl/build/../examples/vector-iter-reallocate.cc:8:18</div>
+<div class="line">#0 0x000056364363f72e in main at /home/runner/work/y3c-stl/y3c-stl/build/../examples/vector-iter-reallocate.cc:8:18</div>
 <div class="line">       6:     y3c::vector&lt;int&gt;::iterator it = a.begin();</div>
 <div class="line">       7:     a.resize(100);</div>
 <div class="line">       8:     std::cout &lt;&lt; *it &lt;&lt; std::endl;</div>
 <div class="line">       9: }</div>
 </div><!-- fragment --><p><a href="https://na-trium-144.github.io/y3c-stl/examples.html">こちら</a>から他のサンプルコードと実行結果の例を見ることができます。</p>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md2"></a>
 インストール</h1>
 <p>Meson (&gt;=0.56) をインストールしてください。</p>
 <ul>
@@ -162,7 +162,7 @@ Example</h1>
 <div class="line">meson install -Cbuild --skip-subprojects</div>
 </div><!-- fragment --><p>Windowsの場合は meson setup 時の引数で <code>-Dprefix=C:/Users/hoge/y3c</code> などとインストール先を指定するとよいです。 Linux,Macの場合は何も指定せずデフォルトのまま (<code>/usr/local</code> など) がおすすめです。</p>
 <p>また、Windows MSVC の場合はdebugビルド(デフォルト)とreleaseビルド(meson setup 時に <code>-Dbuildtype=release</code> を指定)の両方をインストールする必要があります。</p>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 使い方</h1>
 <ul>
 <li>y3c-stlは <a class="el" href="namespacey3c.html">y3c</a> という名前の共有ライブラリとなっているのでそれをリンクするだけでokです。<ul>
@@ -171,16 +171,16 @@ Example</h1>
 </li>
 <li>また、Windowsの場合はy3cのdllファイル(インストール場所のbinディレクトリにあります)を実行ファイルと同じディレクトリにコピーするか、PATHを通す必要があります。</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 直接コンパイラの引数で指定</h2>
 <ul>
 <li>Linux,Macでインストール先がデフォルトの場合は <code>-ly3c</code> を渡せばよいです。<ul>
 <li>インストール先を変更している場合は <code>-I/path/to/y3c/include -L/path/to/y3c/lib -ly3c</code> などとパスも指定する必要があります。</li>
 </ul>
 </li>
-<li>Windows MSVCの場合は <code>/IC:\path\to\<a class="el" href="namespacey3c.html">y3c</a>\include</code> と <code>/libpath:C:\path\to\<a class="el" href="namespacey3c.html">y3c</a>\lib</code> でパスを指定し、 <code>y3c.lib</code>(releaseビルドの場合) または <code>y3cd.lib</code>(debugビルドの場合) を渡せば良いです。 両方渡せば確実です(内部でnamespaceを分けているので混ぜても問題ありません)。</li>
+<li>Windows MSVCの場合は <code>/IC:\path\to\<a class="el" href="namespacey3c.html">y3c</a>\include</code> と <code>/libpath:C:\path\to\<a class="el" href="namespacey3c.html">y3c</a>\lib</code> でパスを指定し、 <code>y3c.lib</code>(releaseビルドの場合) または <code>y3cd.lib</code>(debugビルドの場合) を渡してください。</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 pkg-config</h2>
 <ul>
 <li>コンパイラの引数に <code>$(pkg-config --cflags --libs <a class="el" href="namespacey3c.html">y3c</a>)</code> を渡せば良いです。<ul>
@@ -188,15 +188,15 @@ pkg-config</h2>
 </ul>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 CMake</h2>
 <div class="fragment"><div class="line">find_package(y3c REQUIRED)</div>
 <div class="line">target_link_libraries(your_target y3c::y3c)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
 Meson</h2>
 <div class="fragment"><div class="line">y3c_dep = dependency(&#39;y3c&#39;)</div>
 <div class="line">executable(&#39;your_target&#39;, ..., dependencies: y3c_dep)</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
 仕様</h1>
 <ul>
 <li>std:: 以下の各種クラスの代わりに <a class="el" href="namespacey3c.html">y3c</a>:: 以下のクラスで置き換えることで、よくある例外や未定義動作についていろいろな追加のチェックが実行時に行われます。<ul>
@@ -212,7 +212,7 @@ Meson</h2>
 <li>未定義動作を起こすパターンの場合、エラーメッセージとスタックトレースを表示した後 abort() します。</li>
 <li>スタックトレースの表示処理は <code>std::set_terminate()</code> に登録したハンドラーの中で行っているため、 <a class="el" href="namespacey3c.html">y3c</a>:: のラッパークラス以外が投げた標準のexceptionや、直接 <code>std::terminate()</code> を呼び出した場合もスタックトレースが表示できる場合があります。</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 チェック対象の処理</h2>
 <ul>
 <li>nullptrアクセスのチェック</li>
@@ -220,7 +220,7 @@ Meson</h2>
 <li>寿命が切れた値へのアクセスのチェック</li>
 </ul>
 <p>ただしいずれもチェックされる条件として生ポインタや参照の代わりに <code><a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">y3c::ptr</a></code>, <code><a class="el" href="namespacey3c.html#a1a9c684f0c77ee6384afa377ea4b2e9b">y3c::wrap_ref</a></code> などを使用することに加えて、 アクセスする対象も <a class="el" href="namespacey3c.html">y3c</a>:: のクラスまたは <code><a class="el" href="classy3c_1_1wrap.html" title="値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス">y3c::wrap</a></code> でラップされている必要があります</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 実装済みの関数、クラス一覧</h2>
 <p>リンクはDoxygenによるドキュメントへのリンクです。</p>
 <ul>
@@ -258,7 +258,7 @@ Meson</h2>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 ライセンス</h1>
 <p>y3c-stlはMITライセンスの下で公開されています。</p>
 <p>依存ライブラリとして <a href="https://github.com/jeremy-rifkin/cpptrace">cpptrace</a> (MITライセンス), <a href="https://github.com/davea42/libdwarf-code">libdwarf</a> (LGPL) を使用しています。 </p>
@@ -268,7 +268,7 @@ Meson</h2>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 12:12:06 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

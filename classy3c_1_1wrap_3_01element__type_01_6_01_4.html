@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.2.0</span>
+   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.3.0</span>
    </div>
    <div id="projectbrief">C++ STL wrapper that provide friendly error message and automatic stacktrace.</div>
   </td>
@@ -128,51 +128,10 @@ $(document).ready(function(){initNavTree('classy3c_1_1wrap_3_01element__type_01_
 <p>参照型wrap: element_type型のデータへの参照を持つクラス  
  <a href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="install_2include_2y3c_2wrap_8h_source.html">/home/runner/work/y3c-stl/y3c-stl/install/include/y3c/wrap.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="wrap_8h_source.html">y3c/wrap.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aeb89f9a9ea754deca189f02b8225c5a5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#aeb89f9a9ea754deca189f02b8225c5a5">wrap</a> (element_type *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>, <a class="el" href="classy3c_1_1internal_1_1life__observer.html">internal::life_observer</a> observer) noexcept</td></tr>
-<tr class="separator:aeb89f9a9ea754deca189f02b8225c5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7d0a4b1da687050d9f6b9d788e92114"><td class="memTemplParams" colspan="2">template&lt;typename T , typename std::enable_if&lt;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; T &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </td></tr>
-<tr class="memitem:ae7d0a4b1da687050d9f6b9d788e92114"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#ae7d0a4b1da687050d9f6b9d788e92114">wrap</a> (<a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; T &gt; &amp;wrapper)</td></tr>
-<tr class="memdesc:ae7d0a4b1da687050d9f6b9d788e92114"><td class="mdescLeft">&#160;</td><td class="mdescRight">値型wrapの参照  <br /></td></tr>
-<tr class="separator:ae7d0a4b1da687050d9f6b9d788e92114"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd2bef4e6e235fa4c12fb0652c668029"><td class="memTemplParams" colspan="2">template&lt;typename T , typename E  = element_type, typename std::enable_if&lt;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; T &gt;::value &amp;&amp;std::is_const&lt; E &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </td></tr>
-<tr class="memitem:acd2bef4e6e235fa4c12fb0652c668029"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#acd2bef4e6e235fa4c12fb0652c668029">wrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; T &gt; &amp;wrapper)</td></tr>
-<tr class="memdesc:acd2bef4e6e235fa4c12fb0652c668029"><td class="mdescLeft">&#160;</td><td class="mdescRight">値型wrapの参照(const)  <br /></td></tr>
-<tr class="separator:acd2bef4e6e235fa4c12fb0652c668029"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad73f062846ec2842360f37839499a03a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad73f062846ec2842360f37839499a03a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#ad73f062846ec2842360f37839499a03a">wrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; T &amp; &gt; &amp;ref) noexcept</td></tr>
-<tr class="memdesc:ad73f062846ec2842360f37839499a03a"><td class="mdescLeft">&#160;</td><td class="mdescRight">参照型wrapのコピー: 同じものを参照する  <br /></td></tr>
-<tr class="separator:ad73f062846ec2842360f37839499a03a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf3564406dd0bfe4aaf3450268da8bdd"><td class="memTemplParams" colspan="2">template&lt;typename V , typename  = internal::skip_trace_tag&gt; </td></tr>
-<tr class="memitem:adf3564406dd0bfe4aaf3450268da8bdd"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#adf3564406dd0bfe4aaf3450268da8bdd">operator=</a> (V &amp;&amp;args)</td></tr>
-<tr class="memdesc:adf3564406dd0bfe4aaf3450268da8bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">参照先への代入  <br /></td></tr>
-<tr class="separator:adf3564406dd0bfe4aaf3450268da8bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31887912901ed5f1d0d3aca1ede3926b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#a31887912901ed5f1d0d3aca1ede3926b">wrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp;) noexcept=default</td></tr>
-<tr class="memdesc:a31887912901ed5f1d0d3aca1ede3926b"><td class="mdescLeft">&#160;</td><td class="mdescRight">コピーコンストラクタ: 同じものを参照する  <br /></td></tr>
-<tr class="separator:a31887912901ed5f1d0d3aca1ede3926b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07d3ab0d050f23b391599836598951ef"><td class="memTemplParams" colspan="2">template&lt;typename  = internal::skip_trace_tag&gt; </td></tr>
-<tr class="memitem:a07d3ab0d050f23b391599836598951ef"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#a07d3ab0d050f23b391599836598951ef">operator=</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp;other)</td></tr>
-<tr class="memdesc:a07d3ab0d050f23b391599836598951ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">コピー代入: 値を参照先へコピーする  <br /></td></tr>
-<tr class="separator:a07d3ab0d050f23b391599836598951ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadc883f4c927524f3322e7522995de09"><td class="memTemplParams" colspan="2">template&lt;typename  = internal::skip_trace_tag&gt; </td></tr>
-<tr class="memitem:aadc883f4c927524f3322e7522995de09"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#aadc883f4c927524f3322e7522995de09">operator=</a> (<a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp;&amp;other)</td></tr>
-<tr class="memdesc:aadc883f4c927524f3322e7522995de09"><td class="mdescLeft">&#160;</td><td class="mdescRight">ムーブ代入  <br /></td></tr>
-<tr class="separator:aadc883f4c927524f3322e7522995de09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a885a5ee61779be667ac79809ecdbca7e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#a885a5ee61779be667ac79809ecdbca7e">~wrap</a> ()=default</td></tr>
-<tr class="separator:a885a5ee61779be667ac79809ecdbca7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a6d6f0c0d63261fa63a7dbc00c276ba"><td class="memTemplParams" colspan="2">template&lt;typename  = internal::skip_trace_tag&gt; </td></tr>
-<tr class="memitem:a5a6d6f0c0d63261fa63a7dbc00c276ba"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#a5a6d6f0c0d63261fa63a7dbc00c276ba">operator element_type &amp;</a> ()</td></tr>
-<tr class="memdesc:a5a6d6f0c0d63261fa63a7dbc00c276ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">element_type へのキャスト  <br /></td></tr>
-<tr class="separator:a5a6d6f0c0d63261fa63a7dbc00c276ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4b9c9aa5272b775a000986e7fe70b58"><td class="memTemplParams" colspan="2">template&lt;typename T  = element_type, typename E  = typename std::remove_extent&lt;element_type&gt;::type, typename std::enable_if&lt; std::is_array&lt; T &gt;::value, std::nullptr_t &gt;::type  = nullptr, typename  = internal::skip_trace_tag&gt; </td></tr>
-<tr class="memitem:ad4b9c9aa5272b775a000986e7fe70b58"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; E &amp; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#ad4b9c9aa5272b775a000986e7fe70b58">operator[]</a> (std::ptrdiff_t i)</td></tr>
-<tr class="memdesc:ad4b9c9aa5272b775a000986e7fe70b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">element_typeが E[N] の形の場合、要素への参照を返す  <br /></td></tr>
-<tr class="separator:ad4b9c9aa5272b775a000986e7fe70b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac20eb447d43631d1bab150f951396a03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#ac20eb447d43631d1bab150f951396a03">operator&amp;</a> () const noexcept</td></tr>
-<tr class="separator:ac20eb447d43631d1bab150f951396a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb89f9a9ea754deca189f02b8225c5a5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#aeb89f9a9ea754deca189f02b8225c5a5">wrap</a> (element_type *<a class="el" href="namespacey3c.html#ae228571442255ee9cefb3ea3cc1db4f8">ptr</a>, <a class="el" href="classy3c_1_1internal_1_1life__observer.html">internal::life_observer</a> observer) noexcept</td></tr>
 <tr class="separator:aeb89f9a9ea754deca189f02b8225c5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7d0a4b1da687050d9f6b9d788e92114"><td class="memTemplParams" colspan="2">template&lt;typename T , typename std::enable_if&lt;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; T &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </td></tr>
@@ -222,11 +181,6 @@ Friends</h2></td></tr>
 <tr class="separator:a19a82c2cf3971a7ab76fb6f4a3fa6999"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a6a2b71f2996850f523b985d1bcb220"><td class="memItemLeft" align="right" valign="top">element_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#a7a6a2b71f2996850f523b985d1bcb220">y3c::unwrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>)</td></tr>
 <tr class="separator:a7a6a2b71f2996850f523b985d1bcb220"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a6a2b71f2996850f523b985d1bcb220"><td class="memItemLeft" align="right" valign="top">element_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#a7a6a2b71f2996850f523b985d1bcb220">y3c::unwrap</a> (const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;, <a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>)</td></tr>
-<tr class="separator:a7a6a2b71f2996850f523b985d1bcb220"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea03633660aae983c221cab2f44a4c5f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aea03633660aae983c221cab2f44a4c5f"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html#aea03633660aae983c221cab2f44a4c5f">wrap</a></td></tr>
-<tr class="separator:aea03633660aae983c221cab2f44a4c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename element_type&gt;<br />
@@ -245,7 +199,7 @@ class y3c::wrap&lt; element_type &amp; &gt;</div><p>参照型wrap: element_type�
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aeb89f9a9ea754deca189f02b8225c5a5" name="aeb89f9a9ea754deca189f02b8225c5a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb89f9a9ea754deca189f02b8225c5a5">&#9670;&#160;</a></span>wrap() <span class="overload">[1/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb89f9a9ea754deca189f02b8225c5a5">&#9670;&#160;</a></span>wrap() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -283,7 +237,7 @@ template&lt;typename element_type &gt; </div>
 </div>
 </div>
 <a id="ae7d0a4b1da687050d9f6b9d788e92114" name="ae7d0a4b1da687050d9f6b9d788e92114"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7d0a4b1da687050d9f6b9d788e92114">&#9670;&#160;</a></span>wrap() <span class="overload">[2/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7d0a4b1da687050d9f6b9d788e92114">&#9670;&#160;</a></span>wrap() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,7 +269,7 @@ template&lt;typename T , typename std::enable_if&lt;!std::is_pointer&lt; T &gt;:
 </div>
 </div>
 <a id="acd2bef4e6e235fa4c12fb0652c668029" name="acd2bef4e6e235fa4c12fb0652c668029"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd2bef4e6e235fa4c12fb0652c668029">&#9670;&#160;</a></span>wrap() <span class="overload">[3/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acd2bef4e6e235fa4c12fb0652c668029">&#9670;&#160;</a></span>wrap() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -347,7 +301,7 @@ template&lt;typename T , typename E  = element_type, typename std::enable_if&lt;
 </div>
 </div>
 <a id="ad73f062846ec2842360f37839499a03a" name="ad73f062846ec2842360f37839499a03a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad73f062846ec2842360f37839499a03a">&#9670;&#160;</a></span>wrap() <span class="overload">[4/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad73f062846ec2842360f37839499a03a">&#9670;&#160;</a></span>wrap() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +333,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a31887912901ed5f1d0d3aca1ede3926b" name="a31887912901ed5f1d0d3aca1ede3926b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31887912901ed5f1d0d3aca1ede3926b">&#9670;&#160;</a></span>wrap() <span class="overload">[5/10]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a31887912901ed5f1d0d3aca1ede3926b">&#9670;&#160;</a></span>wrap() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -409,198 +363,7 @@ template&lt;typename element_type &gt; </div>
 </div>
 </div>
 <a id="a885a5ee61779be667ac79809ecdbca7e" name="a885a5ee61779be667ac79809ecdbca7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a885a5ee61779be667ac79809ecdbca7e">&#9670;&#160;</a></span>~wrap() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">~<a class="el" href="classy3c_1_1wrap.html">wrap</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeb89f9a9ea754deca189f02b8225c5a5" name="aeb89f9a9ea754deca189f02b8225c5a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb89f9a9ea754deca189f02b8225c5a5">&#9670;&#160;</a></span>wrap() <span class="overload">[6/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> </td>
-          <td>(</td>
-          <td class="paramtype">element_type *&#160;</td>
-          <td class="paramname"><em>ptr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classy3c_1_1internal_1_1life__observer.html">internal::life_observer</a>&#160;</td>
-          <td class="paramname"><em>observer</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae7d0a4b1da687050d9f6b9d788e92114" name="ae7d0a4b1da687050d9f6b9d788e92114"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7d0a4b1da687050d9f6b9d788e92114">&#9670;&#160;</a></span>wrap() <span class="overload">[7/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename T , typename std::enable_if&lt;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; T &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>wrapper</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>値型wrapの参照 </p>
-
-</div>
-</div>
-<a id="acd2bef4e6e235fa4c12fb0652c668029" name="acd2bef4e6e235fa4c12fb0652c668029"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd2bef4e6e235fa4c12fb0652c668029">&#9670;&#160;</a></span>wrap() <span class="overload">[8/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename T , typename E  = element_type, typename std::enable_if&lt;!std::is_pointer&lt; T &gt;::value &amp;&amp;!std::is_reference&lt; T &gt;::value &amp;&amp;std::is_const&lt; E &gt;::value, std::nullptr_t &gt;::type  = nullptr&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>wrapper</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>値型wrapの参照(const) </p>
-
-</div>
-</div>
-<a id="ad73f062846ec2842360f37839499a03a" name="ad73f062846ec2842360f37839499a03a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad73f062846ec2842360f37839499a03a">&#9670;&#160;</a></span>wrap() <span class="overload">[9/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; T &amp; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>ref</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>参照型wrapのコピー: 同じものを参照する </p>
-
-</div>
-</div>
-<a id="a31887912901ed5f1d0d3aca1ede3926b" name="a31887912901ed5f1d0d3aca1ede3926b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31887912901ed5f1d0d3aca1ede3926b">&#9670;&#160;</a></span>wrap() <span class="overload">[10/10]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>コピーコンストラクタ: 同じものを参照する </p>
-
-</div>
-</div>
-<a id="a885a5ee61779be667ac79809ecdbca7e" name="a885a5ee61779be667ac79809ecdbca7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a885a5ee61779be667ac79809ecdbca7e">&#9670;&#160;</a></span>~wrap() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a885a5ee61779be667ac79809ecdbca7e">&#9670;&#160;</a></span>~wrap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -628,41 +391,7 @@ template&lt;typename element_type &gt; </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a5a6d6f0c0d63261fa63a7dbc00c276ba" name="a5a6d6f0c0d63261fa63a7dbc00c276ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a6d6f0c0d63261fa63a7dbc00c276ba">&#9670;&#160;</a></span>operator element_type &amp;() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename  = internal::skip_trace_tag&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">operator element_type &amp; </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>element_type へのキャスト </p>
-<ul>
-<li>参照先が生きていない場合terminateする。 </li>
-</ul>
-
-</div>
-</div>
-<a id="a5a6d6f0c0d63261fa63a7dbc00c276ba" name="a5a6d6f0c0d63261fa63a7dbc00c276ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a6d6f0c0d63261fa63a7dbc00c276ba">&#9670;&#160;</a></span>operator element_type &amp;() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a6d6f0c0d63261fa63a7dbc00c276ba">&#9670;&#160;</a></span>operator element_type &amp;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -696,34 +425,7 @@ template&lt;typename  = internal::skip_trace_tag&gt; </div>
 </div>
 </div>
 <a id="ac20eb447d43631d1bab150f951396a03" name="ac20eb447d43631d1bab150f951396a03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac20eb447d43631d1bab150f951396a03">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type * &gt; operator&amp; </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac20eb447d43631d1bab150f951396a03" name="ac20eb447d43631d1bab150f951396a03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac20eb447d43631d1bab150f951396a03">&#9670;&#160;</a></span>operator&amp;() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac20eb447d43631d1bab150f951396a03">&#9670;&#160;</a></span>operator&amp;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -750,39 +452,7 @@ template&lt;typename element_type &gt; </div>
 </div>
 </div>
 <a id="a07d3ab0d050f23b391599836598951ef" name="a07d3ab0d050f23b391599836598951ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07d3ab0d050f23b391599836598951ef">&#9670;&#160;</a></span>operator=() <span class="overload">[1/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename  = internal::skip_trace_tag&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp; operator= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>コピー代入: 値を参照先へコピーする </p>
-
-</div>
-</div>
-<a id="a07d3ab0d050f23b391599836598951ef" name="a07d3ab0d050f23b391599836598951ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07d3ab0d050f23b391599836598951ef">&#9670;&#160;</a></span>operator=() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a07d3ab0d050f23b391599836598951ef">&#9670;&#160;</a></span>operator=() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -814,39 +484,7 @@ template&lt;typename  = internal::skip_trace_tag&gt; </div>
 </div>
 </div>
 <a id="adf3564406dd0bfe4aaf3450268da8bdd" name="adf3564406dd0bfe4aaf3450268da8bdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf3564406dd0bfe4aaf3450268da8bdd">&#9670;&#160;</a></span>operator=() <span class="overload">[3/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename V , typename  = internal::skip_trace_tag&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp; operator= </td>
-          <td>(</td>
-          <td class="paramtype">V &amp;&amp;&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>参照先への代入 </p>
-
-</div>
-</div>
-<a id="adf3564406dd0bfe4aaf3450268da8bdd" name="adf3564406dd0bfe4aaf3450268da8bdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf3564406dd0bfe4aaf3450268da8bdd">&#9670;&#160;</a></span>operator=() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adf3564406dd0bfe4aaf3450268da8bdd">&#9670;&#160;</a></span>operator=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -878,40 +516,7 @@ template&lt;typename V , typename  = internal::skip_trace_tag&gt; </div>
 </div>
 </div>
 <a id="aadc883f4c927524f3322e7522995de09" name="aadc883f4c927524f3322e7522995de09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadc883f4c927524f3322e7522995de09">&#9670;&#160;</a></span>operator=() <span class="overload">[5/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename  = internal::skip_trace_tag&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a> &amp; operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;&amp;&#160;</td>
-          <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>ムーブ代入 </p>
-<p>(ムーブコンストラクタは無い) </p>
-
-</div>
-</div>
-<a id="aadc883f4c927524f3322e7522995de09" name="aadc883f4c927524f3322e7522995de09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadc883f4c927524f3322e7522995de09">&#9670;&#160;</a></span>operator=() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aadc883f4c927524f3322e7522995de09">&#9670;&#160;</a></span>operator=() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -944,42 +549,7 @@ template&lt;typename  = internal::skip_trace_tag&gt; </div>
 </div>
 </div>
 <a id="ad4b9c9aa5272b775a000986e7fe70b58" name="ad4b9c9aa5272b775a000986e7fe70b58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4b9c9aa5272b775a000986e7fe70b58">&#9670;&#160;</a></span>operator[]() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename T  = element_type, typename E  = typename std::remove_extent&lt;element_type&gt;::type, typename std::enable_if&lt; std::is_array&lt; T &gt;::value, std::nullptr_t &gt;::type  = nullptr, typename  = internal::skip_trace_tag&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; E &amp; &gt; operator[] </td>
-          <td>(</td>
-          <td class="paramtype">std::ptrdiff_t&#160;</td>
-          <td class="paramname"><em>i</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>element_typeが E[N] の形の場合、要素への参照を返す </p>
-<ul>
-<li>インデックスが範囲外の場合terminateする。 </li>
-</ul>
-
-</div>
-</div>
-<a id="ad4b9c9aa5272b775a000986e7fe70b58" name="ad4b9c9aa5272b775a000986e7fe70b58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4b9c9aa5272b775a000986e7fe70b58">&#9670;&#160;</a></span>operator[]() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4b9c9aa5272b775a000986e7fe70b58">&#9670;&#160;</a></span>operator[]()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1015,7 +585,7 @@ template&lt;typename T  = element_type, typename E  = typename std::remove_exten
 </div>
 <h2 class="groupheader">Friends And Related Symbol Documentation</h2>
 <a id="a19a82c2cf3971a7ab76fb6f4a3fa6999" name="a19a82c2cf3971a7ab76fb6f4a3fa6999"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19a82c2cf3971a7ab76fb6f4a3fa6999">&#9670;&#160;</a></span>wrap <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a19a82c2cf3971a7ab76fb6f4a3fa6999">&#9670;&#160;</a></span>wrap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1040,72 +610,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aea03633660aae983c221cab2f44a4c5f" name="aea03633660aae983c221cab2f44a4c5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea03633660aae983c221cab2f44a4c5f">&#9670;&#160;</a></span>wrap <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">class <a class="el" href="classy3c_1_1wrap.html">wrap</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a7a6a2b71f2996850f523b985d1bcb220" name="a7a6a2b71f2996850f523b985d1bcb220"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a6a2b71f2996850f523b985d1bcb220">&#9670;&#160;</a></span>y3c::unwrap <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename element_type &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">element_type &amp; <a class="el" href="namespacey3c.html#aa410c12102be676b6826ef1f042c5f1e">y3c::unwrap</a> </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classy3c_1_1wrap.html">wrap</a>&lt; element_type &amp; &gt; &amp;&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="structy3c_1_1internal_1_1skip__trace__tag.html">internal::skip_trace_tag</a>&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7a6a2b71f2996850f523b985d1bcb220" name="a7a6a2b71f2996850f523b985d1bcb220"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a6a2b71f2996850f523b985d1bcb220">&#9670;&#160;</a></span>y3c::unwrap <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a6a2b71f2996850f523b985d1bcb220">&#9670;&#160;</a></span>y3c::unwrap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1143,7 +649,7 @@ template&lt;typename element_type &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>install/include/y3c/<a class="el" href="install_2include_2y3c_2wrap_8h_source.html">wrap.h</a></li>
+<li>include/y3c/<a class="el" href="wrap_8h_source.html">wrap.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -1151,7 +657,7 @@ template&lt;typename element_type &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacey3c.html">y3c</a></li><li class="navelem"><a class="el" href="classy3c_1_1wrap_3_01element__type_01_6_01_4.html">wrap&lt; element_type &amp; &gt;</a></li>
-    <li class="footer">Generated on Sat Dec 28 2024 11:55:50 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Sat Dec 28 2024 12:12:06 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

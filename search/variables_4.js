@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['e_5fclass_0',['e_class',['../structy3c_1_1internal_1_1terminate__detail.html#a7fcac3ce0924d40318443e3f1ac1a1ae',1,'y3c::internal::terminate_detail']]],
-  ['exceptions_1',['exceptions',['../classy3c_1_1internal_1_1exception__base.html#a49a59e21360fc6532321d52f6b98ab1f',1,'y3c::internal::exception_base']]]
+  ['probe_5ftype_5fname_5fcandidates_0',['probe_type_name_candidates',['../namespacey3c_1_1internal_1_1type__name.html#adfed0cac9c9e2c20dd8b21e36420738a',1,'y3c::internal::type_name']]],
+  ['ptr_5f_1',['ptr_',['../structy3c_1_1internal_1_1life__validator.html#a867fc42ef8298ce9af856c21958ef093',1,'y3c::internal::life_validator']]]
 ];

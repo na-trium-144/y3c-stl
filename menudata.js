@@ -24,8 +24,6 @@
 */
 var menudata={children:[
 {text:"Main Page",url:"index.html"},
-{text:"Related Pages",url:"pages.html"},
-{text:"Modules",url:"modules.html"},
 {text:"Namespaces",url:"namespaces.html",children:[
 {text:"Namespace List",url:"namespaces.html"},
 {text:"Namespace Members",url:"namespacemembers.html",children:[
@@ -103,46 +101,12 @@ var menudata={children:[
 {text:"v",url:"functions_func_v.html#index_v"},
 {text:"w",url:"functions_func_w.html#index_w"},
 {text:"~",url:"functions_func_~.html#index__7E"}]},
-{text:"Variables",url:"functions_vars.html",children:[
-{text:"a",url:"functions_vars.html#index_a"},
-{text:"b",url:"functions_vars.html#index_b"},
-{text:"c",url:"functions_vars.html#index_c"},
-{text:"d",url:"functions_vars.html#index_d"},
-{text:"e",url:"functions_vars.html#index_e"},
-{text:"f",url:"functions_vars.html#index_f"},
-{text:"l",url:"functions_vars.html#index_l"},
-{text:"o",url:"functions_vars.html#index_o"},
-{text:"p",url:"functions_vars.html#index_p"},
-{text:"r",url:"functions_vars.html#index_r"},
-{text:"s",url:"functions_vars.html#index_s"},
-{text:"t",url:"functions_vars.html#index_t"},
-{text:"u",url:"functions_vars.html#index_u"},
-{text:"v",url:"functions_vars.html#index_v"},
-{text:"w",url:"functions_vars.html#index_w"}]},
-{text:"Typedefs",url:"functions_type.html",children:[
-{text:"c",url:"functions_type.html#index_c"},
-{text:"d",url:"functions_type.html#index_d"},
-{text:"e",url:"functions_type.html#index_e"},
-{text:"i",url:"functions_type.html#index_i"},
-{text:"p",url:"functions_type.html#index_p"},
-{text:"r",url:"functions_type.html#index_r"},
-{text:"s",url:"functions_type.html#index_s"},
-{text:"v",url:"functions_type.html#index_v"}]},
+{text:"Variables",url:"functions_vars.html"},
+{text:"Typedefs",url:"functions_type.html"},
 {text:"Related Symbols",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"},
 {text:"File Members",url:"globals.html",children:[
-{text:"All",url:"globals.html",children:[
-{text:"d",url:"globals.html#index_d"},
-{text:"y",url:"globals_y.html#index_y"}]},
-{text:"Functions",url:"globals_func.html",children:[
-{text:"d",url:"globals_func.html#index_d"}]},
-{text:"Variables",url:"globals_vars.html"},
-{text:"Typedefs",url:"globals_type.html",children:[
-{text:"d",url:"globals_type.html#index_d"}]},
-{text:"Enumerations",url:"globals_enum.html"},
-{text:"Enumerator",url:"globals_eval.html"},
-{text:"Macros",url:"globals_defs.html",children:[
-{text:"d",url:"globals_defs.html#index_d"},
-{text:"y",url:"globals_defs_y.html#index_y"}]}]}]},
+{text:"All",url:"globals.html"},
+{text:"Macros",url:"globals_defs.html"}]}]},
 {text:"Examples",url:"examples.html"}]}

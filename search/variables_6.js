@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['last_5fexception_5fid_0',['last_exception_id',['../classy3c_1_1internal_1_1exception__base.html#a4c39dd2a6dd32f3acdff592fce5af413',1,'y3c::internal::exception_base']]],
-  ['life_5f_1',['life_',['../classy3c_1_1wrap.html#a41b4b8fb5bdaa755cbff1eb6b250e896',1,'y3c::wrap']]]
+  ['throw_5fon_5fterminate_0',['throw_on_terminate',['../namespacey3c_1_1internal.html#a507e0980e59955520fcde632d8a7cbab',1,'y3c::internal']]],
+  ['type_1',['type',['../structy3c_1_1internal_1_1terminate__detail.html#a326e887d8f96b06cd71768dfc8de12c2',1,'y3c::internal::terminate_detail']]]
 ];

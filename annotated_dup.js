@@ -25,18 +25,5 @@ var annotated_dup =
       [ "wrap", "classy3c_1_1wrap.html", "classy3c_1_1wrap" ],
       [ "wrap< element_type & >", "classy3c_1_1wrap_3_01element__type_01_6_01_4.html", "classy3c_1_1wrap_3_01element__type_01_6_01_4" ],
       [ "wrap< element_type * >", "classy3c_1_1wrap_3_01element__type_01_5_01_4.html", "classy3c_1_1wrap_3_01element__type_01_5_01_4" ]
-    ] ],
-    [ "Dwarf_Block_s", "structDwarf__Block__s.html", "structDwarf__Block__s" ],
-    [ "Dwarf_Cmdline_Options_s", "structDwarf__Cmdline__Options__s.html", "structDwarf__Cmdline__Options__s" ],
-    [ "Dwarf_Debug_Fission_Per_CU_s", "structDwarf__Debug__Fission__Per__CU__s.html", "structDwarf__Debug__Fission__Per__CU__s" ],
-    [ "Dwarf_Form_Data16_s", "structDwarf__Form__Data16__s.html", "structDwarf__Form__Data16__s" ],
-    [ "Dwarf_Macro_Details_s", "structDwarf__Macro__Details__s.html", "structDwarf__Macro__Details__s" ],
-    [ "Dwarf_Obj_Access_Interface_a_s", "structDwarf__Obj__Access__Interface__a__s.html", "structDwarf__Obj__Access__Interface__a__s" ],
-    [ "Dwarf_Obj_Access_Methods_a_s", "structDwarf__Obj__Access__Methods__a__s.html", "structDwarf__Obj__Access__Methods__a__s" ],
-    [ "Dwarf_Obj_Access_Section_a_s", "structDwarf__Obj__Access__Section__a__s.html", "structDwarf__Obj__Access__Section__a__s" ],
-    [ "Dwarf_Printf_Callback_Info_s", "structDwarf__Printf__Callback__Info__s.html", "structDwarf__Printf__Callback__Info__s" ],
-    [ "Dwarf_Ranges_s", "structDwarf__Ranges__s.html", "structDwarf__Ranges__s" ],
-    [ "Dwarf_Regtable3_s", "structDwarf__Regtable3__s.html", "structDwarf__Regtable3__s" ],
-    [ "Dwarf_Regtable_Entry3_s", "structDwarf__Regtable__Entry3__s.html", "structDwarf__Regtable__Entry3__s" ],
-    [ "Dwarf_Sig8_s", "structDwarf__Sig8__s.html", "structDwarf__Sig8__s" ]
+    ] ]
 ];

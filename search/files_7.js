@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['shared_5fptr_2eh_0',['shared_ptr.h',['../include_2y3c_2shared__ptr_8h.html',1,'(Global Namespace)'],['../install_2include_2y3c_2shared__ptr_8h.html',1,'(Global Namespace)']]]
+  ['terminate_2eh_0',['terminate.h',['../terminate_8h.html',1,'']]],
+  ['terminate_5fdetail_2ecc_1',['terminate_detail.cc',['../terminate__detail_8cc.html',1,'']]],
+  ['typename_2eh_2',['typename.h',['../typename_8h.html',1,'']]]
 ];

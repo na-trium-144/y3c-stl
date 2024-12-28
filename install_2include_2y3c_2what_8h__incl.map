@@ -1,9 +1,0 @@
-<map id="install/include/y3c/what.h" name="install/include/y3c/what.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="90,5,230,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,107,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,48,84,87,81,83,133,43"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="131,93,189,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,46,163,79,157,79,157,46"/>
-<area shape="rect" id="Node000004" href="$install_2include_2y3c_2y3c-config_8h.html" title=" " alt="" coords="213,93,315,119"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,43,239,83,236,87,184,48"/>
-</map>

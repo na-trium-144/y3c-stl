@@ -1,0 +1,16 @@
+<map id="include/y3c/life.h" name="include/y3c/life.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="225,5,359,31"/>
+<area shape="rect" id="Node000002" href="$iterator_8h.html" title=" " alt="" coords="275,159,434,185"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,42,324,78,353,158,348,160,319,80,302,44"/>
+<area shape="rect" id="Node000005" href="$wrap_8h.html" title=" " alt="" coords="165,79,309,104"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="277,43,248,80,244,77,273,40"/>
+<area shape="rect" id="Node000003" href="$array_8h.html" title=" " alt="" coords="284,240,428,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="358,198,358,240,353,240,352,198"/>
+<area shape="rect" id="Node000004" href="$vector_8h.html" title=" " alt="" coords="108,240,260,265"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="319,193,210,242,208,238,316,188"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="268,110,339,157,336,161,265,114"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="242,117,249,154,266,190,296,218,329,238,327,242,293,223,262,194,244,156,236,119"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="232,118,190,240,185,239,227,116"/>
+<area shape="rect" id="Node000006" href="$shared__ptr_8h.html" title=" " alt="" coords="5,152,149,192"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="203,112,117,154,115,149,201,107"/>
+</map>
