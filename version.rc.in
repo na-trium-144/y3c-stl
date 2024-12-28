@@ -19,7 +19,7 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "CompanyName",      "na-trium-144@users.noreply.github.com\0"
-            VALUE "FileDescription",  "y3c-stl\0"
+            VALUE "FileDescription",  "Friendly C++ STL wrapper with automatic stacktrace\0"
             VALUE "FileVersion",      "@strversion@\0"
             VALUE "InternalName",     "y3c\0"
             // VALUE "OriginalFilename", "\0"
