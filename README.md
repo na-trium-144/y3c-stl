@@ -64,7 +64,7 @@ meson install -Cbuild --skip-subprojects
 Windowsの場合は meson setup 時の引数で `-Dprefix=C:/Users/hoge/y3c` などとインストール先を指定するとよいです。
 Linux,Macの場合は特にこだわりがなければ何も指定せずデフォルトのまま (`/usr/local` など) がおすすめです。
 
-また、Windows MSVC の場合はdebugビルド(デフォルト)とreleaseビルド(meson setup 時に `-Dbuildtype=release` を指定)の両方をインストールする必要があります。
+また、Windows MSVC の場合は release ビルド(デフォルト)と debug ビルド(meson setup 時に `-Dbuildtype=debug` を指定)の両方をインストールする必要があります。
 
 ## 使い方
 

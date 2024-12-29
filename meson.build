@@ -1,7 +1,8 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.3.2',
+  version: '0.3.3',
   meson_version: '>=1.1',
   default_options: [
+    'buildtype=release',
     'cpp_std=c++11',
     'libdwarf:default_library=static',
     'cpptrace:default_library=static',
