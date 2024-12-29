@@ -156,5 +156,6 @@ y3c-stlはMITライセンスの下で公開されています。
 
 依存ライブラリとして
 [cpptrace](https://github.com/jeremy-rifkin/cpptrace) (MITライセンス),
-[libdwarf](https://github.com/davea42/libdwarf-code) (LGPL)
+[libdwarf](https://github.com/davea42/libdwarf-code) (LGPL),
+[rang](https://github.com/agauniyal/rang) (Unlicense)
 を使用しています。
