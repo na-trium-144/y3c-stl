@@ -594,6 +594,176 @@ class basic_string {
      */
     size_type capacity() const { return base_.capacity(); }
 
+    /*!
+     * \brief 要素のクリア
+     * 
+     * * 既存のイテレータは無効になる
+     */
+    void clear() {
+        base_.clear();
+        init_elems_life();
+    }
+    /*!
+     * \brief 文字を挿入する
+     * \param index 挿入する位置
+     * \param count 挿入する個数
+     * \param ch 挿入する文字
+     * 
+     * * indexが範囲外の場合 out_of_range を投げる。
+     * * 既存のイテレータは無効になる
+     */
+    basic_string &insert(size_type index, size_type count, CharT ch, internal::skip_trace_tag = {}) {
+        if(index > base_.size()){
+            static std::string func = type_name() + "::insert()";
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(index));
+        }
+        base_.insert(index, count, ch);
+        init_elems_life();
+        return *this;
+    }
+    // insert(size_type index, const CharT*s);
+    // insert(size_type index, const CharT*s, size_type count);
+    /*!
+     * \brief 文字列を挿入する
+     * \param index 挿入する位置
+     * \param str 挿入する文字列
+     * 
+     * * indexが範囲外の場合 out_of_range を投げる。
+     * * 既存のイテレータは無効になる
+     */
+    basic_string &insert(size_type index, const std::basic_string<CharT> &str, internal::skip_trace_tag = {}) {
+        if(index > base_.size()){
+            static std::string func = type_name() + "::insert()";
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(index));
+        }
+        base_.insert(index, str);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief 文字列を挿入する
+     * \param index 挿入する位置
+     * \param str 挿入する文字列
+     * 
+     * * indexが範囲外の場合 out_of_range を投げる。
+     * * 既存のイテレータは無効になる
+     */
+    basic_string &insert(size_type index, const basic_string &str, internal::skip_trace_tag = {}) {
+        return insert(index, str.base_);
+    }
+    /*!
+     * \brief 文字列を挿入する
+     * \param index 挿入する位置
+     * \param str 挿入する文字列
+     * \param s_index 挿入する文字列の開始位置
+     * \param count 挿入する文字数
+     * 
+     * * indexまたはs_indexが範囲外の場合 out_of_range を投げる。
+     * * 既存のイテレータは無効になる
+     */
+    basic_string &insert(size_type index, const std::basic_string<CharT> &str, size_type s_index, size_type count = npos, internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        if(index > base_.size()){
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(index));
+        }
+        if (s_index >= str.size()) {
+            throw y3c::out_of_range(func, str.size(),
+                                    static_cast<std::ptrdiff_t>(s_index));
+        }
+        base_.insert(index, str, s_index, count);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief 文字列を挿入する
+     * \param index 挿入する位置
+     * \param str 挿入する文字列
+     * \param s_index 挿入する文字列の開始位置
+     * \param count 挿入する文字数
+     * 
+     * * indexまたはs_indexが範囲外の場合 out_of_range を投げる。
+     * * 既存のイテレータは無効になる
+     */
+    basic_string &insert(size_type index, const basic_string &str, size_type s_index, size_type count = npos, internal::skip_trace_tag = {}) {
+        return insert(index, str.base_, s_index, count);
+    }
+    /*!
+     * \brief 文字を挿入する
+     * \param pos 挿入する位置を指すイテレータ
+     * \param ch 挿入する文字
+     * 
+     * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     */
+    iterator insert(const_iterator pos, CharT ch, internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter_including_end(pos, func);
+        base_.insert(base_.begin() + index, ch);
+        init_elems_life();
+        return iterator(&base_[0] + index, elems_iter_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 文字を挿入する
+     * \param pos 挿入する位置を指すイテレータ
+     * \param count 挿入する個数
+     * \param ch 挿入する文字
+     * 
+     * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     */
+    iterator insert(const_iterator pos, size_type count, CharT ch, internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter_including_end(pos, func);
+        base_.insert(base_.begin() + index, count, ch);
+        init_elems_life();
+        return iterator(&base_[0] + index, elems_iter_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief イテレーターから要素を挿入する
+     * \param pos 挿入する位置を指すイテレータ
+     * \param first, last 挿入する範囲
+     * 
+     * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     */
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t>::type = nullptr>
+    iterator insert(const_iterator pos, InputIt first, InputIt last,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter_including_end(pos, func);
+        base_.insert(base_.begin() + index, first, last);
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_iter_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief std::initializer_listから要素を挿入する
+     * \param pos 挿入する位置を指すイテレータ
+     * \param ilist 挿入する要素
+     * 
+     * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     */
+    iterator insert(const_iterator pos, std::initializer_list<CharT> ilist,
+                    internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::insert()";
+        std::size_t index = assert_iter_including_end(pos, func);
+        base_.insert(base_.begin() + index, ilist);
+        update_elems_life(&base_[0] + index);
+        return iterator(&base_[0] + index, elems_iter_life_->observer(),
+                        &iter_name());
+    }
+
 
 };
 } // namespace y3c
