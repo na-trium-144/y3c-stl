@@ -122,6 +122,15 @@ class basic_string {
         return *this;
     }
     /*!
+     * \brief 文字列をコピー
+     * 
+     * * このコンテナの既存のイテレータは無効になる
+     *
+     */
+    basic_string &assign(const basic_string &other) {
+        return *this = other;
+    }
+    /*!
      * \brief 文字列をムーブ
      *
      * * このコンテナとムーブ元の既存のイテレータは無効になる
@@ -134,6 +143,15 @@ class basic_string {
             other.init_elems_life();
         }
         return *this;
+    }
+    /*!
+     * \brief 文字列をムーブ
+     *
+     * * このコンテナとムーブ元の既存のイテレータは無効になる
+     *
+     */
+    basic_string &assign(basic_string &&other) {
+        return *this = std::move(other);
     }
     ~basic_string() = default;
 
@@ -158,13 +176,6 @@ class basic_string {
         init_elems_life();
     }
     /*!
-     * \brief std::basic_stringからムーブ構築
-     */
-    basic_string(const std::basic_string<CharT> &&other)
-        : base_(std::move(other)), life_(this) {
-        init_elems_life();
-    }
-    /*!
      * \brief std::basic_stringからのコピー代入
      *
      * * 既存のイテレータは無効になる
@@ -174,6 +185,22 @@ class basic_string {
         this->base_ = other;
         init_elems_life();
         return *this;
+    }
+    /*!
+     * \brief std::basic_stringからのコピー代入
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &assign(const std::basic_string<CharT> &other) {
+        return *this = other;
+    }
+    /*!
+     * \brief std::basic_stringからムーブ構築
+     */
+    basic_string(const std::basic_string<CharT> &&other)
+        : base_(std::move(other)), life_(this) {
+        init_elems_life();
     }
     /*!
      * \brief std::basic_stringからのムーブ代入
@@ -186,7 +213,21 @@ class basic_string {
         init_elems_life();
         return *this;
     }
-
+    /*!
+     * \brief std::basic_stringからのムーブ代入
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &assign(std::basic_string<CharT> &&other) {
+        return *this = std::move(other);
+    }
+    /*!
+     * \brief stringの一部をコピー
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
     basic_string(const std::basic_string<CharT> &str, size_type pos,
                  size_type n = npos, internal::skip_trace_tag = {})
         : base_(), life_(this) {
@@ -198,32 +239,138 @@ class basic_string {
         base_.assign(str, pos, n);
         init_elems_life();
     }
+
+    /*!
+     * \brief stringの一部をコピー
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    basic_string(const basic_string &str, size_type pos,
+                 size_type n = npos, internal::skip_trace_tag = {})
+        : basic_string(str.base_, pos, n) {}
+    /*!
+     * \brief stringの一部をコピー
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    basic_string& assign(const std::basic_string<CharT> &str, size_type pos,
+                 size_type n = npos, internal::skip_trace_tag = {}){
+        if (pos >= str.size()) {
+            static std::string func = type_name() + "::assign()";
+            throw y3c::out_of_range(func, str.size(),
+                                    static_cast<std::ptrdiff_t>(pos));
+        }
+        base_.assign(str, pos, n);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief stringの一部をコピー
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    basic_string& assign(const basic_string &str, size_type pos,
+                 size_type n = npos, internal::skip_trace_tag = {}){
+        return assign(str.base_, pos, n);
+    }
+
     // basic_string(const CharT* s, size_type n): base_(s, n), life_(this)
     // {init_elems_life(); }
     // basic_string(const CharT* s): base_(s), life_(this)
     // {init_elems_life(); }
     // basic_string &operator=(const CharT* s)
+    // basic_string &assign(const CharT* s)
+    // basic_string &assign(const CharT* s, size_type n)
+
+    /*!
+     * \brief 文字の繰り返しで初期化
+     */
     basic_string(size_type n, CharT c) : base_(n, c), life_(this) {
         init_elems_life();
     }
+    /*!
+     * \brief 文字を繰り返したものを代入
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    basic_string& assign(size_type n, CharT c){
+        base_.assign(n, c);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief 1文字代入
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
     basic_string& operator=(CharT c){
         base_ = c;
         init_elems_life();
         return *this;
     }
+    /*!
+     * \brief 1文字代入
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    basic_string& assign(CharT c){
+        return *this = c;
+    }
+
+    /*!
+     * \brief イテレータで初期化
+     */
     template <typename InputIt>
     basic_string(InputIt first, InputIt last)
         : base_(first, last), life_(this) {
         init_elems_life();
     }
+    /*!
+     * \brief イテレータで代入
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    template <typename InputIt>
+    basic_string& assign(InputIt first, InputIt last){
+        base_.assign(first, last);
+        init_elems_life();
+        return *this;
+    }
+
+    /*!
+     * \brief std::initializer_listで初期化
+     */
     basic_string(std::initializer_list<CharT> init) : base_(init), life_(this) {
         init_elems_life();
     }
+    /*!
+     * \brief std::initializer_listで代入
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
     basic_string &operator=(std::initializer_list<CharT> init){
         base_ = std::move(init);
         init_elems_life();
         return *this;
     }
+    /*!
+     * \brief std::initializer_listで代入
+     * 
+     * * 既存のイテレータは無効になる
+     * 
+     */
+    basic_string &assign(std::initializer_list<CharT> init){
+        return *this = init;
+    }
+
     // todo: string_viewからの変換
 
 
