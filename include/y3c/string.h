@@ -23,7 +23,8 @@ namespace y3c {
 template <typename CharT, typename Traits = std::char_traits<CharT>>
 class basic_string {
     std::basic_string<CharT, Traits> base_;
-    std::unique_ptr<internal::life> elems_life_;
+    std::unique_ptr<internal::life> elems_iter_life_;
+    std::unique_ptr<internal::life> elems_str_life_; // null終端を含むためelems_lifeより要素数が1多い
     internal::life life_;
 
     /*!
@@ -31,11 +32,15 @@ class basic_string {
      */
     void init_elems_life() {
         if (!base_.empty()) {
-            elems_life_ = std::unique_ptr<internal::life>(
+            elems_iter_life_ = std::unique_ptr<internal::life>(
                 new internal::life(&base_[0], &base_[0] + base_.size()));
+            elems_str_life_ = std::unique_ptr<internal::life>(
+                new internal::life(&base_[0], &base_[0] + base_.size() + 1));
         } else {
-            elems_life_ = std::unique_ptr<internal::life>(
+            elems_iter_life_ = std::unique_ptr<internal::life>(
                 new internal::life(nullptr, nullptr));
+            elems_str_life_ = std::unique_ptr<internal::life>(
+                new internal::life(&base_[0], &base_[0] + 1));
         }
     }
 
@@ -63,7 +68,7 @@ class basic_string {
     std::size_t
     assert_iter(const internal::contiguous_iterator<const CharT> &pos,
                 const std::string &func, internal::skip_trace_tag = {}) const {
-        if (*elems_life_ != pos.get_observer_()) {
+        if (*elems_iter_life_ != pos.get_observer_()) {
             y3c::internal::terminate_ub_wrong_iter(func);
         }
         pos.get_observer_().assert_iter(pos, func);
@@ -76,7 +81,7 @@ class basic_string {
     std::size_t assert_iter_including_end(
         const internal::contiguous_iterator<const CharT> &pos,
         const std::string &func, internal::skip_trace_tag = {}) const {
-        if (*elems_life_ != pos.get_observer_()) {
+        if (*elems_iter_life_ != pos.get_observer_()) {
             y3c::internal::terminate_ub_wrong_iter(func);
         }
         pos.get_observer_().assert_iter_including_end(pos, func);
@@ -106,7 +111,7 @@ class basic_string {
      *
      */
     basic_string(basic_string &&other)
-        : base_(std::move(other.base_)), elems_life_(), life_(this) {
+        : base_(std::move(other.base_)), life_(this) {
         init_elems_life();
         other.init_elems_life();
     }
@@ -372,6 +377,222 @@ class basic_string {
     }
 
     // todo: string_viewからの変換
+
+
+    /*!
+     * \brief 要素アクセス
+     *
+     * * インデックスが範囲外の場合、 out_of_range を投げる。
+     *
+     */
+    reference at(size_type n, internal::skip_trace_tag = {}) {
+        if (n >= base_.size()) {
+            static std::string func = type_name() + "::at()";
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(n));
+        }
+        return reference(&this->base_[n], elems_str_life_->observer());
+    }
+    /*!
+     * \brief 要素アクセス(const)
+     *
+     * * インデックスが範囲外の場合、 out_of_range を投げる。
+     *
+     */
+    const_reference at(size_type n, internal::skip_trace_tag = {}) const {
+        if (n >= base_.size()) {
+            static std::string func = type_name() + "::at()";
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(n));
+        }
+        return const_reference(&this->base_[n], elems_str_life_->observer());
+    }
+    /*!
+     * \brief 要素アクセス
+     *
+     * * インデックスが `0 <= n <= size()` の外の場合terminateする。
+     * null終端へのアクセスは許可されている
+     *
+     */
+    template <typename = internal::skip_trace_tag>
+    reference operator[](size_type n) {
+        if (n > base_.size()) {
+            static std::string func = type_name() + "::operator[]()";
+            y3c::internal::terminate_ub_out_of_range(
+                func, base_.size(), static_cast<std::ptrdiff_t>(n));
+        }
+        return reference(&this->base_[n], elems_str_life_->observer());
+    }
+    /*!
+     * \brief 要素アクセス(const)
+     *
+     * * インデックスが `0 <= n <= size()` の外の場合terminateする。
+     * null終端へのアクセスは許可されている
+     *
+     */
+    template <typename = internal::skip_trace_tag>
+    const_reference operator[](size_type n) const {
+        if (n > base_.size()) {
+            static std::string func = type_name() + "::operator[]()";
+            y3c::internal::terminate_ub_out_of_range(
+                func, base_.size(), static_cast<std::ptrdiff_t>(n));
+        }
+        return const_reference(&this->base_[n], elems_str_life_->observer());
+    }
+    /*!
+     * \brief 先頭の要素へのアクセス
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
+    reference front(internal::skip_trace_tag = {}) {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::front()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, 0);
+        }
+        return reference(&base_.front(), elems_str_life_->observer());
+    }
+    /*!
+     * \brief 先頭の要素へのアクセス(const)
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
+    const_reference front(internal::skip_trace_tag = {}) const {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::front()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, 0);
+        }
+        return const_reference(&base_.front(), elems_str_life_->observer());
+    }
+    /*!
+     * \brief 末尾の要素へのアクセス
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
+    reference back(internal::skip_trace_tag = {}) {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::back()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, -1);
+        }
+        return reference(&base_.back(), elems_str_life_->observer());
+    }
+    /*!
+     * \brief 末尾の要素へのアクセス(const)
+     *
+     * * サイズが0の場合terminateする。
+     *
+     */
+    const_reference back(internal::skip_trace_tag = {}) const {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::back()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, -1);
+        }
+        return const_reference(&base_.back(), elems_str_life_->observer());
+    }
+
+    /*!
+     * \brief 先頭要素へのポインタを取得
+     *
+     * * c_str()と同じnull終端された文字列へのポインタを返す。
+     *
+     */
+    pointer data() {
+        return pointer(&this->base_[0], elems_str_life_->observer());
+    }
+    /*!
+     * \brief 先頭要素へのconstポインタを取得
+     *
+     * * c_str()と同じnull終端された文字列へのポインタを返す。
+     *
+     */
+    const_pointer data() const {
+        return const_pointer(&this->base_[0], elems_str_life_->observer());
+    }
+    /*!
+     * \brief null終端された文字列へのconstポインタを取得
+     */
+    const_pointer c_str() const {
+        return const_pointer(&this->base_[0], elems_str_life_->observer());
+    }
+
+    /*!
+     * \brief 先頭要素を指すイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
+    iterator begin() {
+        if (base_.empty()) {
+            return iterator(nullptr, elems_iter_life_->observer(), &iter_name());
+        }
+        return iterator(&this->base_.front(), elems_iter_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 先頭要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
+    const_iterator begin() const {
+        if (base_.empty()) {
+            return const_iterator(nullptr, elems_iter_life_->observer(),
+                                  &iter_name());
+        }
+        return const_iterator(&this->base_.front(), elems_iter_life_->observer(),
+                              &iter_name());
+    }
+    /*!
+     * \brief 先頭要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
+    const_iterator cbegin() const { return begin(); }
+    /*!
+     * \brief 末尾要素を指すイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
+    iterator end() { return begin() + base_.size(); }
+    /*!
+     * \brief 末尾要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
+    const_iterator end() const { return begin() + base_.size(); }
+    /*!
+     * \brief 末尾要素を指すconstイテレータを取得
+     *
+     * * サイズが0の場合無効なイテレータを返す。
+     *
+     */
+    const_iterator cend() const { return begin() + base_.size(); }
+
+    /*!
+     * \brief sizeが0かどうかを返す
+     */
+    bool empty() const { return base_.empty(); }
+    /*!
+     * \brief 配列のサイズを取得
+     */
+    size_type size() const { return base_.size(); }
+    /*!
+     * \brief 配列のサイズを取得
+     */
+    size_type length() const { return base_.length(); }
+    /*!
+     * \brief 配列の最大サイズを取得
+     */
+    size_type max_size() const { return base_.max_size(); }
+    /*!
+     * \brief 現在のメモリ確保済みのサイズを取得
+     */
+    size_type capacity() const { return base_.capacity(); }
 
 
 };
