@@ -100,7 +100,7 @@ else
   meson.override_dependency('doctest', dependency('', required: false))
 endif
 
-cpptrace_dep = dependency('cpptrace')
+cpptrace_dep = dependency('cpptrace', version: '>=0.8')
 libdwarf_dep = dependency('libdwarf')
 rang_dep = dependency('rang')
 

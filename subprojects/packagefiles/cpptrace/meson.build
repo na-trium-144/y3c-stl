@@ -1,4 +1,4 @@
-project('cpptrace', 'c', 'cpp', version: '0.7.3')
+project('cpptrace', 'c', 'cpp', version: '0.8.2')
 
 # めんどくさいのでオプションなしでautoconfig.cmakeだけを移植している
 
