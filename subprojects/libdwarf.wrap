@@ -1,6 +1,6 @@
 [wrap-git]
 url = https://github.com/davea42/libdwarf-code.git
-revision = 3ea552f49f7e38ed3dfaff82cebfef62a8f47586
+revision = 623511122046fca0aefcfbd86f9e41338e95b083
 depth = 1
 
 [provide]

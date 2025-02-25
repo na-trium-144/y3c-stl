@@ -14,6 +14,7 @@ dl_dep = cxx.find_library('dl', required: false, disabler: true)
 has_dl_find_object = cxx.compiles('#include "has_dl_find_object.cpp"', name: 'dl find object support check', include_directories: cmake_dir, dependencies: dl_dep)
 has_dladdr1 = has_dl_find_object and cxx.compiles('#include "has_dladdr1.cpp"', name: 'dladdr1 support check', include_directories: cmake_dir, dependencies: dl_dep)
 has_mach_vm = cxx.compiles('#include "has_mach_vm.cpp"', name: 'mach vm support check', include_directories: cmake_dir)
+has_attribute_packed = cxx.compiles('#include "has_attribute_packed.cpp"', name: 'attribute packed support check', include_directories: cmake_dir)
 
 cpptrace_unwind_with_execinfo = false
 cpptrace_unwind_with_unwind = false
@@ -87,6 +88,7 @@ cpptrace_src = [
   'src/ctrace.cpp',
   'src/exceptions.cpp',
   'src/from_current.cpp',
+  'src/formatting.cpp',
   'src/options.cpp',
   'src/utils.cpp',
   'src/demangle/demangle_with_cxxabi.cpp',
@@ -94,6 +96,7 @@ cpptrace_src = [
   'src/demangle/demangle_with_winapi.cpp',
   'src/snippets/snippet.cpp',
   'src/symbols/dwarf/debug_map_resolver.cpp',
+  'src/symbols/dwarf/dwarf_options.cpp',
   'src/symbols/dwarf/dwarf_resolver.cpp',
   'src/symbols/symbols_core.cpp',
   'src/symbols/symbols_with_addr2line.cpp',
@@ -110,10 +113,13 @@ cpptrace_src = [
   'src/unwind/unwind_with_winapi.cpp',
   'src/utils/microfmt.cpp',
   'src/utils/utils.cpp',
-  'src/platform/dbghelp_syminit_manager.cpp',
+  'src/platform/dbghelp_utils.cpp',
 ]
 cpptrace_deps = []
 cpptrace_args = ['-DNOMINMAX']
+if has_attribute_packed
+  cpptrace_args += ['-DHAS_ATTRIBUTE_PACKED']
+endif
 if get_option('default_library') == 'static'
   cpptrace_args += ['-DCPPTRACE_STATIC_DEFINE']
 endif
