@@ -24,7 +24,8 @@ template <typename CharT, typename Traits = std::char_traits<CharT>>
 class basic_string {
     std::basic_string<CharT, Traits> base_;
     std::unique_ptr<internal::life> elems_iter_life_;
-    std::unique_ptr<internal::life> elems_str_life_; // null終端を含むためelems_lifeより要素数が1多い
+    std::unique_ptr<internal::life>
+        elems_str_life_; // null終端を含むためelems_lifeより要素数が1多い
     internal::life life_;
 
     /*!
@@ -41,6 +42,22 @@ class basic_string {
                 new internal::life(nullptr, nullptr));
             elems_str_life_ = std::unique_ptr<internal::life>(
                 new internal::life(&base_[0], &base_[0] + 1));
+        }
+    }
+    /*!
+     * \brief 範囲が更新されていた場合その分だけライフタイムを初期化
+     * \param invalidate_from 更新された範囲の先頭
+     * (nullptrでない場合、これより後の範囲を追加で無効化する)
+     */
+    void update_elems_life(const void *invalidate_from = nullptr) {
+        if (!base_.empty()) {
+            elems_iter_life_->update(&base_[0], &base_[0] + base_.size(),
+                                     invalidate_from);
+            elems_str_life_->update(&base_[0], &base_[0] + base_.size() + 1,
+                                    invalidate_from);
+        } else {
+            elems_iter_life_->update(nullptr, nullptr);
+            elems_str_life_->update(&base_[0], &base_[0] + 1);
         }
     }
 
@@ -128,13 +145,11 @@ class basic_string {
     }
     /*!
      * \brief 文字列をコピー
-     * 
+     *
      * * このコンテナの既存のイテレータは無効になる
      *
      */
-    basic_string &assign(const basic_string &other) {
-        return *this = other;
-    }
+    basic_string &assign(const basic_string &other) { return *this = other; }
     /*!
      * \brief 文字列をムーブ
      *
@@ -201,6 +216,45 @@ class basic_string {
         return *this = other;
     }
     /*!
+     * \brief std::basic_stringを末尾にコピー
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &operator+=(const std::basic_string<CharT> &other) {
+        base_ += other;
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief std::basic_stringを末尾にコピー
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &append(const std::basic_string<CharT> &other) {
+        return *this += other;
+    }
+    /*!
+     * \brief basic_stringを末尾にコピー
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &operator+=(const basic_string &other) {
+        return *this += other.base_;
+    }
+    /*!
+     * \brief basic_stringを末尾にコピー
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &append(const basic_string &other) {
+        return *this += other.base_;
+    }
+
+    /*!
      * \brief std::basic_stringからムーブ構築
      */
     basic_string(const std::basic_string<CharT> &&other)
@@ -227,11 +281,12 @@ class basic_string {
     basic_string &assign(std::basic_string<CharT> &&other) {
         return *this = std::move(other);
     }
+
     /*!
      * \brief stringの一部をコピー
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
     basic_string(const std::basic_string<CharT> &str, size_type pos,
                  size_type n = npos, internal::skip_trace_tag = {})
@@ -244,24 +299,23 @@ class basic_string {
         base_.assign(str, pos, n);
         init_elems_life();
     }
-
     /*!
      * \brief stringの一部をコピー
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string(const basic_string &str, size_type pos,
-                 size_type n = npos, internal::skip_trace_tag = {})
+    basic_string(const basic_string &str, size_type pos, size_type n = npos,
+                 internal::skip_trace_tag = {})
         : basic_string(str.base_, pos, n) {}
     /*!
      * \brief stringの一部をコピー
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string& assign(const std::basic_string<CharT> &str, size_type pos,
-                 size_type n = npos, internal::skip_trace_tag = {}){
+    basic_string &assign(const std::basic_string<CharT> &str, size_type pos,
+                         size_type n = npos, internal::skip_trace_tag = {}) {
         if (pos >= str.size()) {
             static std::string func = type_name() + "::assign()";
             throw y3c::out_of_range(func, str.size(),
@@ -273,13 +327,40 @@ class basic_string {
     }
     /*!
      * \brief stringの一部をコピー
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string& assign(const basic_string &str, size_type pos,
-                 size_type n = npos, internal::skip_trace_tag = {}){
+    basic_string &assign(const basic_string &str, size_type pos,
+                         size_type n = npos, internal::skip_trace_tag = {}) {
         return assign(str.base_, pos, n);
+    }
+    /*!
+     * \brief stringの一部を末尾に追加
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &append(const std::basic_string<CharT> &str, size_type pos,
+                         size_type n = npos, internal::skip_trace_tag = {}) {
+        if (pos >= str.size()) {
+            static std::string func = type_name() + "::append()";
+            throw y3c::out_of_range(func, str.size(),
+                                    static_cast<std::ptrdiff_t>(pos));
+        }
+        base_.append(str, pos, n);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief stringの一部を末尾に追加
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &append(const basic_string &str, size_type pos,
+                         size_type n = npos, internal::skip_trace_tag = {}) {
+        return append(str.base_, pos, n);
     }
 
     // basic_string(const CharT* s, size_type n): base_(s, n), life_(this)
@@ -289,6 +370,9 @@ class basic_string {
     // basic_string &operator=(const CharT* s)
     // basic_string &assign(const CharT* s)
     // basic_string &assign(const CharT* s, size_type n)
+    // basic_string &append(const CharT* s)
+    // basic_string &append(const CharT* s, size_type n)
+    // basic_string &operator+=(const CharT* s)
 
     /*!
      * \brief 文字の繰り返しで初期化
@@ -298,53 +382,101 @@ class basic_string {
     }
     /*!
      * \brief 文字を繰り返したものを代入
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string& assign(size_type n, CharT c){
+    basic_string &assign(size_type n, CharT c) {
         base_.assign(n, c);
         init_elems_life();
         return *this;
     }
     /*!
-     * \brief 1文字代入
-     * 
+     * \brief 文字を繰り返したものを末尾に追加
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string& operator=(CharT c){
+    basic_string &append(size_type n, CharT c) {
+        base_.append(n, c);
+        init_elems_life();
+        return *this;
+    }
+
+    /*!
+     * \brief 1文字代入
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &operator=(CharT c) {
         base_ = c;
         init_elems_life();
         return *this;
     }
     /*!
      * \brief 1文字代入
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string& assign(CharT c){
-        return *this = c;
+    basic_string &assign(CharT c) { return *this = c; }
+    /*!
+     * \brief 1文字追加
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &operator+=(CharT c) {
+        base_ += c;
+        init_elems_life();
+        return *this;
     }
 
     /*!
      * \brief イテレータで初期化
      */
-    template <typename InputIt>
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t>::type = nullptr>
     basic_string(InputIt first, InputIt last)
         : base_(first, last), life_(this) {
         init_elems_life();
     }
     /*!
-     * \brief イテレータで代入
-     * 
+     * \brief イテレータ範囲の文字列を代入
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    template <typename InputIt>
-    basic_string& assign(InputIt first, InputIt last){
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t>::type = nullptr>
+    basic_string &assign(InputIt first, InputIt last) {
         base_.assign(first, last);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief イテレータ範囲の文字列を末尾に追加
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t>::type = nullptr>
+    basic_string &append(InputIt first, InputIt last) {
+        base_.append(first, last);
         init_elems_life();
         return *this;
     }
@@ -357,23 +489,43 @@ class basic_string {
     }
     /*!
      * \brief std::initializer_listで代入
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string &operator=(std::initializer_list<CharT> init){
+    basic_string &operator=(std::initializer_list<CharT> init) {
         base_ = std::move(init);
         init_elems_life();
         return *this;
     }
     /*!
      * \brief std::initializer_listで代入
-     * 
+     *
      * * 既存のイテレータは無効になる
-     * 
+     *
      */
-    basic_string &assign(std::initializer_list<CharT> init){
+    basic_string &assign(std::initializer_list<CharT> init) {
         return *this = init;
+    }
+    /*!
+     * \brief std::initializer_listで末尾に追加
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &operator+=(std::initializer_list<CharT> init) {
+        base_.append(init);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief std::initializer_listで末尾に追加
+     *
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &append(std::initializer_list<CharT> init) {
+        return *this += init;
     }
 
     // todo: string_viewからの変換
@@ -525,7 +677,8 @@ class basic_string {
      */
     iterator begin() {
         if (base_.empty()) {
-            return iterator(nullptr, elems_iter_life_->observer(), &iter_name());
+            return iterator(nullptr, elems_iter_life_->observer(),
+                            &iter_name());
         }
         return iterator(&this->base_.front(), elems_iter_life_->observer(),
                         &iter_name());
@@ -541,8 +694,8 @@ class basic_string {
             return const_iterator(nullptr, elems_iter_life_->observer(),
                                   &iter_name());
         }
-        return const_iterator(&this->base_.front(), elems_iter_life_->observer(),
-                              &iter_name());
+        return const_iterator(&this->base_.front(),
+                              elems_iter_life_->observer(), &iter_name());
     }
     /*!
      * \brief 先頭要素を指すconstイテレータを取得
@@ -595,8 +748,19 @@ class basic_string {
     size_type capacity() const { return base_.capacity(); }
 
     /*!
+     * \brief 容量の縮小
+     *
+     * * 再割り当てが発生した場合、既存のイテレータは無効になる
+     *
+     */
+    void shrink_to_fit() {
+        base_.shrink_to_fit();
+        update_elems_life();
+    }
+
+    /*!
      * \brief 要素のクリア
-     * 
+     *
      * * 既存のイテレータは無効になる
      */
     void clear() {
@@ -608,12 +772,13 @@ class basic_string {
      * \param index 挿入する位置
      * \param count 挿入する個数
      * \param ch 挿入する文字
-     * 
+     *
      * * indexが範囲外の場合 out_of_range を投げる。
      * * 既存のイテレータは無効になる
      */
-    basic_string &insert(size_type index, size_type count, CharT ch, internal::skip_trace_tag = {}) {
-        if(index > base_.size()){
+    basic_string &insert(size_type index, size_type count, CharT ch,
+                         internal::skip_trace_tag = {}) {
+        if (index > base_.size()) {
             static std::string func = type_name() + "::insert()";
             throw y3c::out_of_range(func, base_.size(),
                                     static_cast<std::ptrdiff_t>(index));
@@ -628,12 +793,13 @@ class basic_string {
      * \brief 文字列を挿入する
      * \param index 挿入する位置
      * \param str 挿入する文字列
-     * 
+     *
      * * indexが範囲外の場合 out_of_range を投げる。
      * * 既存のイテレータは無効になる
      */
-    basic_string &insert(size_type index, const std::basic_string<CharT> &str, internal::skip_trace_tag = {}) {
-        if(index > base_.size()){
+    basic_string &insert(size_type index, const std::basic_string<CharT> &str,
+                         internal::skip_trace_tag = {}) {
+        if (index > base_.size()) {
             static std::string func = type_name() + "::insert()";
             throw y3c::out_of_range(func, base_.size(),
                                     static_cast<std::ptrdiff_t>(index));
@@ -646,11 +812,12 @@ class basic_string {
      * \brief 文字列を挿入する
      * \param index 挿入する位置
      * \param str 挿入する文字列
-     * 
+     *
      * * indexが範囲外の場合 out_of_range を投げる。
      * * 既存のイテレータは無効になる
      */
-    basic_string &insert(size_type index, const basic_string &str, internal::skip_trace_tag = {}) {
+    basic_string &insert(size_type index, const basic_string &str,
+                         internal::skip_trace_tag = {}) {
         return insert(index, str.base_);
     }
     /*!
@@ -659,13 +826,15 @@ class basic_string {
      * \param str 挿入する文字列
      * \param s_index 挿入する文字列の開始位置
      * \param count 挿入する文字数
-     * 
+     *
      * * indexまたはs_indexが範囲外の場合 out_of_range を投げる。
      * * 既存のイテレータは無効になる
      */
-    basic_string &insert(size_type index, const std::basic_string<CharT> &str, size_type s_index, size_type count = npos, internal::skip_trace_tag = {}) {
+    basic_string &insert(size_type index, const std::basic_string<CharT> &str,
+                         size_type s_index, size_type count = npos,
+                         internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
-        if(index > base_.size()){
+        if (index > base_.size()) {
             throw y3c::out_of_range(func, base_.size(),
                                     static_cast<std::ptrdiff_t>(index));
         }
@@ -683,22 +852,25 @@ class basic_string {
      * \param str 挿入する文字列
      * \param s_index 挿入する文字列の開始位置
      * \param count 挿入する文字数
-     * 
+     *
      * * indexまたはs_indexが範囲外の場合 out_of_range を投げる。
      * * 既存のイテレータは無効になる
      */
-    basic_string &insert(size_type index, const basic_string &str, size_type s_index, size_type count = npos, internal::skip_trace_tag = {}) {
+    basic_string &insert(size_type index, const basic_string &str,
+                         size_type s_index, size_type count = npos,
+                         internal::skip_trace_tag = {}) {
         return insert(index, str.base_, s_index, count);
     }
     /*!
      * \brief 文字を挿入する
      * \param pos 挿入する位置を指すイテレータ
      * \param ch 挿入する文字
-     * 
+     *
      * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
      * * 既存のイテレータは無効になる
      */
-    iterator insert(const_iterator pos, CharT ch, internal::skip_trace_tag = {}) {
+    iterator insert(const_iterator pos, CharT ch,
+                    internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
         std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, ch);
@@ -711,11 +883,12 @@ class basic_string {
      * \param pos 挿入する位置を指すイテレータ
      * \param count 挿入する個数
      * \param ch 挿入する文字
-     * 
+     *
      * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
      * * 既存のイテレータは無効になる
      */
-    iterator insert(const_iterator pos, size_type count, CharT ch, internal::skip_trace_tag = {}) {
+    iterator insert(const_iterator pos, size_type count, CharT ch,
+                    internal::skip_trace_tag = {}) {
         static std::string func = type_name() + "::insert()";
         std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, count, ch);
@@ -727,7 +900,7 @@ class basic_string {
      * \brief イテレーターから要素を挿入する
      * \param pos 挿入する位置を指すイテレータ
      * \param first, last 挿入する範囲
-     * 
+     *
      * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
      * * 既存のイテレータは無効になる
      */
@@ -742,7 +915,7 @@ class basic_string {
         static std::string func = type_name() + "::insert()";
         std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, first, last);
-        update_elems_life(&base_[0] + index);
+        init_elems_life();
         return iterator(&base_[0] + index, elems_iter_life_->observer(),
                         &iter_name());
     }
@@ -750,7 +923,7 @@ class basic_string {
      * \brief std::initializer_listから要素を挿入する
      * \param pos 挿入する位置を指すイテレータ
      * \param ilist 挿入する要素
-     * 
+     *
      * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
      * * 既存のイテレータは無効になる
      */
@@ -759,11 +932,97 @@ class basic_string {
         static std::string func = type_name() + "::insert()";
         std::size_t index = assert_iter_including_end(pos, func);
         base_.insert(base_.begin() + index, ilist);
-        update_elems_life(&base_[0] + index);
+        init_elems_life();
         return iterator(&base_[0] + index, elems_iter_life_->observer(),
                         &iter_name());
     }
 
+    /*!
+     * \brief 要素の削除
+     * \param pos 削除する位置を指すイテレータ
+     * \return 削除した次の要素を指すイテレータ
+     *
+     * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     *
+     */
+    basic_string &erase(size_type index = 0, size_type count = npos,
+                        internal::skip_trace_tag = {}) {
+        if (index > base_.size()) {
+            static std::string func = type_name() + "::erase()";
+            throw y3c::out_of_range(func, base_.size(),
+                                    static_cast<std::ptrdiff_t>(index));
+        }
+        base_.erase(index, count);
+        init_elems_life();
+        return *this;
+    }
+    /*!
+     * \brief 要素の削除
+     * \param pos 削除する位置を指すイテレータ
+     * \return 削除した次の要素を指すイテレータ
+     *
+     * * 指定した位置が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     *
+     */
+    iterator erase(const_iterator pos, internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::erase()";
+        std::size_t index = assert_iter(pos, func);
+        base_.erase(base_.begin() + index);
+        init_elems_life();
+        return iterator(&base_[0] + index, elems_iter_life_->observer(),
+                        &iter_name());
+    }
+    /*!
+     * \brief 要素の削除
+     * \param begin,end 削除する範囲を指すイテレータ
+     * \return 削除した次の要素を指すイテレータ
+     *
+     * * 指定した範囲が無効であったりこのstringのものでない場合terminateする。
+     * * 既存のイテレータは無効になる
+     *
+     */
+    iterator erase(const_iterator begin, const_iterator end,
+                   internal::skip_trace_tag = {}) {
+        static std::string func = type_name() + "::erase()";
+        if (*elems_iter_life_ != begin.get_observer_() ||
+            *elems_iter_life_ != end.get_observer_()) {
+            y3c::internal::terminate_ub_wrong_iter(func);
+        }
+        begin.get_observer_().assert_range_iter(begin, end, func);
+        std::size_t index_begin = y3c::internal::unwrap(begin) - &base_[0];
+        std::size_t index_end = y3c::internal::unwrap(end) - &base_[0];
+        base_.erase(base_.begin() + index_begin, base_.begin() + index_end);
+        init_elems_life();
+        return iterator(&base_[0] + index_begin, elems_iter_life_->observer(),
+                        &iter_name());
+    }
 
+    /*!
+     * \brief 要素の追加
+     * \param value 追加する要素
+     *
+     * * 既存のイテレータは無効になる。
+     *
+     */
+    void push_back(CharT value) {
+        base_.push_back(value);
+        init_elems_life();
+    }
+    /*!
+     * \brief 末尾の要素を削除
+     *
+     * * 既存のイテレータは無効になる。
+     *
+     */
+    void pop_back() {
+        if (base_.empty()) {
+            static std::string func = type_name() + "::pop_back()";
+            y3c::internal::terminate_ub_out_of_range(func, 0, 0);
+        }
+        base_.pop_back();
+        init_elems_life();
+    }
 };
 } // namespace y3c

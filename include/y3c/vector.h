@@ -197,7 +197,12 @@ class vector {
     /*!
      * \brief イテレータで初期化
      */
-    template <typename InputIt>
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t>::type = nullptr>
     vector(InputIt first, InputIt last) : base_(first, last), life_(this) {
         init_elems_life();
     }
@@ -234,7 +239,12 @@ class vector {
      * * 既存のイテレータは無効になる
      *
      */
-    template <typename InputIt>
+    template <typename InputIt,
+              typename std::enable_if<
+                  std::is_convertible<
+                      typename std::iterator_traits<InputIt>::reference,
+                      value_type>::value,
+                  std::nullptr_t>::type = nullptr>
     void assign(InputIt first, InputIt last) {
         base_.assign(first, last);
         init_elems_life();
@@ -522,7 +532,7 @@ class vector {
     void pop_back(internal::skip_trace_tag = {}) {
         if (base_.empty()) {
             static std::string func = type_name() + "::pop_back()";
-            y3c::internal::terminate_ub_out_of_range(func, 0, -1);
+            y3c::internal::terminate_ub_out_of_range(func, 0, 0);
         }
         base_.pop_back();
         update_elems_life();
