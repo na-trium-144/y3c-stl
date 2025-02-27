@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.3.3</span>
+   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.4.0</span>
    </div>
    <div id="projectbrief">Friendly C++ STL wrapper with automatic stacktrace</div>
   </td>
@@ -124,11 +124,16 @@ $(document).ready(function(){initNavTree('terminate-throw-any_8cc-example.html',
 <p>&zwj;example output: </p><div class="fragment"><div class="line"><a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl terminated: unsupported type exception thrown, but that<span class="stringliteral">&#39;s not from y3c-stl.</span></div>
 <div class="line"><span class="stringliteral">The following stack trace may be inaccurate.</span></div>
 <div class="line"><span class="stringliteral">Stack trace (most recent call first):</span></div>
-<div class="line"><span class="stringliteral">#0 0x000055b96f7df1bc in main at /home/runner/work/y3c-stl/y3c-stl/build/../examples/terminate-throw-any.cc:5:11</span></div>
+<div class="line"><span class="stringliteral">#0 0x00000000000ae276 in std::terminate() at /lib/x86_64-linux-gnu/libstdc++.so.6</span></div>
+<div class="line"><span class="stringliteral">#1 0x00000000000ae4d7 in __cxa_throw at /lib/x86_64-linux-gnu/libstdc++.so.6</span></div>
+<div class="line"><span class="stringliteral">#2 0x00000000000011bc in main at /home/runner/work/y3c-stl/y3c-stl/build/../examples/terminate-throw-any.cc:5:11</span></div>
 <div class="line"><span class="stringliteral">       3: int main(){</span></div>
 <div class="line"><span class="stringliteral">       4:     y3c::link();</span></div>
 <div class="line"><span class="stringliteral">       5:     throw 1000;</span></div>
 <div class="line"><span class="stringliteral">       6: }</span></div>
+<div class="line"><span class="stringliteral">#3 0x0000000000029d8f at /lib/x86_64-linux-gnu/libc.so.6</span></div>
+<div class="line"><span class="stringliteral">#4 0x0000000000029e3f in __libc_start_main at /lib/x86_64-linux-gnu/libc.so.6</span></div>
+<div class="line"><span class="stringliteral">#5 0x00000000000010c4 in _start at /home/runner/work/y3c-stl/y3c-stl/build/examples/y3c-example-terminate-throw-any</span></div>
 <div class="ttc" id="anamespacey3c_html"><div class="ttname"><a href="namespacey3c.html">y3c</a></div><div class="ttdef"><b>Definition</b> array.h:8</div></div>
 </div><!-- fragment --> </blockquote>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;y3c/wrap&gt;</span></div>
@@ -143,7 +148,7 @@ $(document).ready(function(){initNavTree('terminate-throw-any_8cc-example.html',
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Dec 29 2024 18:15:45 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Thu Feb 27 2025 04:37:02 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

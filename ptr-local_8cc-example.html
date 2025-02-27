@@ -52,7 +52,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.3.3</span>
+   <div id="projectname">y3c-stl<span id="projectnumber">&#160;0.4.0</span>
    </div>
    <div id="projectbrief">Friendly C++ STL wrapper with automatic stacktrace</div>
   </td>
@@ -125,11 +125,14 @@ $(document).ready(function(){initNavTree('ptr-local_8cc-example.html',''); initR
 <div class="line"><a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl terminated: undefined behavior detected (ub_access_deleted)</div>
 <div class="line">  at <a id="_a0" name="_a0"></a><a class="code hl_class" href="classy3c_1_1wrap.html">y3c::wrap&lt;int*&gt;::operator*</a>(): attempted to access the deleted value.</div>
 <div class="line">Stack trace (most recent call first):</div>
-<div class="line">#0 0x00005631a4695728 in main at /home/runner/work/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/build/../examples/ptr-local.cc:11:18</div>
+<div class="line">#0 0x0000000000004728 in main at /home/runner/work/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/<a class="code hl_namespace" href="namespacey3c.html">y3c</a>-stl/build/../examples/ptr-local.cc:11:18</div>
 <div class="line">       9:         std::cout &lt;&lt; *p &lt;&lt; std::endl;</div>
 <div class="line">      10:     }</div>
 <div class="line">      11:     std::cout &lt;&lt; *p &lt;&lt; std::endl;</div>
 <div class="line">      12: }</div>
+<div class="line"><span class="preprocessor">#1 0x0000000000029d8f at /lib/x86_64-linux-gnu/libc.so.6</span></div>
+<div class="line"><span class="preprocessor">#2 0x0000000000029e3f in __libc_start_main at /lib/x86_64-linux-gnu/libc.so.6</span></div>
+<div class="line"><span class="preprocessor">#3 0x0000000000004564 in _start at /home/runner/work/y3c-stl/y3c-stl/build/examples/y3c-example-ptr-local</span></div>
 <div class="ttc" id="aclassy3c_1_1wrap_html"><div class="ttname"><a href="classy3c_1_1wrap.html">y3c::wrap</a></div><div class="ttdoc">値型wrap: base_type型のデータと、このデータの生存状態を管理するクラス</div><div class="ttdef"><b>Definition</b> wrap.h:26</div></div>
 <div class="ttc" id="anamespacey3c_html"><div class="ttname"><a href="namespacey3c.html">y3c</a></div><div class="ttdef"><b>Definition</b> array.h:8</div></div>
 </div><!-- fragment --> </blockquote>
@@ -151,7 +154,7 @@ $(document).ready(function(){initNavTree('ptr-local_8cc-example.html',''); initR
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Dec 29 2024 18:15:45 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Thu Feb 27 2025 04:37:02 for y3c-stl by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>
