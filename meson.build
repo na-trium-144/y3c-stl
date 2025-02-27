@@ -1,5 +1,5 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.3.3',
+  version: '0.4.0',
   meson_version: '>=1.1',
   default_options: [
     'buildtype=release',
