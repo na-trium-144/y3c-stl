@@ -1,6 +1,7 @@
 #include "y3c/terminate.h"
 #include <cpptrace/basic.hpp>
 #include <cpptrace/utils.hpp>
+#include <cpptrace/formatting.hpp>
 #include <rang.hpp>
 #include <iostream>
 #include <ostream>
@@ -27,8 +28,10 @@ void strip_and_print_trace(std::ostream &stream, cpptrace::stacktrace &trace) {
                   "debug symbols enabled.)"
                << rang::style::reset << std::endl;
     } else {
-        trace.print_with_snippets(stream,
-                                  cpptrace::isatty(cpptrace::stderr_fileno));
+        cpptrace::formatter()
+            .addresses(cpptrace::formatter::address_mode::none)
+            .snippets(true)
+            .print(stream, trace, cpptrace::isatty(cpptrace::stderr_fileno));
     }
 }
 

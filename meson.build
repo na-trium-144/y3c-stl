@@ -1,5 +1,5 @@
 project('y3c-stl', 'c', 'cpp',
-  version: '0.3.3',
+  version: '0.4.0',
   meson_version: '>=1.1',
   default_options: [
     'buildtype=release',
@@ -100,7 +100,7 @@ else
   meson.override_dependency('doctest', dependency('', required: false))
 endif
 
-cpptrace_dep = dependency('cpptrace')
+cpptrace_dep = dependency('cpptrace', version: '>=0.8')
 libdwarf_dep = dependency('libdwarf')
 rang_dep = dependency('rang')
 
